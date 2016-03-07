@@ -98,9 +98,37 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
-    buildTypes {
+    
+    signingConfigs {
+        debug {
+            storeFile file(T5CHAT_RELEASE_STORE_FILE)
+            storePassword T5CHAT_RELEASE_STORE_PASSWORD
+            keyAlias T5CHAT_RELEASE_KEY_ALIAS
+            keyPassword T5CHAT_RELEASE_KEY_PASSWORD
+        }
+
         release {
-            minifyEnabled enableProguardInReleaseBuilds
+            // config/release.keystore
+            storeFile file(T5CHAT_RELEASE_STORE_FILE)
+            storePassword T5CHAT_RELEASE_STORE_PASSWORD
+            keyAlias T5CHAT_RELEASE_KEY_ALIAS
+            keyPassword T5CHAT_RELEASE_KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.debug
+            applicationIdSuffix ".beta"
+        }
+        release {
+            debuggable false
+            jniDebuggable false
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            // minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
