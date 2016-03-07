@@ -1,4 +1,4 @@
-package com.chat;
+package com.tecla5.chat;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
