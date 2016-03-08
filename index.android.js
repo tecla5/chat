@@ -11,7 +11,20 @@ import React, {
   View
 } from 'react-native';
 
+import codePush from 'react-native-code-push';
+
 class chat extends Component {
+    
+  componentDidMount(params){
+    console.log('componentDidMount ', params);
+    codePush.sync({
+        updateDialog: true,
+        installMode: codePush.InstallMode.INMEDIATE 
+    }, function (status) {
+        console.log('codepush ', status);
+    });
+  }
+    
   render() {
     return (
       <View style={styles.container}>

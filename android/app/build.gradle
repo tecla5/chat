@@ -60,6 +60,8 @@ import com.android.build.OutputFile
  */
 
 apply from: "react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/build.gradle"
+// /home/javiercabrera/tecla5-workspace/chat/node_modules/react-native-code-push/android/build.gradle
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -76,6 +78,7 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -85,7 +88,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -151,4 +154,5 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
+    compile project(':react-native-code-push')   
 }
