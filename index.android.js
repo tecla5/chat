@@ -13,15 +13,24 @@ import React, {
   View
 } from 'react-native';
 
+import Container from './components/Container';
+import NewChat from './components/NewChat';
+
 import codePush from 'react-native-code-push';
 
-import Firebase from 'firebase';
+//import Firebase from 'firebase';
+import Rebase from 're-base';
 
-
-let firebaseChat = new Firebase('https://t5-chat.firebaseio.com/');// https://deteam.firebaseio.com/firebase-chat/messages/
-firebaseChat.set("hello world!");
+let base = Rebase.createClass('https://t5-chat.firebaseio.com');//'https://jt-ts.firebaseio.com/rebase-chat'
 
 class chat extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      messages: []
+    };
+  }
     
     
   componentDidMount(params){
@@ -33,20 +42,27 @@ class chat extends Component {
         console.log('codepush ', status);
     });
   }
+  
+  componentWillMount(){
+  /*
+   * Here we call 'bindToState', which will update
+   * our local 'messages' state whenever our 'chats'
+   * Firebase endpoint changes.
+   */
+    base.bindToState('chats', {
+      context: this,
+      state: 'messages',
+      asArray: true
+    });
+  }  
     
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
+        <NewChat chats={ this.state.messages } />
+        <Container />
       </View>
+      
     );
   }
 }
