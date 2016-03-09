@@ -3,6 +3,8 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
+
+
 import React, {
   AppRegistry,
   Component,
@@ -13,7 +15,14 @@ import React, {
 
 import codePush from 'react-native-code-push';
 
+import Firebase from 'firebase';
+
+
+let firebaseChat = new Firebase('https://t5-chat.firebaseio.com/');// https://deteam.firebaseio.com/firebase-chat/messages/
+firebaseChat.set("hello world!");
+
 class chat extends Component {
+    
     
   componentDidMount(params){
     console.log('componentDidMount ', params);
