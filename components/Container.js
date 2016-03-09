@@ -10,7 +10,6 @@ import Rebase from 're-base';
 import Message from './Message.js';
 
 var base = Rebase.createClass('https://t5-chat.firebaseio.com/');// 'https://jt-ts.firebaseio.com/rebase-chat'
-console.log('Please change to your own firebase address in components/Container.js');
 
 class Container extends React.Component {
   constructor(props){
@@ -79,6 +78,7 @@ class Container extends React.Component {
   }
   
   render(){
+      /*
     var messages = this.state.messages.map( (item, index) => {
       return (
         <Message
@@ -89,11 +89,14 @@ class Container extends React.Component {
           key={ index } />
       );
     });
+    
+                { messages }
+
+    */
 
     return (    
         <View>
             <Text>{ (this.state.messages.length || 0) + ' messages' }</Text>
-            { messages }
         </View>                    
     );
   }
@@ -107,13 +110,6 @@ class Container extends React.Component {
 /*
             <h1>{ (this.state.messages.length || 0) + ' messages' }</h1>
             <ul>{ messages }</ul>
-
-
- <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow}
-          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
-          renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
 */
 
 

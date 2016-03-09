@@ -44,6 +44,7 @@ class chat extends Component {
   }
   
   componentWillMount(){
+      console.log('componentWillMount');
   /*
    * Here we call 'bindToState', which will update
    * our local 'messages' state whenever our 'chats'
@@ -54,6 +55,9 @@ class chat extends Component {
       state: 'messages',
       asArray: true
     });
+    
+    console.log(this.state.messages);
+    
   }  
     
   render() {
@@ -66,6 +70,8 @@ class chat extends Component {
     );
   }
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

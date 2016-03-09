@@ -4,20 +4,29 @@ import React, {
   StyleSheet,
   Text,
   TextInput,
-  Button,
   View
 } from 'react-native';
+
+var Button = require('react-native-button');
+
 import Rebase from 're-base';
 
 
+
 var base = Rebase.createClass('https://t5-chat.firebaseio.com/');
-console.log('Please change to your own firebase address in components/NewChat.js');
 
 
 class NewChat extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      message: ''
+    }
+  }
     
   _newChat(event){
-
+    console.log('Pressed!');
     /*
      * Here, we call .post on the '/chats' ref
      * of our Firebase.  This will do a one-time 'set' on
@@ -32,7 +41,8 @@ class NewChat extends React.Component {
 
     base.post('chats', {
       data: this.props.chats.concat([{
-        message: event.target.value
+        //title: 'hola', //this.refs.title.getDOMNode().value ,
+        message: this.state.message //event.target.value
       }]),
       context: this,
       /*
@@ -45,26 +55,32 @@ class NewChat extends React.Component {
     });
 
     // clear input
-    event.target.value = '';
+    // event.target.value = '';
 
   }
+  
+    
   render(){
     return (
       <View style={styles.chatForm}>
-          <TextInput ref='title' placeholder='Title' style={styles.chatInput} />                    
+        <TextInput
+            style={styles.chatInput}
+            onChangeText={(message) => this.setState({message})}
+            value={this.state.message}
+        />        
+        <Button
+            onPress={this._newChat.bind(this)}
+            style={styles.chatInput}
+            //styleDisabled={{color: 'red'}}
+        >
+            Press Me!
+        </Button>          
       </View>
     );
   }
+    
+  
 }
-/*
-          <Button onPress={this._newChat.bind(this) } />
-
-      <Button
-        style={{borderWidth: 1, borderColor: 'blue'}}
-        onPress={this._handlePress}>
-        Press Me!
-      </Button>
-*/
 
 
 const styles = StyleSheet.create({
