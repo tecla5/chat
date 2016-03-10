@@ -53,10 +53,6 @@ class NewChat extends React.Component {
         console.log('POSTED');
       }
     });
-
-    // clear input
-    // event.target.value = '';
-
   }
   
     
@@ -71,9 +67,8 @@ class NewChat extends React.Component {
         <Button
             onPress={this._newChat.bind(this)}
             style={styles.chatInput}
-            //styleDisabled={{color: 'red'}}
         >
-            Press Me!
+            Press Me To Chat!
         </Button>          
       </View>
     );
