@@ -5,13 +5,15 @@ import React, {
   ListView,
   View
 } from 'react-native';
+
 import Rebase from 're-base';
 
-import Message from './Message.js';
+import Message from '../components/Message.js';
+import MessageList from '../components/MessageList.js';
 
-var base = Rebase.createClass('https://t5-chat.firebaseio.com/');// 'https://jt-ts.firebaseio.com/rebase-chat'
+const base = Rebase.createClass('https://t5-chat.firebaseio.com/');// 'https://jt-ts.firebaseio.com/rebase-chat'
 
-class Container extends React.Component {
+export default class ChatRoomContainer extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -19,8 +21,8 @@ class Container extends React.Component {
       show: null
     }
   }
+  
   componentWillMount(){
-
     /*
      * We bind the 'chats' firebase endopint to our 'messages' state.
      * Anytime the firebase updates, it will call 'setState' on this component
@@ -38,6 +40,7 @@ class Container extends React.Component {
       asArray: true
     });
   }
+  
   componentWillUnmount(){
     /*
      * When the component unmounts, we remove the binding.
@@ -49,7 +52,6 @@ class Container extends React.Component {
     base.removeBinding(this.ref);
   }
   _removeMessage(index, e){
-    e.stopPropagation();
     var arr = this.state.messages.concat([]);
     arr.splice(index, 1);
 
@@ -59,12 +61,12 @@ class Container extends React.Component {
      * binding to our 'show' state, it will update the local 'show' state normally,
      * without going to Firebase.
      */
-
     this.setState({
       messages: arr,
       show: null
     });
   }
+  
   _toggleView(index){
 
     /*
@@ -80,22 +82,11 @@ class Container extends React.Component {
   render(){
     return (    
         <View>
-            <Text>{ (this.state.messages.length || 0) + ' messages' }</Text>
+            <Messages {...this.state} />
         </View>                    
     );
-  }
-  
-  
-  
-  
-  
+  }  
 }
-
-/*
-            <h1>{ (this.state.messages.length || 0) + ' messages' }</h1>
-            <ul>{ messages }</ul>
-*/
-
 
 const styles = StyleSheet.create({
   container: {
@@ -115,6 +106,3 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
-
-
-export default Container

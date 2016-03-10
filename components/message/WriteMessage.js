@@ -11,12 +11,9 @@ var Button = require('react-native-button');
 
 import Rebase from 're-base';
 
-
-
 var base = Rebase.createClass('https://t5-chat.firebaseio.com/');
 
-
-class NewChat extends React.Component {
+export default class WriteMessage extends React.Component {
 
   constructor(props){
     super(props);
@@ -72,9 +69,7 @@ class NewChat extends React.Component {
         </Button>          
       </View>
     );
-  }
-    
-  
+  }   
 }
 
 
@@ -90,13 +85,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     borderColor: 'blue'
-    //borderBottom: 2
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
-
-export default NewChat;
