@@ -8,8 +8,7 @@ import React, {
 
 import Rebase from 're-base';
 
-import Message from '../components/Message.js';
-import MessageList from '../components/MessageList.js';
+import ChatRoom from '../components/room/ChatRoom.js';
 
 const base = Rebase.createClass('https://t5-chat.firebaseio.com/');// 'https://jt-ts.firebaseio.com/rebase-chat'
 
@@ -18,6 +17,7 @@ export default class ChatRoomContainer extends Component {
     super(props);
     this.state = {
       messages: [],
+      message: '',
       show: null
     }
   }
@@ -51,6 +51,7 @@ export default class ChatRoomContainer extends Component {
 
     base.removeBinding(this.ref);
   }
+  
   _removeMessage(index, e){
     var arr = this.state.messages.concat([]);
     arr.splice(index, 1);
@@ -63,6 +64,7 @@ export default class ChatRoomContainer extends Component {
      */
     this.setState({
       messages: arr,
+      message: '',
       show: null
     });
   }
@@ -81,28 +83,7 @@ export default class ChatRoomContainer extends Component {
   
   render(){
     return (    
-        <View>
-            <Messages {...this.state} />
-        </View>                    
+        <ChatRoom {...this.state}/>                    
     );
   }  
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

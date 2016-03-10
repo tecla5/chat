@@ -9,8 +9,6 @@ var {
   View
 } = React;
 
-var Register = require('./components/Register');
-var Login = require('./components/Login');
 var RNRF = require('react-native-router-flux');
 
 var {
@@ -20,10 +18,6 @@ var {
   Actions, 
   TabBar
 } = RNRF;
-
-var Error = require('./components/Error');
-var TabView = require('./components/TabView');
-var ReactNativeModalBox = require('./components/ReactNativeModalBox');
 
 // Redux stuff is optional
 import { createStore } from 'redux'
@@ -58,23 +52,27 @@ function reducer(state = {}, action) {
 let store = createStore(reducer);
 const Router = connect()(RNRF.Router);
 
-class TabIcon extends Component {
-    render(){
-        return (
-            <Text style={{color: this.props.selected ? 'red' :'black'}}>{this.props.title}</Text>
-        );
-    }
+const TabIcon = (props, state) => {
+    return (
+        <Text style={{color: this.props.selected ? 'red' :'black'}}>{this.props.title}</Text>
+    );
 }
 
-class Header extends Component {
-    render(){
-        return <Text>Header</Text>
-    }
+import Register from './modal/Register';
+import Login from './modal/Login';
+import Error from './modal/Error';
+
+import Launch from './Launch';
+
+import ChatRoomContainer from '../containers/ChatRoomContainer';
+import ContactsContainer from '../containers/ContactsContainer';
+
+const Header = (props, state) => {
+  return <Text>Header</Text>;
 }
 
 export default class ChatApp extends React.Component {
     render() {
-        // Provider is optional (if you want to use redux)
         return (
             <Provider store={store}>
                 <Router hideNavBar={true} name="root">
@@ -88,8 +86,8 @@ export default class ChatApp extends React.Component {
 
                     <Route name="tabbar">
                         <Router footer={TabBar}>
-                            <Route name="rooms" schema="tab" title="Tab #3" component={TabView}/>
-                            <Route name="contacts" schema="tab" title="Tab #4" component={TabView} />
+                            <Route name="rooms" schema="tab" title="Tab #3" component={ChatRoomContainer}/>
+                            <Route name="contacts" schema="tab" title="Tab #4" component={ContactsContainer} />
                         </Router>
                     </Route>
                     <Route name="launch" header={Header} initial={true} component={Launch} wrapRouter={true} title="Launch" hideNavBar={true}/>

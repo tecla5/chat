@@ -5,54 +5,17 @@ import React, {
   View
 } from 'react-native';
 
-import Container from './Container';
-import NewChat from './NewChat';
-
-import codePush from 'react-native-code-push';
-
-//import Firebase from 'firebase';
-import Rebase from 're-base';
-
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+import MessageList from '../message/MessageList.js';
+import WriteMessage from '../message/WriteMessage.js';
 
 export default class ChatRoom extends Component {
-
-  constructor(props){
-    super(props);
-    this.state = {
-      messages: []
-    };
-  }
-        
-  componentDidMount(params){
-    console.log('componentDidMount ', params);
-    codePush.sync({
-        updateDialog: true,
-        installMode: codePush.InstallMode.INMEDIATE 
-    }, function (status) {
-        console.log('codepush ', status);
-    });
-  }
-  
-  componentWillMount(){
-    /*
-    * Here we call 'bindToState', which will update
-    * our local 'messages' state whenever our 'chats'
-    * Firebase endpoint changes.
-    */
-    base.bindToState('chats', {
-      context: this,
-      state: 'messages',
-      asArray: true
-    });
-  }  
     
   render() {
     return (
-      <View style={styles.container}>
-        <NewChat chats={ this.state.messages } />
-        <Container />
-      </View>      
+        <View style={styles.container}>
+            <MessageList messages={this.state.messages} />
+            <WriteMessage message={this.state.message} />
+        </View>                    
     );
   }
 }
@@ -63,15 +26,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });

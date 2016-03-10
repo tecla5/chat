@@ -10,7 +10,7 @@ import codePush from 'react-native-code-push';
 //import Firebase from 'firebase';
 import Rebase from 're-base';
 
-import ContactList from '../components/ContactList';
+import ContactList from '../components/contact/ContactList';
 
 let base = Rebase.createClass('https://t5-chat.firebaseio.com');
 
