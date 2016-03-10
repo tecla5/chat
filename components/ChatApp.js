@@ -3,7 +3,6 @@
 import React from 'react-native';
 
 const {
-  AppRegistry,
   Component, 
   Navigator, 
   StyleSheet,
@@ -13,6 +12,8 @@ const {
 
 import RNRF from 'react-native-router-flux';
 
+console.log('RNRF', RNRF);
+
 const {
   Route, 
   Schema, 
@@ -21,37 +22,22 @@ const {
   TabBar
 } = RNRF;
 
+console.log('import redux');
+
 // Redux stuff is optional
 import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 
 function reducer(state = {}, action) {
-    switch (action.type) {
-        case Actions.BEFORE_ROUTE:
-            //console.log("BEFORE_ROUTE:", action);
-            return state;
-        case Actions.AFTER_ROUTE:
-            //console.log("AFTER_ROUTE:", action);
-            return state;
-        case Actions.AFTER_POP:
-            //console.log("AFTER_POP:", action);
-            return state;
-        case Actions.BEFORE_POP:
-            //console.log("BEFORE_POP:", action);
-            return state;
-        case Actions.AFTER_DISMISS:
-            //console.log("AFTER_DISMISS:", action);
-            return state;
-        case Actions.BEFORE_DISMISS:
-            //console.log("BEFORE_DISMISS:", action);
-            return state;
-        default:
-            return state;
-    }
+    return state;
 }
+
+console.log('redux ok');
 
 let store = createStore(reducer);
 const Router = connect()(RNRF.Router);
+
+console.log('router connected');
 
 const TabIcon = (props, state) => {
     return (
@@ -63,7 +49,9 @@ const TabIcon = (props, state) => {
 // import Login from './modal/Login';
 // import Error from './modal/Error';
 
-import Launch from './Launch';
+// import Launch from './Launch';
+
+console.log('launch imported');
 
 // import ChatRoomContainer from '../containers/ChatRoomContainer';
 // import ContactsContainer from '../containers/ContactsContainer';
@@ -98,13 +86,18 @@ export default class ChatApp extends Component {
     render() {
         return (
             <Provider store={store}>
-                <Router hideNavBar={true} name="root">
-                    <Route name="launch" header={Header} initial={true} component={Launch} wrapRouter={true} title="Launch" hideNavBar={true}/>
-                </Router>
+              <View>
+                <Text>Hello World</Text>
+              </View>
             </Provider>
         );
     }
 }
+
+                // <Router hideNavBar={true} name="root">
+                //     <Route name="launch" header={Header} initial={true} component={Launch} wrapRouter={true} title="Launch" hideNavBar={true}/>
+                // </Router>
+
 
                     // <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
                     // <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>

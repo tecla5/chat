@@ -7,12 +7,7 @@ import React, {
 
 import Button from 'react-native-button';
 
-export default class Launch extends Component {
-        
-  componentDidMount(params){
-    console.log('launched chat');
-  }
-      
+export default class Launch extends Component {              
   render() {
     return (
         <View style={styles.container}>
