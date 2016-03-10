@@ -38,6 +38,8 @@ const TabIcon = (props, state) => {
     );
 }
 
+import codePush from 'react-native-code-push';
+
 import Login from './modal/Login';
 import Error from './modal/Error';
 
@@ -69,6 +71,16 @@ To go to a route, use Actions.[route name] such as Actions.login() or Actions.co
 */
 
 export default class ChatApp extends Component {
+  componentDidMount(params) {
+      console.log('componentDidMount ', params);
+      codePush.sync({
+          updateDialog: true,
+          installMode: codePush.InstallMode.INMEDIATE
+      }, function (status) {
+          console.log('codepush ', status);
+      });
+  }
+
   render() {
     return (
       <Provider store={store}>
