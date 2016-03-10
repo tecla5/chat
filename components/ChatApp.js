@@ -1,17 +1,19 @@
 'use strict';
 
-var React = require('react-native');
-var {
-  AppRegistry, 
+import React from 'react-native';
+
+const {
+  AppRegistry,
+  Component, 
   Navigator, 
   StyleSheet,
   Text,
   View
 } = React;
 
-var RNRF = require('react-native-router-flux');
+import RNRF from 'react-native-router-flux';
 
-var {
+const {
   Route, 
   Schema, 
   Animations, 
@@ -57,14 +59,14 @@ const TabIcon = (props, state) => {
     );
 }
 
-import Register from './modal/Register';
-import Login from './modal/Login';
-import Error from './modal/Error';
+// import Register from './modal/Register';
+// import Login from './modal/Login';
+// import Error from './modal/Error';
 
 import Launch from './Launch';
 
-import ChatRoomContainer from '../containers/ChatRoomContainer';
-import ContactsContainer from '../containers/ContactsContainer';
+// import ChatRoomContainer from '../containers/ChatRoomContainer';
+// import ContactsContainer from '../containers/ContactsContainer';
 
 const Header = (props, state) => {
   return <Text>Header</Text>;
@@ -92,31 +94,33 @@ TODO: How do we avoid Route duplication?
 To go to a route, use Actions.[route name] such as Actions.login() or Actions.contacts() 
 */
 
-export default class ChatApp extends React.Component {
+export default class ChatApp extends Component {
     render() {
         return (
             <Provider store={store}>
                 <Router hideNavBar={true} name="root">
-                    <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
-                    <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-                    <Schema name="tab" type="switch" icon={TabIcon} />
-
-                    <Route name="loggedIn" component={ChatRoomContainer}/>
-                    
-                    <Route name="login" schema="modal" component={Login}/>
-                    <Route name="error" type="modal" component={Error}/>
-                    <Route name="room" component={ChatRoomContainer}/>
-                    <Route name="contacts" component={ContactsContainer}/>
-
-                    <Route name="tabbar">
-                        <Router footer={TabBar}>
-                            <Route name="room" schema="tab" title="Tab #3" component={ChatRoomContainer}/>
-                            <Route name="contacts" schema="tab" title="Tab #4" component={ContactsContainer} />
-                        </Router>
-                    </Route>
                     <Route name="launch" header={Header} initial={true} component={Launch} wrapRouter={true} title="Launch" hideNavBar={true}/>
                 </Router>
             </Provider>
         );
     }
 }
+
+                    // <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
+                    // <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
+                    // <Schema name="tab" type="switch" icon={TabIcon} />
+
+                    // <Route name="loggedIn" component={ChatRoomContainer}/>
+                    
+                    // <Route name="login" schema="modal" component={Login}/>
+                    // <Route name="error" type="modal" component={Error}/>
+                    // <Route name="room" component={ChatRoomContainer}/>
+                    // <Route name="contacts" component={ContactsContainer}/>
+
+                    // <Route name="tabbar">
+                    //     <Router footer={TabBar}>
+                    //         <Route name="room" schema="tab" title="Tab #3" component={ChatRoomContainer}/>
+                    //         <Route name="contacts" schema="tab" title="Tab #4" component={ContactsContainer} />
+                    //     </Router>
+                    // </Route>
+
