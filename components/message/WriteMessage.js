@@ -13,16 +13,18 @@ import Button from 'react-native-button';
 import Rebase from 're-base';
 const base = Rebase.createClass('https://t5-chat.firebaseio.com/');
 
-export default class WriteMessage extends React.Component {
+export default class WriteMessage extends Component {
 
   constructor(props){
     super(props);
+    console.log('create:WriteMessage', props);
     this.state = {
       message: ''
     }
   }
     
-  _newChat(event) {
+  _newMsg(event) {
+    console.log('_newMsg props', this.props);
     /*
      * Here, we call .post on the '/chats' ref
      * of our Firebase.  This will do a one-time 'set' on
@@ -35,10 +37,10 @@ export default class WriteMessage extends React.Component {
      * to return a mutated copy of your state)
     */
 
-    base.post('chats', {
-      data: this.props.chats.concat([{
-        //title: 'hola', //this.refs.title.getDOMNode().value ,
-        message: this.state.message //event.target.value
+    base.post('messages', {
+      // adds message to list of messages
+      data: this.props.messages.concat([{
+        message: this.state.message
       }]),
       context: this,
       /*
@@ -59,10 +61,11 @@ export default class WriteMessage extends React.Component {
             style={styles.chatInput}
             onChangeText={(message) => this.setState({message})}
             value={this.state.message}
+            placeholder="Type a message"
         />        
         <Button
-            onPress={this._newChat.bind(this)}
-            style={styles.chatInput}
+            onPress={this._newMsg.bind(this)}
+            style={styles.chatBtn}
         >
             Press Me To Chat!
         </Button>          
@@ -78,10 +81,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  chatInput: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    borderColor: 'blue'
+  chatBtn: {
+    
   }
+  // chatInput: {
+  //   fontSize: 20,
+  //   textAlign: 'center',
+  //   margin: 10,
+  //   borderWidth: 2,
+  //   borderColor: 'blue'
+  // }
 });

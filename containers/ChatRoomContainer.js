@@ -10,7 +10,7 @@ import Rebase from 're-base';
 
 import ChatRoom from '../components/room/ChatRoom.js';
 
-const base = Rebase.createClass('https://t5-chat.firebaseio.com/');// 'https://jt-ts.firebaseio.com/rebase-chat'
+const base = Rebase.createClass('https://t5-chat.firebaseio.com/');
 
 export default class ChatRoomContainer extends Component {
   constructor(props){
@@ -34,7 +34,7 @@ export default class ChatRoomContainer extends Component {
      * state to reflect those changes.
      */
 
-    this.ref = base.syncState('chats', {
+    this.ref = base.syncState('messages', {
       context: this,
       state: 'messages',
       asArray: true

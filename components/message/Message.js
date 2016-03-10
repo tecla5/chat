@@ -14,15 +14,15 @@ export default class Message extends React.Component {
   render(){
     return (
       <View>     
-        <Text> { this.props.thread.message } </Text>
-        <Button
-            onPress={ this.props.removeMessage.bind(null) }
-            style={styles.basic} >
-        </Button>
+        <Text>{ this.props.text }</Text>
       </View>
     );
   }
 }
+
+// Message.propTypes = { 
+//   message: React.PropTypes.string
+// }
 
 const styles = StyleSheet.create({
   basic: {
