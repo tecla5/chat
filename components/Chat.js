@@ -6,7 +6,7 @@ import React, {
   View
 } from 'react-native';
 
-export default class ChatApp extends Component {
+export default class Chat extends Component {
     render() {
         return (
           <View>
