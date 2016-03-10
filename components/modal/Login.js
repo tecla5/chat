@@ -1,9 +1,14 @@
 'use strict';
 
-var React = require('react-native');
-var {View, Text, StyleSheet} = React;
-var Button = require('react-native-button');
-var Actions = require('react-native-router-flux').Actions;
+import React, {
+  Component,
+  View, 
+  Text, 
+  StyleSheet
+} from 'react-native';
+
+import Button from 'react-native-button';
+import {Actions} from 'react-native-router-flux';
 
 export default class Login extends Component {
     render(){
@@ -22,9 +27,17 @@ export default class Login extends Component {
     }
     
     _socialAuth(type) {
-      // do the appropriate login      
-      Actions.loggedIn();
-      Actions.error('Unsuccessful login. Please try login again!');
+      try {
+        // do the appropriate login
+        switch (type) {
+          case 'gmail':
+            return Actions.loggedIn();
+          default:
+            Actions.error('Unknown social login type', type);          
+        }              
+      } catch (err) {
+        Actions.error('Login error', err.message);                               
+      }
     }
 }
 

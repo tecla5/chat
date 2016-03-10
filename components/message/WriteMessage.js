@@ -1,3 +1,4 @@
+'use strict';
 
 import React, {
   Component,
@@ -7,11 +8,10 @@ import React, {
   View
 } from 'react-native';
 
-var Button = require('react-native-button');
+import Button from 'react-native-button';
 
 import Rebase from 're-base';
-
-var base = Rebase.createClass('https://t5-chat.firebaseio.com/');
+const base = Rebase.createClass('https://t5-chat.firebaseio.com/');
 
 export default class WriteMessage extends React.Component {
 
@@ -22,8 +22,7 @@ export default class WriteMessage extends React.Component {
     }
   }
     
-  _newChat(event){
-    console.log('Pressed!');
+  _newChat(event) {
     /*
      * Here, we call .post on the '/chats' ref
      * of our Firebase.  This will do a one-time 'set' on
@@ -71,7 +70,6 @@ export default class WriteMessage extends React.Component {
     );
   }   
 }
-
 
 const styles = StyleSheet.create({
   chatForm: {

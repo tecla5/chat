@@ -1,3 +1,4 @@
+'use strict';
 
 import React, {
   Component,
@@ -6,11 +7,10 @@ import React, {
   ListView,
   View
 } from 'react-native';
+
 import Button from 'react-native-button';
 
-
-
-class Message extends React.Component {
+export default class Message extends React.Component {
   render(){
     return (
       <View>     
@@ -22,7 +22,6 @@ class Message extends React.Component {
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -49,4 +48,3 @@ const styles = StyleSheet.create({
 
  */
 
-export default Message

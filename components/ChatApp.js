@@ -12,8 +12,6 @@ const {
 
 import RNRF from 'react-native-router-flux';
 
-console.log('RNRF', RNRF);
-
 const {
   Route, 
   Schema, 
@@ -22,22 +20,17 @@ const {
   TabBar
 } = RNRF;
 
-console.log('import redux');
-
 // Redux stuff is optional
 import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 
 function reducer(state = {}, action) {
-    return state;
+  console.log('action', action);  
+  return state;
 }
-
-console.log('redux ok');
 
 let store = createStore(reducer);
 const Router = connect()(RNRF.Router);
-
-console.log('router connected');
 
 const TabIcon = (props, state) => {
     return (
@@ -45,20 +38,13 @@ const TabIcon = (props, state) => {
     );
 }
 
-// import Register from './modal/Register';
-// import Login from './modal/Login';
-// import Error from './modal/Error';
+import Login from './modal/Login';
+import Error from './modal/Error';
 
-// import Launch from './Launch';
+import Launch from './Launch';
 
-console.log('launch imported');
-
-// import ChatRoomContainer from '../containers/ChatRoomContainer';
-// import ContactsContainer from '../containers/ContactsContainer';
-
-const Header = (props, state) => {
-  return <Text>Header</Text>;
-}
+import ChatRoomContainer from '../containers/ChatRoomContainer';
+import ContactsContainer from '../containers/ContactsContainer';
 
 /*
 Three kinds of Route animations defined as schemas:
@@ -83,25 +69,35 @@ To go to a route, use Actions.[route name] such as Actions.login() or Actions.co
 */
 
 export default class ChatApp extends Component {
-    render() {
-        return (
-            <Provider store={store}>
-              <View>
-                <Text>Hello World</Text>
-              </View>
-            </Provider>
-        );
-    }
+  render() {
+    return (
+      <Provider store={store}>
+        <Router hideNavBar={true} name="root">
+          <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
+          <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
+          <Schema name="tab" type="switch" icon={TabIcon} />
+
+          <Route name="launch" initial={true} component={Launch} wrapRouter={true} title="Chat" hideNavBar={true}/>
+          <Route name="loggedIn" component={ChatRoomContainer}/>
+          <Route name="login" schema="modal" component={Login}/>
+          <Route name="error" type="modal" component={Error}/>
+          <Route name="room" component={ChatRoomContainer}/>
+          <Route name="contacts" component={ContactsContainer}/>
+        </Router>
+      </Provider>
+    );
+  }
 }
 
-                // <Router hideNavBar={true} name="root">
-                //     <Route name="launch" header={Header} initial={true} component={Launch} wrapRouter={true} title="Launch" hideNavBar={true}/>
-                // </Router>
+// leftTitle="Back" rightTitle="Menu"
 
+// Router
+  // header={Header}
+  // footer={Header}
+
+// <Router footer={TabBar}>
 
                     // <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
-                    // <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-                    // <Schema name="tab" type="switch" icon={TabIcon} />
 
                     // <Route name="loggedIn" component={ChatRoomContainer}/>
                     

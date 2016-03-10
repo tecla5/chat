@@ -1,33 +1,32 @@
+'use strict';
+
 import React, {
   Component,
   StyleSheet,
   Text,
-  View
+  View,
+  ListView
 } from 'react-native';
 
-import codePush from 'react-native-code-push';
-
 import Message from './Message';
-
-//import Firebase from 'firebase';
-import Rebase from 're-base';
-
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
 
 export default class MessageList extends Component {
 
   constructor(props){
     super(props);
+    console.log('MessageList:props', this.props);
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.setState({
+    this.state = {
       messages: ds.cloneWithRows(this.props.messages),
-    });    
+    };    
   }
-            
+                
   render() {
+    console.log('MessageList:render', this.state);
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>Messages</Text>
         <ListView dataSource={ this.state.messages } renderRow={this._renderMessage}/>
       </View>      
     );
@@ -41,19 +40,8 @@ export default class MessageList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'top',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  contact: {
-    textAlign: 'left',
-    color: '#666',
-    margin: 5,
-  },
-  provider: {
-    color: 'blue',
-  },
-  client: {
-    color: 'green',
-  },
+  }
 });

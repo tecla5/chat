@@ -1,16 +1,14 @@
+'use strict';
+
 import React, {
   Component,
   StyleSheet,
   Text,
-  View
+  View,
+  ListView
 } from 'react-native';
 
-import codePush from 'react-native-code-push';
-
-//import Firebase from 'firebase';
-import Rebase from 're-base';
-
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+import Contact from './Contact';
 
 export default class ContactList extends Component {
 
@@ -18,9 +16,9 @@ export default class ContactList extends Component {
     super(props);
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.setState({
+    this.state = {
       contacts: ds.cloneWithRows(this.props.contacts),
-    });    
+    };    
   }
             
   render() {
@@ -40,19 +38,8 @@ export default class ContactList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'top',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  contact: {
-    textAlign: 'left',
-    color: '#666',
-    margin: 5,
-  },
-  provider: {
-    color: 'blue',
-  },
-  client: {
-    color: 'green',
-  },
+  }
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 import React, {
   Component,
   StyleSheet,
@@ -11,10 +13,12 @@ import WriteMessage from '../message/WriteMessage.js';
 export default class ChatRoom extends Component {
     
   render() {
+    console.log('ChatRoom:props', this.props);
+    
     return (
         <View style={styles.container}>
-            <MessageList messages={this.state.messages} />
-            <WriteMessage message={this.state.message} />
+            <MessageList messages={this.props.messages} />
+            <WriteMessage message={this.props.message} />
         </View>                    
     );
   }

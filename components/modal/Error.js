@@ -1,17 +1,16 @@
 'use strict';
 
-const React = require('react-native');
-const {
+import React, {
   Component,
   View, 
   Text, 
   StyleSheet, 
   Animated, 
   Dimensions
-} = React;
+} from 'react-native';
 
 import Button from 'react-native-button';
-import Actions from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
 
 const {
   height: deviceHeight
@@ -20,7 +19,6 @@ const {
 export default class Error extends Component {
     constructor(props){
         super (props)
-
         this.state = {
             offset: new Animated.Value(-deviceHeight)
         }

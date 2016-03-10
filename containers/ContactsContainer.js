@@ -14,7 +14,7 @@ import ContactList from '../components/contact/ContactList';
 
 let base = Rebase.createClass('https://t5-chat.firebaseio.com');
 
-export default class ContactList extends Component {
+export default class ContactsContainer extends Component {
 
   constructor(props){
     super(props);
