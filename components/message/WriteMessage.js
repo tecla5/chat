@@ -19,7 +19,7 @@ export default class WriteMessage extends Component {
     super(props);
     console.log('create:WriteMessage', props);
     this.state = {
-      message: ''
+      message: null
     }
   }
     
@@ -53,15 +53,20 @@ export default class WriteMessage extends Component {
     });
   }
   
-    
+  _handleSubmit(event) {
+     this.setState({message: event.nativeEvent.text});  
+  }
+      
   render(){
+    console.log('render:WriteMessage', this.state.message)
     return (
       <View style={styles.chatForm}>
         <TextInput
             style={styles.chatInput}
-            onChangeText={(message) => this.setState({message})}
+            onSubmitEditing={this._handleSubmit.bind(this)}
             value={this.state.message}
-            placeholder="Type a message"
+            placeholder='Type a message'
+            placeholderTextColor='blue'
         />        
         <Button
             onPress={this._newMsg.bind(this)}
@@ -83,12 +88,12 @@ const styles = StyleSheet.create({
   },
   chatBtn: {
     
+  },
+  chatInput: {
+    fontSize: 20,
+    height: 40,
+    width: 200,
+    borderWidth: 2,
+    borderColor: 'blue'
   }
-  // chatInput: {
-  //   fontSize: 20,
-  //   textAlign: 'center',
-  //   margin: 10,
-  //   borderWidth: 2,
-  //   borderColor: 'blue'
-  // }
 });

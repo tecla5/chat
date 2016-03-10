@@ -17,7 +17,7 @@ export default class ChatRoomContainer extends Component {
     super(props);
     this.state = {
       messages: [],
-      message: '',
+      message: null,
       show: null
     }
   }
@@ -64,7 +64,7 @@ export default class ChatRoomContainer extends Component {
      */
     this.setState({
       messages: arr,
-      message: '',
+      message: null,
       show: null
     });
   }
