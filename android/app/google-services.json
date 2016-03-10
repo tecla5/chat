@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "t5chat-8c36d",
+    "project_number": "500862723918",
+    "name": "T5Chat"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500862723918:android:62bcae823d3de462",
+        "client_id": "android:com.tecla5.chat",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.tecla5.chat",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500862723918-o3jbmn4uljq9njf2bd79ckc0nnt8b1it.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tecla5.chat",
+            "certificate_hash": "45DB307082E2B1AE32E1313750BE98872D630689"
+          }
+        },
+        {
+          "client_id": "500862723918-6h0s6ivdnaof6vugvi1c9p8snr6r7e61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

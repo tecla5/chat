@@ -10,6 +10,7 @@
     "re-base": "^1.5.1",
     "react-native": "^0.21.0",
     "react-native-button": "^1.4.2",
-    "react-native-code-push": "^1.7.3-beta"
+    "react-native-code-push": "^1.7.3-beta",
+    "react-native-google-signin": "^0.4.3"
   }
 }
