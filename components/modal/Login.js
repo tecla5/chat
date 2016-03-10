@@ -10,14 +10,21 @@ export default class Login extends Component {
         return (
             <View style={styles.container}>
               <View style={styles.socialAuth}>
-                  <Button onPress={Actions.pop}>Facebook</Button>
-                  <Button onPress={Actions.pop}>Twitter</Button>                
+                  <Button onPress={() => this._socialAuth('facebook')}>Facebook</Button>
+                  <Button onPress={() => this._socialAuth('twitter')}>Twitter</Button>
+                  <Button onPress={() => this._socialAuth('gmail')}>Gmail</Button>                
               </View>
               <View style={styles.actions}>
                 <Button onPress={Actions.pop}>Back</Button>
               </View>
             </View>
         );
+    }
+    
+    _socialAuth(type) {
+      // do the appropriate login      
+      Actions.loggedIn();
+      Actions.error('Unsuccessful login. Please try login again!');
     }
 }
 

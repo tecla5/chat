@@ -16,7 +16,7 @@ export default class Launch extends Component {
   render() {
     return (
         <View style={styles.container}>
-          <Button style={styles.loginBtn} onPress={() => Actions.login()}>Login</Button>
+          <Button style={styles.loginBtn} onPress={Actions.login}>Login</Button>
         </View>
     );
   }
