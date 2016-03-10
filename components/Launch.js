@@ -10,8 +10,6 @@ import {Actions} from 'react-native-router-flux';
 
 export default class Launch extends Component {              
   render() {
-    console.log('Actions', Actions)
-    console.log('Actions.login', Actions.login);
     return (
         <View style={styles.container}>
           <Button style={styles.loginBtn} onPress={Actions.login}>Login</Button>
