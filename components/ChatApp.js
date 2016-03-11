@@ -98,7 +98,7 @@ export default class ChatApp extends Component {
           <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
           <Schema name="tab" type="switch" icon={TabIcon} />
 
-          <Route name="launch" initial={true} component={Launch} wrapRouter={true} hideNavBar={true}/>
+          <Route name="launch" initial={true} component={ChatRoomContainer} wrapRouter={true} hideNavBar={true}/>
           <Route name="loggedIn" component={ChatRoomContainer}/>
           <Route name="login" schema="modal" component={Login}/>
           <Route name="error" type="modal" component={Error}/>

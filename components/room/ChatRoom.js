@@ -7,8 +7,7 @@ import React, {
   View
 } from 'react-native';
 
-import MessageList from '../message/MessageList.js';
-import WriteMessage from '../message/WriteMessage.js';
+import Messenger from '../Messenger.js';
 
 export default class ChatRoom extends Component {
   constructor(props){
@@ -21,8 +20,7 @@ export default class ChatRoom extends Component {
     
     return (
         <View style={styles.container}>
-            <MessageList {...this.props} />
-            <WriteMessage {...this.props} />
+            <Messenger {...this.props} />
         </View>                    
     );
   }

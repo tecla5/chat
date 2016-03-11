@@ -51,36 +51,7 @@ export default class ChatRoomContainer extends Component {
 
     base.removeBinding(this.ref);
   }
-  
-  _removeMessage(index, e){
-    var arr = this.state.messages.concat([]);
-    arr.splice(index, 1);
-
-    /*
-     * Calling setState here will update the '/chats' ref on our Firebase.
-     * Notice that I'm also updating the 'show' state.  Because there is no
-     * binding to our 'show' state, it will update the local 'show' state normally,
-     * without going to Firebase.
-     */
-    this.setState({
-      messages: arr,
-      message: null,
-      show: null
-    });
-  }
-  
-  _toggleView(index){
-
-    /*
-     * Because nothing is bound to our 'show' state, calling
-     * setState on 'show' here will do nothing with Firebase,
-     * but simply update our local state like normal.
-     */
-    this.setState({
-      show: index
-    });
-  }
-  
+     
   render(){
     return (    
         <ChatRoom {...this.state}/>                    
