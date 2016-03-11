@@ -5,36 +5,82 @@ import React, {
   StyleSheet,
   Text,
   ListView,
-  View
+  View,
+  Image
 } from 'react-native';
+var TouchableWithoutFeedback = require('TouchableWithoutFeedback');
 
 import Button from 'react-native-button';
+
+
+import RNRF from 'react-native-router-flux';
+
+const {
+  Route, 
+  Schema, 
+  Animations, 
+  Actions, 
+  TabBar
+} = RNRF;
+
+
 
 export default class Contact extends Component {
   // define PropTypes
   
   render(){
     return (
-      <View style={styles[this.props.type]}>     
+      <TouchableWithoutFeedback onPress={this._toRoom.bind(this)}>
+      <View style={styles.contact} >
+        <Image
+            style={styles.icon}
+            source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   />      
         <Text>{ this.props.name }</Text>
-        <Button onPress={Actions.enterRoom(this.props.id)} />        
       </View>
+      </TouchableWithoutFeedback>      
     );
   }
+  
+  _toRoom(){
+    console.log('toRoom: ', this.props);
+    Actions.room(this.props.id);
+  }
+  
 }
+
+
+
+/*
+        <Button onPress={Actions.enterRoom(this.props.id)} />
+*/
+
 
 const styles = StyleSheet.create({
   contact: {
-    textAlign: 'left',
-    color: '#666',
-    margin: 5,
+    margin: 2,
+    backgroundColor:'#ef553a',
+    width:300,
+    paddingTop:10,
+    paddingBottom:10,
+    paddingLeft:20,
+    //paddingRight:20, 
+    borderRadius:10,
+    borderColor: 'black',
+    borderWidth: 1,
+    
+
+    //flex:1,
+    //alignItems:'flex-start',// stretch center flex-start , flex end
+    flexDirection:'row', // column row
+    //justifyContent:'center'
   },
-  provider: {
-    color: 'blue',
-  },
-  client: {
-    color: 'green',
+  icon: {
+    width: 40, 
+    height: 40,
+    marginRight:30,
+    //flex: 0.1
   }
+  
 });
 
 
