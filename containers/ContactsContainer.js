@@ -21,20 +21,47 @@ export default class ContactsContainer extends Component {
     this.state = {
       contacts: []
     };
+        
   }
           
-  componentWillMount(){
+  componentWillMount(){      
+      
     /*
     * Here we call 'bindToState', which will update
     * our local 'messages' state whenever our 'chats'
     * Firebase endpoint changes.
     */
-    base.bindToState('contacts', {
+    //base.bindToState('contacts', {
+    base.syncState('contacts', {
       context: this,
       state: 'contacts',
       asArray: true
     });
+    
+    // fake contacts
+    this.setState({
+        contacts:  this.state.contacts.concat({
+            id: 1,
+            name: 'Javier Cabrera',
+            email: 'cabrera.javier@gmail.com'
+        }    ,
+    {
+        id: 2,
+        name: 'Kristian Mandrup',
+        email: 'kmandrup@gmail.com'
+    }
+        ) //updates Firebase and the local state
+    });      
+    
+    
+      console.log('componentWillMount',this.state.contacts);    
+    
   }  
+  
+  componentDidMount(){
+    console.log('componentDidMount',this.state.contacts);    
+  }
+  
     
   render() {
     return (
@@ -51,15 +78,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
