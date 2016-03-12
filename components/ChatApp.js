@@ -46,8 +46,9 @@ import Error from './modal/Error';
 import Launch from './Launch';
 
 // main pages: container sets state from Firebase to display on page (contacts, messages)
-import ChatRoomContainer from '../containers/ChatRoomContainer';
 import ContactsContainer from '../containers/ContactsContainer';
+import RoomsContainer from '../containers/RoomsContainer';
+import ChatRoomContainer from '../containers/ChatRoomContainer';
 
 /*
 Three kinds of Route animations defined as schemas:
@@ -104,6 +105,7 @@ export default class ChatApp extends Component {
           <Route name="error" type="modal" component={Error}/>
           <Route name="room" title="Chat Room" component={ChatRoomContainer}/>
           <Route name="contacts" component={ContactsContainer}/>
+          <Route name="rooms" title="List Room" component={RoomsContainer} />
         </Router>
       </Provider>
     );
