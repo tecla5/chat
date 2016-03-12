@@ -6,7 +6,17 @@ export default class FirebaseAdapter extends BaseAdapter {
   constructor(options = {url: 'https://t5-chat.firebaseio.com', endpoint: 'messages', array: true}) {
     this.endpoint = options.endpoint;   
     this.asArray = options.array;
+    
     this.base = Rebase.createClass(url);  
+  }
+  
+  // find last part of endpoint
+  _defaultState() {
+    try {
+      return this.endpoint.match(/\/?(\w+)$/)[0];  
+    } catch (e) {
+      return null
+    }    
   }
 
   // onSuccess: function
@@ -14,7 +24,7 @@ export default class FirebaseAdapter extends BaseAdapter {
     // will sync messages on state
     this.ref = base.syncState(this.endpoint, {
       context: options.ctx,
-      state: this.endpoint,
+      state: this._defaultState() || this.state,
       asArray: this.asArray || options.asArray,
       then: options.onSuccess 
     });   
