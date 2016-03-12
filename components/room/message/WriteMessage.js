@@ -63,9 +63,6 @@ const ColoredRaisedButton = MKButton.coloredButton()
   })
   .build();
 
-console.log('Textfield', mdl.Textfield);
-console.log('Textfield', MKTextField);
-
 const ColoredTextfield = MKTextField.textfield()
   .withPlaceholder('Your message')
   .withStyle(styles.textfield)
@@ -73,8 +70,7 @@ const ColoredTextfield = MKTextField.textfield()
   .withTextInputStyle({color: MKColor.Orange})
   .build();
 
-import Rebase from 're-base';
-const base = Rebase.createClass('https://t5-chat.firebaseio.com/');
+const isAndroid = Platform.OS === 'android';
 
 export default class WriteMessage extends Component {
 
@@ -85,14 +81,20 @@ export default class WriteMessage extends Component {
       message: null
     }
   }
+  
+  adapter() {
+    return this.props.adapter;  
+  }
+      
     
   _newMsg(event) {
     console.log('_newMsg');
-    messages.send(this._messageData(), this._messagePosted, this);
+    this.adapter.post(this._messageData(), {onSuccess: this._messagePosted, ctx: this});
   }
 
+  // concat?
   _messageData() {
-    
+    return this.state.message;
   }
 
   _messagePosted() {
@@ -153,5 +155,3 @@ export default class WriteMessage extends Component {
 //   keyboardType='numeric'          
 // />
 
-
-const isAndroid = Platform.OS === 'android';

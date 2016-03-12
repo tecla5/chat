@@ -7,8 +7,14 @@ import React, {
 } from 'react-native';
 
 import Rebase from 're-base';
+import utils from '../utils';
 
 import ChatRoom from '../components/room/ChatRoom.js';
+
+// number of messages to show as latest (which appear initially in listview)
+const constants = {
+  showMessageCount: 10
+};
 
 const base = Rebase.createClass('https://t5-chat.firebaseio.com/');
 
@@ -18,13 +24,14 @@ export default class ChatRoomContainer extends Component {
     this.state = {
       messages: [],
       message: null,
-      show: null
+      show: null,
+      loading: true // loading messages... show indicator
     }
   }
   
   componentWillMount(){
     /*
-     * We bind the 'chats' firebase endopint to our 'messages' state.
+     * We bind the 'messages' firebase endopint to our 'messages' state.
      * Anytime the firebase updates, it will call 'setState' on this component
      * with the new state.
      *
@@ -33,12 +40,23 @@ export default class ChatRoomContainer extends Component {
      * which causes our local instance (and any other instances) to update
      * state to reflect those changes.
      */
+    
+    // TODO: use FirebaseAdapter
+    this.adapter = new FirebaseAdapter({endpoint: 'messages'});
 
-    this.ref = base.syncState('messages', {
-      context: this,
-      state: 'messages',
-      asArray: true
+    // will sync messages on state
+    this.adapter.syncState({onSuccess: this._onSync, ctx: this});
+  }
+
+  _onSync(){  
+      // sort messages into earlier and latest
+    const sliced = utils.sliceList(this.state.messages, constants.showMessageCount)
+    this.setState({
+      earlier: sliced.before,
+      latest: sliced.after
     });
+    
+    this.state.loading = false; // hides load indicator!
   }
   
   componentWillUnmount(){
@@ -51,10 +69,13 @@ export default class ChatRoomContainer extends Component {
 
     base.removeBinding(this.ref);
   }
+
+  componentDidMount() {
+  }
      
   render(){
     return (    
-        <ChatRoom {...this.state}/>                    
+        <ChatRoom {...this.state} adapter={this.adapter}/>                    
     );
   }  
 }

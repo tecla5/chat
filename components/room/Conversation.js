@@ -10,11 +10,11 @@ var {
   Text
 } = React;
 
-import Messenger from ('./Messanger');
+import Messenger from ('./Messenger');
 import Communications from 'react-native-communications';
 
 // replace with db/server Firebase connections 
-import messages from './messages';
+// import messages from './messages';
 
 // TODO: move thi logic!?
 const navBarHeight = (Platform.OS === 'android' ? 56 : 64);
@@ -26,13 +26,16 @@ const statusBarHeight = (Platform.OS === 'android' ? 25 : 0);
 // if we use Component class we need to use .bind(this) in render() 
 export default Conversation = React.createClass({     
 
-  // TODO: use Firebase adapter!
+  // TODO: use adapter!
   getInitialState () {
-    this.messages = new messages.MockAdapter();      
+    this.messages = new messages.FirebaseAdapter();      
   },  
 
+  // latest messages sent down from container which syncs with Firebase messages collection
+  // messages then divided into earlier and latest on state and passed down as props
   getMessages() {
-    return this.messages.latest();
+    // return this.messages.latest();
+    return this.props.latest;
   },
 
   // TODO: use Messages adapter!
@@ -40,6 +43,9 @@ export default Conversation = React.createClass({
   handleSend(message = {}, rowID = null) {
     // Your logic here
     // Send message.text to your server
+    
+    // TODO: Here we should use our Firebase adapter
+    
     
     // this._GiftedMessenger.setMessageStatus('Sent', rowID);
     // this._GiftedMessenger.setMessageStatus('Seen', rowID);

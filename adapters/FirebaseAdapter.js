@@ -3,23 +3,25 @@ import Rebase from 're-base';
 
 export default class FirebaseAdapter extends BaseAdapter {
   // TODO: connect to base
-  constructor(url = 'https://t5-chat.firebaseio.com/') {   
-    this.base = Rebase.createClass(url);    
+  constructor(options = {url: 'https://t5-chat.firebaseio.com', endpoint: 'messages', array: true}) {
+    this.endpoint = options.endpoint;   
+    this.asArray = options.array;
+    this.base = Rebase.createClass(url);  
   }
 
-  // get all messages?
-  all(conversationId) {
-    return [];
+  // onSuccess: function
+  syncState(options) {
+    // will sync messages on state
+    this.ref = base.syncState(this.endpoint, {
+      context: options.ctx,
+      state: this.endpoint,
+      asArray: this.asArray || options.asArray,
+      then: options.onSuccess 
+    });   
   }
-
-  // TODO: get earlier via timestamp query
-  earlier(conversationId) {
-    return [];
-  }  
-
-  // TODO: get latest via timestamp query
-  latest(conversationId) {
-    return [];
+  
+  closeConnection() {
+    this.base.removeBinding(this.ref);
   }
   
   // Post a message to firebase messages list
@@ -37,15 +39,15 @@ export default class FirebaseAdapter extends BaseAdapter {
     * the data in your Firebase (ie, use concat
     * to return a mutated copy of your state)
   */  
-  post(conversationId, message, postedFn, ctx) {
-    this.base.post('messages', {
+  post(conversationId, message, options = {}) {
+    this.base.post(this.endpoint, {
       data: message,
-      context: ctx,
+      context: options.ctx,
       /*
        * This 'then' method will run after the
        * post has finished.
        */
-      then: postedFn
+      then: options.onSuccess
     });
   }  
 }  
