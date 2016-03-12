@@ -88,33 +88,16 @@ export default class WriteMessage extends Component {
     
   _newMsg(event) {
     console.log('_newMsg');
-    /*
-     * Here, we call .post on the '/chats' ref
-     * of our Firebase.  This will do a one-time 'set' on
-     * that ref, replacing it with the data prop in the
-     * options object.
-     *
-     * Keeping with the immutable data paradigm in React,
-     * you should never mutate, but only replace,
-     * the data in your Firebase (ie, use concat
-     * to return a mutated copy of your state)
-    */
+    messages.send(this._messageData(), this._messagePosted, this);
+  }
 
-    base.post('messages', {
-      // adds message to list of messages
-      data: this.props.messages.concat([{
-        message: this.state.message
-      }]),
-      context: this,
-      /*
-       * This 'then' method will run after the
-       * post has finished.
-       */
-      then: () => {
-        console.log('POSTED');
-        this.setState({message: null});
-      }
-    });
+  _messageData() {
+    
+  }
+
+  _messagePosted() {
+    console.log('POSTED');
+    this.setState({message: null});
   }
   
   _handleChangeText(text) {
