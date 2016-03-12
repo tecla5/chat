@@ -7,19 +7,17 @@ import React, {
 
 import codePush from 'react-native-code-push';
 
-//import Firebase from 'firebase';
-import Rebase from 're-base';
+import FirebaseAdapter from '../adapters/FirebaseAdapter';
 
 import ContactList from '../components/contact/ContactList';
-
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
 
 export default class ContactsContainer extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      contacts: []
+      contacts: [],
+      loading: true
     };
   }
           
@@ -29,13 +27,17 @@ export default class ContactsContainer extends Component {
     * our local 'messages' state whenever our 'chats'
     * Firebase endpoint changes.
     */
-    base.bindToState('contacts', {
-      context: this,
-      state: 'contacts',
-      asArray: true
-    });
-  }  
-    
+    this.adapter = new FirebaseAdapter({endpoint: 'contacts'});    
+
+    // will sync messages on state
+    this.adapter.syncState({onSuccess: this._onSync, ctx: this});
+  }
+
+  _onSync(){  
+    this.state.loading = false; // hides load indicator!
+  }
+
+  // TODO: loading indicator    
   render() {
     return (
       <View style={styles.container}>

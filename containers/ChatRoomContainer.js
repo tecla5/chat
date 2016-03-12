@@ -6,8 +6,8 @@ import React, {
   View
 } from 'react-native';
 
-import Rebase from 're-base';
 import utils from '../utils';
+import FirebaseAdapter from '../adapters/FirebaseAdapter';
 
 import ChatRoom from '../components/room/ChatRoom.js';
 
