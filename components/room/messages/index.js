@@ -1,4 +1,2 @@
-export default {
-    earlier: require('./earlier'),
-    latest: require('./latest')
-};
+export {default as FirebaseAdapter} from './FirebaseAdapter';
+export {default as MockAdapter} from './MockAdapter';

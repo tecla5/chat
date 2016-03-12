@@ -10,16 +10,32 @@ var {
   Text
 } = React;
 
-var GiftedMessenger = require('react-native-gifted-messenger');
-var Communications = require('react-native-communications');
-var messages  = require('./messages');
+import Messenger from ('./Messanger');
+import Communications from 'react-native-communications';
 
-var GiftedMessengerExample = React.createClass({
-  
+// replace with db/server Firebase connections 
+import messages from './messages';
+
+// TODO: move thi logic!?
+const navBarHeight = (Platform.OS === 'android' ? 56 : 64);
+// warning: height of android statusbar depends of the resolution of the device
+// http://stackoverflow.com/questions/3407256/height-of-status-bar-in-android
+// @todo check Navigator.NavigationBar.Styles.General.NavBarHeight
+const statusBarHeight = (Platform.OS === 'android' ? 25 : 0);
+
+// if we use Component class we need to use .bind(this) in render() 
+export default Conversation = React.createClass({     
+
+  // TODO: use Firebase adapter!
+  getInitialState () {
+    this.messages = new messages.MockAdapter();      
+  },  
+
   getMessages() {
-    return messages.latest;
+    return this.messages.latest();
   },
 
+  // TODO: use Messages adapter!
   // TODO: remove hard-coding which always shows error button!!  
   handleSend(message = {}, rowID = null) {
     // Your logic here
@@ -31,6 +47,7 @@ var GiftedMessengerExample = React.createClass({
     this._GiftedMessenger.setMessageStatus('ErrorButton', rowID); // => In this case, you need also to set onErrorButtonPress
   },
   
+  // TODO: use Messages adapter!
   // @oldestMessage is the oldest message already added to the list
   onLoadEarlierMessages(oldestMessage = {}, callback = () => {}) {    
 
@@ -38,7 +55,7 @@ var GiftedMessengerExample = React.createClass({
     // Eg: Retrieve old messages from your server
 
     // newest messages have to be at the begining of the array
-    var earlierMessages = messages.earlier;
+    var earlierMessages = this.messages.earlier();
     
     setTimeout(() => {
       callback(earlierMessages, false); // when second parameter is true, the "Load earlier messages" button will be hidden      
@@ -49,6 +66,7 @@ var GiftedMessengerExample = React.createClass({
     this._GiftedMessenger.appendMessage(message);
   },
   
+  // TODO: use Messages adapter!
   onErrorButtonPress(message = {}, rowID = null) {
     // Your logic here
     // Eg: Re-send the message to your server
@@ -150,12 +168,3 @@ var GiftedMessengerExample = React.createClass({
     Communications.email(email, null, null, null, null);
   },
 });
-
-var navBarHeight = (Platform.OS === 'android' ? 56 : 64);
-// warning: height of android statusbar depends of the resolution of the device
-// http://stackoverflow.com/questions/3407256/height-of-status-bar-in-android
-// @todo check Navigator.NavigationBar.Styles.General.NavBarHeight
-var statusBarHeight = (Platform.OS === 'android' ? 25 : 0);
-
-
-module.exports = GiftedMessengerExample;
