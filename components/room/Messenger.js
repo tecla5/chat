@@ -449,7 +449,7 @@ export default class Messenger extends Component {
     }
 }
 
-GiftedMessenger.propTypes = {
+Messenger.propTypes = {
     displayNames: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
     styles: React.PropTypes.object,
@@ -477,7 +477,7 @@ GiftedMessenger.propTypes = {
     onChangeText: React.PropTypes.func
 };
 
-GiftedMessenger.defaultProps = {
+Messenger.defaultProps = {
     displayNames: true,
     placeholder: 'Type a message...',
     styles: {},

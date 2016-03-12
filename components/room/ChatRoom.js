@@ -7,7 +7,7 @@ import React, {
   View
 } from 'react-native';
 
-import Messenger from '../Messenger.js';
+import Messenger from './Conversation.js';
 
 export default class ChatRoom extends Component {
   constructor(props){
@@ -20,7 +20,8 @@ export default class ChatRoom extends Component {
     
     return (
         <View style={styles.container}>
-            <Messenger {...this.props} />
+          <Text>Chat Messenger</Text>
+          <Conversation {...this.props} />
         </View>                    
     );
   }

@@ -3,7 +3,6 @@ Ready-to-use chat interface for iOS and Android React-Native apps
 
 Dependency: React-Native >= v0.20.0 (scrollTo is now using {x, y, animated})
 
-
 ![](https://raw.githubusercontent.com/FaridSafi/react-native-gifted-messenger/master/screenshots/messenger-1.png)
 ![](https://raw.githubusercontent.com/FaridSafi/react-native-gifted-messenger/master/screenshots/messenger-2.png)
 
@@ -22,10 +21,10 @@ Dependency: React-Native >= v0.20.0 (scrollTo is now using {x, y, animated})
 ### Example
 
 ```js
-var GiftedMessenger = require('react-native-gifted-messenger');
+var Messenger = require('./Messenger');
 var {Dimensions} = React;
 
-var GiftedMessengerExample = React.createClass({
+var Conversation = React.createClass({
   getMessages() {
     return [
       {text: 'Are you building a chat app?', name: 'React-Native', image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, position: 'left', date: new Date(2015, 0, 16, 19, 0)},
@@ -36,7 +35,7 @@ var GiftedMessengerExample = React.createClass({
     // Send message.text to your server
   },
   handleReceive() {
-    this._GiftedMessenger.appendMessage({
+    this._Messenger.appendMessage({
       text: 'Received message', 
       name: 'Friend', 
       image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, 
@@ -46,8 +45,8 @@ var GiftedMessengerExample = React.createClass({
   },
   render() {
     return (
-      <GiftedMessenger
-        ref={(c) => this._GiftedMessenger = c}
+      <Messenger
+        ref={(c) => this._Messenger = c}
 
         messages={this.getMessages()}
         handleSend={this.handleSend}
