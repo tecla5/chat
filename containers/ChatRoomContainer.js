@@ -12,6 +12,11 @@ const constants = {
   showMessageCount: 10
 };
 
+// Make adapter available for child components
+ChatRoomContainer.childContextTypes = {
+  adapter: React.PropTypes.object
+}
+
 export default class ChatRoomContainer extends FirebaseContainer {
   constructor(props){
     super(props);
@@ -27,6 +32,13 @@ export default class ChatRoomContainer extends FirebaseContainer {
     }
   }  
   
+  // Define how the context looks like
+  getChildContext() {
+    return {
+      adapter: this.adapter
+    }
+  }
+  
   _onSync(){  
     console.log('syncing', this._endpoint);
       // sort messages into earlier and latest
@@ -39,7 +51,7 @@ export default class ChatRoomContainer extends FirebaseContainer {
        
   render(){
     return (    
-        <ChatRoom {...this.state} adapter={this.adapter}/>                    
+        <ChatRoom {...this.state}/>                    
     );
   }  
 }

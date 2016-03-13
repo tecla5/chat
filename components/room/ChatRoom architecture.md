@@ -1,4 +1,4 @@
-# ChatRoom
+# ChatRoom architecture
 
 The ChatRoom encapsulates a `Conversation` taken from `GiftedMessengerExample` app.
 The `Conversation` uses a `Messenger` component (our own version of `GiftedMessenger`) to handle messaging.

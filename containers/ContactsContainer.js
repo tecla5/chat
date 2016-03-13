@@ -10,7 +10,7 @@ export default class ContactsContainer extends FirebaseContainer {
   constructor(props){
     super(props);
     // TODO: should be: [userId]/contacts 
-    this._endpoint = 'contacts';
+    this._endpoint = [props.userId, 'contacts'].join('/');
   }
 
   initialState() {
