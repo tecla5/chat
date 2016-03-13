@@ -1,8 +1,7 @@
 import React, {
   Component,
-  StyleSheet,
-  Text,
-  View
+  View,
+  Text  
 } from 'react-native';
 
 import FirebaseAdapter from '../adapters/FirebaseAdapter';
@@ -18,6 +17,7 @@ export default class FirebaseContainer extends Component {
     };    
   }    
           
+  // uses generic adapter        
   componentWillMount(){
     if (!this._endpoint) {
       throw "Container missing an endpoint. Please set this._endpoint to a firebase path in your constructor";  
@@ -27,24 +27,23 @@ export default class FirebaseContainer extends Component {
     this.adapter.syncState({onSuccess: this._onSynced, ctx: this});
   }
 
+  /*
+    * When the component unmounts, we remove the binding.
+    * Invoking syncState (or bindToState or listenTo)
+    * will return a reference to that listener (see line 30).
+    * You will use that ref to remove the binding here.
+  */
   componentWillUnmount(){
-    /*
-     * When the component unmounts, we remove the binding.
-     * Invoking syncState (or bindToState or listenTo)
-     * will return a reference to that listener (see line 30).
-     * You will use that ref to remove the binding here.
-     */
     this.adapter.disConnect();
   }
 
   _onSynced(){
-    _onSync()
+    _onSync();
     _onSyncOk();    
   }
 
   // on successful sync
-  _onSync(){    
-  }
+  _onSync(){ }
 
   _onSyncOk(){  
     this.state.loading = false; // hides load indicator!
@@ -53,18 +52,9 @@ export default class FirebaseContainer extends Component {
   // TODO: add loading indicator    
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Text>Firebase container: {this._endpoint} {this.state.loading}</Text>
       </View>      
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  }
-});

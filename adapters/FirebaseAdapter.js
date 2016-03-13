@@ -3,11 +3,27 @@ import Rebase from 're-base';
 
 export default class FirebaseAdapter extends BaseAdapter {
   // TODO: connect to base
-  constructor(options = {url: 'https://t5-chat.firebaseio.com', endpoint: 'messages', array: true}) {
-    this.endpoint = options.endpoint;   
-    this.asArray = options.array;
+  constructor(options = {}) {
+    super();
     
-    this.base = Rebase.createClass(url);  
+    options.url = options.url || 'https://t5-chat.firebaseio.com';
+    options.array = options.array || true;
+    
+    console.log('FirebaseAdapter', options);
+    
+    this.endpoint = options.endpoint;   
+    this.asArray = options.array;    
+    this.base = Rebase.createClass(options.url);  
+  }
+
+  get endpoint() {
+    return this._endpoint;
+  }
+
+  set endpoint(_endpoint) {
+    if (!_endpoint)
+      throw 'Firebase endpoint must be a string';
+    this._endpoint = _endpoint;
   }
   
   // find last part of endpoint
@@ -22,7 +38,7 @@ export default class FirebaseAdapter extends BaseAdapter {
   // onSuccess: function
   syncState(options) {
     // will sync messages on state
-    this.ref = base.syncState(this.endpoint, {
+    this.ref = this.base.syncState(this.endpoint, {
       context: options.ctx,
       state: this._defaultState() || this.state,
       asArray: this.asArray || options.asArray,

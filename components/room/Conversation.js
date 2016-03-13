@@ -1,16 +1,16 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, {
+  Component,
   LinkingIOS,
   Platform,
   ActionSheetIOS,
   Dimensions,
   View,
   Text
-} = React;
+} from 'react-native';
 
-import Messenger from ('./Messenger');
+import Messenger from './Messenger';
 import Communications from 'react-native-communications';
 
 // replace with db/server Firebase connections 
@@ -24,19 +24,21 @@ const navBarHeight = (Platform.OS === 'android' ? 56 : 64);
 const statusBarHeight = (Platform.OS === 'android' ? 25 : 0);
 
 // if we use Component class we need to use .bind(this) in render() 
-export default Conversation = React.createClass({     
+export default class Conversation extends Component {     
 
-  // TODO: use adapter!
-  getInitialState () {
-    this.messages = new messages.FirebaseAdapter();      
-  },  
+  constructor(props){
+    super(props);
+    this.state = {
+      messages: this.props.messages
+    };      
+  }  
 
   // latest messages sent down from container which syncs with Firebase messages collection
   // messages then divided into earlier and latest on state and passed down as props
   getMessages() {
     // return this.messages.latest();
     return this.props.latest;
-  },
+  }
 
   // TODO: use Messages adapter!
   // TODO: remove hard-coding which always shows error button!!  
@@ -51,7 +53,7 @@ export default Conversation = React.createClass({
     // this._GiftedMessenger.setMessageStatus('Seen', rowID);
     // this._GiftedMessenger.setMessageStatus('Custom label status', rowID);
     this._GiftedMessenger.setMessageStatus('ErrorButton', rowID); // => In this case, you need also to set onErrorButtonPress
-  },
+  }
   
   // TODO: use Messages adapter!
   // @oldestMessage is the oldest message already added to the list
@@ -66,11 +68,11 @@ export default Conversation = React.createClass({
     setTimeout(() => {
       callback(earlierMessages, false); // when second parameter is true, the "Load earlier messages" button will be hidden      
     }, 1000);
-  },
+  }
   
   handleReceive(message = {}) {
     this._GiftedMessenger.appendMessage(message);
-  },
+  }
   
   // TODO: use Messages adapter!
   onErrorButtonPress(message = {}, rowID = null) {
@@ -94,17 +96,17 @@ export default Conversation = React.createClass({
         }, 500);
       }, 1000);
     }, 500);
-  },
+  }
   
   // will be triggered when the Image of a row is touched
   onImagePress(rowData = {}, rowID = null) {
     // Your logic here
     // Eg: Navigate to the user profile
-  },
+  }
   
   render() {
     return (
-      <GiftedMessenger
+      <Messenger
         ref={(c) => this._GiftedMessenger = c}
     
         styles={{
@@ -136,13 +138,13 @@ export default Conversation = React.createClass({
       />
 
     );
-  },
+  }
   
   handleUrlPress(url) {
     if (Platform.OS !== 'android') {
       LinkingIOS.openURL(url);
     }
-  },
+  }
 
   handlePhonePress(phone) {
     if (Platform.OS !== 'android') {
@@ -168,9 +170,9 @@ export default Conversation = React.createClass({
         }
       });
     }
-  },
+  }
   
   handleEmailPress(email) {
     Communications.email(email, null, null, null, null);
-  },
-});
+  }
+}

@@ -8,7 +8,7 @@
   "dependencies": {
     "firebase": "^2.4.1",
     "moment": "^2.12.0",
-    "re-base": "^1.5.1",
+    "re-base": "kristianmandrup/re-base",
     "react-native": "^0.21.0",
     "react-native-button": "^1.4.2",
     "react-native-code-push": "^1.7.3-beta",

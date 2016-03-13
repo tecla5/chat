@@ -1,6 +1,7 @@
 // Used to determine presence of users (online, offline status)
 // see: https://www.firebase.com/blog/2013-06-17-howto-build-a-presence-system.html
 
+// https://www.firebase.com/docs/web/guide/offline-capabilities.html
 /*
 
   /users

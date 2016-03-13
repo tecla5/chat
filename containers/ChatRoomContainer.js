@@ -12,8 +12,6 @@ const constants = {
   showMessageCount: 10
 };
 
-const base = Rebase.createClass('https://t5-chat.firebaseio.com/');
-
 export default class ChatRoomContainer extends FirebaseContainer {
   constructor(props){
     super(props);
@@ -30,6 +28,7 @@ export default class ChatRoomContainer extends FirebaseContainer {
   }  
   
   _onSync(){  
+    console.log('syncing', this._endpoint);
       // sort messages into earlier and latest
     const sliced = utils.sliceList(this.state.messages, constants.showMessageCount)
     this.setState({

@@ -7,7 +7,7 @@ import React, {
   View
 } from 'react-native';
 
-import Messenger from './Conversation.js';
+import Conversation from './Conversation.js';
 
 export default class ChatRoom extends Component {
   constructor(props){
