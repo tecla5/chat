@@ -9,13 +9,20 @@ import FirebaseAdapter from '../adapters/FirebaseAdapter';
 export default class FirebaseContainer extends Component {
   constructor(props){
     super(props);    
-    this.state = Object.assign({}, this.initialState(props), {loading: true}); 
+    this.state = Object.assign({}, this.initialState(), {loading: true}); 
   }
-          
-  initialState(props) {
-    return {      
-    };    
+
+  // creates initial state as: {messages: []} for a '[userId]/messages' endpoint.          
+  initialState() {
+    var x = {};
+    x[this._defaultState()] = [];
+    return x;    
   }    
+
+  // find last part of endpoint
+  _defaultState() {
+    return this._endpoint.match(/\/?(\w+)$/)[0];  
+  }
           
   // uses generic adapter        
   componentWillMount(){
