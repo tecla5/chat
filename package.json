@@ -19,6 +19,7 @@
     "react-native-layout": "github:kristianmandrup/react-native-layout",
     "react-native-material-kit": "^0.3.0",
     "react-native-md-textinput": "^1.9.2",
+    "react-native-google-signin": "^0.4.3",
     "react-native-navbar": "^1.2.2",
     "react-native-router-flux": "^2.3.12",
     "react-redux": "^4.4.0",

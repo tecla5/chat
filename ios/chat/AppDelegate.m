@@ -13,6 +13,9 @@
 
 #import "CodePush.h"
 
+// add this line before @implementation AppDelegate
+#import "RNGoogleSignin.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -37,7 +40,7 @@
   // jsCodeLocation = [CodePush bundleURL];
 
   #ifdef DEBUG
-      jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+      jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.134:8081/index.ios.bundle?platform=ios&dev=true"];
   #else
       jsCodeLocation = [CodePush bundleURL];
   #endif
@@ -62,5 +65,14 @@
   [self.window makeKeyAndVisible];
   return YES;
 }
+
+
+// add this method before @end
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+
+  return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+
 
 @end

@@ -6,20 +6,35 @@ import FirebaseContainer from './FirebaseContainer';
 
 import ContactList from '../components/contact/ContactList';
 
+const fakeContacts = [{
+    id: 1,
+    name: 'Javier Cabrera',
+    email: 'cabrera.javier@gmail.com'
+  }, {
+    id: 2,
+    name: 'Kristian Mandrup',
+    email: 'kmandrup@gmail.com'
+  }];
+
 export default class ContactsContainer extends FirebaseContainer {
   constructor(props){
     super(props);
     // TODO: should be: [userId]/contacts 
-    this._endpoint = [props.userId, 'contacts'].join('/');
+    this._endpoint = [props.userId || 'user-1', 'contacts'].join('/');
   }
-
-  initialState() {
-    return {
-      contacts: []
-    }
-  }  
-          
-  // TODO: loading indicator    
+                    
+  componentWillMount(){
+    super.componentWillMount();      
+    // fake contacts
+    this.setState({
+        contacts:  this.state.contacts.concat(fakeContacts)
+    });    
+  } 
+  
+  componentDidMount(){
+    console.log('componentDidMount', this.state.contacts);    
+  }
+      
   render() {
     return (
       <View style={styles.container}>
@@ -34,6 +49,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'green',
   }
 });

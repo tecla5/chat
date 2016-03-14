@@ -16,7 +16,7 @@ export default class ChatRoomContainer extends FirebaseContainer {
   constructor(props){
     super(props);
     // TODO: should be: [roomId]/messages 
-    this._endpoint = [props.roomId, 'messages'].join('/');;
+    this._endpoint = [props.roomId || 'room-1', 'messages'].join('/');;
   }
   
   initialState() {

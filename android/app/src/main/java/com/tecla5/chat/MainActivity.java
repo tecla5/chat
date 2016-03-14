@@ -10,6 +10,9 @@ import java.util.List;
 // 1. Import the plugin class
 import com.microsoft.codepush.react.CodePush;
 
+import co.apptailor.googlesignin.RNGoogleSigninModule; // <--- import
+import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
+
 public class MainActivity extends ReactActivity {
     
     // 2. Define a private field to hold the CodePush runtime instance
@@ -22,7 +25,17 @@ public class MainActivity extends ReactActivity {
     protected String getJSBundleFile() {
         return this._codePush.getBundleUrl("index.android.bundle");
     }
-        
+
+
+    // add this method inside your activity class
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
+        if (requestCode == RNGoogleSigninModule.RC_SIGN_IN) {
+            RNGoogleSigninModule.onActivityResult(data);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+            
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -53,7 +66,9 @@ public class MainActivity extends ReactActivity {
 
         // 5. Add the CodePush package to the list of existing packages
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage(), this._codePush.getReactPackage()
+            new MainReactPackage(), 
+            new RNGoogleSigninPackage(this), // <------ add this line to yout MainActivity class            
+            this._codePush.getReactPackage()
         );                
     }
 }
