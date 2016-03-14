@@ -75,34 +75,19 @@ export default class Conversation extends Component {
     this._GiftedMessenger.appendMessage(message);
   }
   
-  // TODO: use Messages adapter!
+  // use Firebase adapter!
   onErrorButtonPress(message = {}, rowID = null) {
     // Your logic here
     // Eg: Re-send the message to your server
-    
-    setTimeout(() => {
-      // will set the message to a custom status 'Sent' (you can replace 'Sent' by what you want - it will be displayed under the row)
-      this._GiftedMessenger.setMessageStatus('Sent', rowID);
-      setTimeout(() => {
-        // will set the message to a custom status 'Seen' (you can replace 'Seen' by what you want - it will be displayed under the row)
-        this._GiftedMessenger.setMessageStatus('Seen', rowID);
-        setTimeout(() => {
-          // append an answer
-          this.handleReceive({
-              text: 'I saw your message', 
-              name: 'React-Native', 
-              image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, 
-              position: 'left', 
-              date: new Date()});
-        }, 500);
-      }, 1000);
-    }, 500);
+    this.handleSend(message, rowId);    
   }
   
   // will be triggered when the Image of a row is touched
   onImagePress(rowData = {}, rowID = null) {
     // Your logic here
     // Eg: Navigate to the user profile
+    console.log('Go to user profile', rowData, rowId);
+    console.log('Actions.profile(userId)');
   }
   
   render() {
