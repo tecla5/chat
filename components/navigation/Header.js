@@ -2,8 +2,8 @@
 
 import React, {
   Component,
-  View, 
-  Text, 
+  View,
+  Text,
   StyleSheet
 } from 'react-native';
 
@@ -18,12 +18,12 @@ const TabButton = (props, state) => {
 }
 
 export default class Header extends Component {
-    render(){      
+    render(){
         return (
             <View style={styles.container}>
               <Text/>
               <Text>Chat</Text>
-              <TabButton action='drawer' label='=' />              
+              <TabButton action='drawer' label='=' />
             </View>
         );
     }
@@ -37,9 +37,9 @@ var styles = StyleSheet.create({
         backgroundColor: 'blue',
     },
     tab: {
-      flex: 1,      
+      flex: 1,
       margin: 10,
       textAlign: 'center',
-      color: 'white'      
+      color: 'white'
     }
 });
