@@ -71,7 +71,7 @@ export default class Message extends Component {
     }
 
     renderErrorButton(rowData, rowID, onErrorButtonPress) {
-        if (rowData.status === 'ErrorButton') {
+        if (rowData.status && rowData.status.type === 'error') {
             return (
                 <ErrorButton
                     onErrorButtonPress={onErrorButtonPress}
@@ -84,10 +84,11 @@ export default class Message extends Component {
     }
 
     renderStatus(status) {
-        if (status !== 'ErrorButton' && typeof status === 'string') {
+        if (status && status.type !== 'error') {
             if (status.length > 0) {
+                status.text = status.type == 'sentOk' ? '✓' : '';
                 return (
-                    <View><Text style={styles.status}>{status}</Text></View>
+                    <View><Text style={[ styles.status, styles[status.type] ]}>{status.text}</Text></View>
                 );
             }
         }
@@ -162,11 +163,17 @@ const styles = StyleSheet.create({
         width: 10
     },
     status: {
-        color: '#aaaaaa',
+        color: '#aaaaaa', 
         fontSize: 12,
         textAlign: 'right',
         marginRight: 15,
         marginBottom: 10,
         marginTop: -5
-    }
+    },
+    error: {
+      color: 'red'
+    },
+    sentOk: {
+      color: 'green'
+    },      
 });

@@ -30,31 +30,32 @@ export default class Conversation extends Component {
     super(props);
     this.state = {
       messages: this.props.messages
-    };      
+    };          
   }  
 
   // latest messages sent down from container which syncs with Firebase messages collection
   // messages then divided into earlier and latest on state and passed down as props
   getMessages() {
     // return this.messages.latest();
-    return this.props.latest;
+    console.log('getMessages: latest', this.props.latest)
+    return this.props.latest || [];
   }
 
-  // TODO: use Messages adapter!
-  // TODO: remove hard-coding which always shows error button!!  
+  // Send message to server  
   handleSend(message = {}, rowID = null) {
-    // Your logic here
-    // Send message.text to your server
-    
-    // TODO: Here we should use our Firebase adapter
-    debugger;
-    console.log('_GiftedMessenger', this._GiftedMessenger);
-    // this._GiftedMessenger.setMessageStatus('Sent', rowID);
-    // this._GiftedMessenger.setMessageStatus('Seen', rowID);
-    // this._GiftedMessenger.setMessageStatus('Custom label status', rowID);
-    this._GiftedMessenger.setMessageStatus('ErrorButton', rowID); // => In this case, you need also to set onErrorButtonPress
-  }
+    // status can be any of 'Sent', 'Seen' or 'ErrorButton'
+    // See message/Message renderStatus() and styles.status
+    let  onSent = (err) => {
+      console.log('Sent', err, message);
+      let status = {};
+      status.type = err ? 'error' : 'sentOk';
+      this._GiftedMessenger.setMessageStatus(status, rowID);
+    }
   
+    // we use our Firebase adapter to send
+    this.context.adapter.post(this.roomId, message, {onSent: onSent, ctx: this});        
+  }
+    
   // TODO: use Messages adapter!
   // @oldestMessage is the oldest message already added to the list
   onLoadEarlierMessages(oldestMessage = {}, callback = () => {}) {    
@@ -176,3 +177,8 @@ export default class Conversation extends Component {
     Communications.email(email, null, null, null, null);
   }
 }
+
+// That's the only thing you need to add
+Conversation.contextTypes = {
+  adapter: React.PropTypes.object
+}      

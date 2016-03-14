@@ -114,7 +114,7 @@ export default class WriteMessage extends Component {
   }   
 }
 
-  // That's the only thing you need to add
+// That's the only thing you need to add
 WriteMessage.contextTypes = {
   adapter: React.PropTypes.object
 }      

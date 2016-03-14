@@ -25,7 +25,7 @@ import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 
 function reducer(state = {}, action) {
-  console.log('action', action);  
+  // console.log('action', action);  
   return state;
 }
 

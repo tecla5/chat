@@ -72,8 +72,9 @@ export default class FirebaseAdapter extends BaseAdapter {
       /*
        * This 'then' method will run after the
        * post has finished.
+       * On error will be passed an Error object
        */
-      then: options.onSuccess
+      then: options.onSent
     });
   }  
 }  

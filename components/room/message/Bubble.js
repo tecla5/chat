@@ -36,7 +36,7 @@ export default class Bubble extends React.Component {
             <View style={[
                 styles.bubble,
                 (this.props.position === 'left' ? styles.bubbleLeft : styles.bubbleRight),
-                (this.props.status === 'ErrorButton' ? styles.bubbleError : null),
+                (this.props.status && this.props.status.type === 'error' ? styles.bubbleError : null),
                 flexStyle]}>
                 {this.renderText(this.props.text, this.props.position)}
             </View>
@@ -46,7 +46,7 @@ export default class Bubble extends React.Component {
 
 Bubble.propTypes = {
     position: React.PropTypes.oneOf(['left', 'right']),
-    status: React.PropTypes.string,
+    status: React.PropTypes.object,
     text: React.PropTypes.string,
     renderCustomText: React.PropTypes.func
 };
