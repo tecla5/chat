@@ -52,10 +52,9 @@ import ContactsScreen from './screens/ContactsScreen';
 import LoginScreen from './screens/LoginScreen';
 import UserProfileScreen from './screens/UserProfileScreen';
 
-import SideDrawer from './components/SideDrawer';
-
-// import NavBar from './NavBar';
-import TabView from './components/TabView';  
+import SideDrawer from './components/navigation/SideDrawer';
+import Header from './components/navigation/Header';
+import TabView from './components/navigation/TabView';  
 
 /*
 Three kinds of Route animations defined as schemas:
@@ -91,18 +90,6 @@ To go to a route, use Actions.[route name] such as Actions.login() or Actions.co
 const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
-// TODO: show name of Room (initial route)
-class Header extends Component {
-    render(){
-        return ( 
-        <View style={styles.navBar}>
-          <Text style={styles.navTitle}>{this.name || 'Home'}</Text>
-          <Button style={styles.navTitle} onPress={Actions.drawer}>=</Button>
-       </View>
-       );
-    }
-}
-
 export default class ChatApp extends Component {
 
 	constructor (props) {
@@ -122,9 +109,7 @@ export default class ChatApp extends Component {
   }
 
   render() {
-    // TODO: add to initial route: launch
-    // header={Header}
-
+    // TODO: add header={Header} to initial route: launch
     const { drawer } = this.state;    
        
     return (
@@ -139,13 +124,13 @@ export default class ChatApp extends Component {
             hideNavBar={hideNavBar}
           />
 
-          <Route name="launch" initial={true}  component={ChatRoomScreen} wrapRouter={true} hideNavBar={true}/>
+          <Route name="launch" initial={true} component={ChatRoomScreen} wrapRouter={true} hideNavBar={false} title="Home" rightTitle="menu" onRight={() => {Actions.drawer() }}/>
           <Route name="loggedIn" component={ChatRoomScreen}/>
           <Route name="login" schema="modal" component={LoginScreen}/>
           <Route name="error" type="modal" component={Error}/>
-          <Route name="room" title="Chat Room" component={ContactsScreen}/>
-          <Route name="contacts" component={ContactsScreen} title='Contacts'/>
           <Route name="profile" component={UserProfileScreen} title='User profile'/>
+          <Route name="room" title="Chat Room" component={ContactsScreen}/>
+          <Route name="contacts" component={ContactsScreen} title='Contacts'/>          
           <Route name="rooms" title="Rooms" component={RoomsScreen} title='Rooms'/>
 
           <Route name='drawer' hideNavBar={true} type='reset'>
@@ -155,7 +140,7 @@ export default class ChatApp extends Component {
                 navigationBarStyle={styles.navBar}
                 titleStyle={styles.navTitle}
               >
-                <Route name="profile" component={UserProfileScreen}/>
+                <Route name="profile" component={UserProfileScreen} schema='main' title='User Profile'/>
                 <Route name='room' component={ChatRoomScreen} schema='main' title='Room' />
                 <Route name='rooms' component={RoomsScreen} schema='main' title='Rooms' />
                 <Route name='contacts' component={ContactsScreen} schema='main' title='Contacts' />
@@ -190,33 +175,4 @@ const styles = StyleSheet.create({
 		paddingTop: Navigator.NavigationBar.Styles.General.NavBarHeight, // some navbar padding to avoid content overlap
 	}
 });
-
-
-
-// leftTitle="Back" rightTitle="Menu"
-
-// Router
-  // header={Header} also known as NavBar
-  // footer={Footer}
-
-// <Router footer={TabBar}>
-
-// Optional footer Tab bar
-
-    // <Route name="tabbar">
-    //     <Router footer={TabBar}>
-    //         <Route name="room" schema="tab" title="Tab #3" component={ChatRoomContainer}/>
-    //         <Route name="contacts" schema="tab" title="Tab #4" component={ContactsContainer} />
-    //     </Router>
-    // </Route>
-
-    // <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
-
-    // <Route name="loggedIn" component={ChatRoomContainer}/>
-    
-    // <Route name="login" schema="modal" component={Login}/>
-    // <Route name="error" type="modal" component={Error}/>
-    // <Route name="room" component={ChatRoomContainer}/>
-    // <Route name="contacts" component={ContactsContainer}/>
-
 

@@ -1,6 +1,7 @@
 import React, { 
   Text, 
   View, 
+  StyleSheet,
   Component, 
   PropTypes 
 } from 'react-native';
@@ -18,7 +19,8 @@ class SideDrawerContent extends Component {
 	render() {
 		const { drawer } = this.context;
 		return (
-			<View>
+			<View style={styles.drawer}>
+        <Text>Side Drawer</Text>
 				<Button onPress={() => { Actions.drawer(); } }>Home</Button>
 				<Button onPress={() => { Actions.rooms(); drawer.close(); } }>Rooms</Button>
 				<Button onPress={() => { Actions.contacts(); drawer.close(); } }>Contacts</Button>
@@ -39,7 +41,7 @@ export default class SideDrawer extends Component {
         openDrawerOffset={0.2}
         panCloseMask={0.2}
         closedDrawerOffset={-3}
-				styles={drawerStyles}
+				style={styles.drawer}
         tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
       >
         {React.Children.map(this.props.children, c => React.cloneElement(c, {
@@ -55,7 +57,11 @@ SideDrawerContent.contextTypes = {
   drawer: PropTypes.object.isRequired,
 };
 
-var drawerStyles = {
-	drawer: { backgroundColor: '#ffffff' },
-	main: { paddingLeft: 3 }
-};
+var styles = StyleSheet.create({
+	drawer: { 
+    backgroundColor: '#ffffff' 
+  },
+	main: { 
+    paddingLeft: 3 
+  }
+});
