@@ -12,16 +12,15 @@ import {Actions} from 'react-native-router-flux';
 
 export default class TabView extends Component {
     render(){
+        console.log('route', this.props.name);
+      
         return (
             <View style={styles.container}>
-                <Text>Tab {this.props.title}</Text>
-                {this.props.name === "contacts" &&
-                <Button onPress={Actions.rooms}>Rooms</Button>
-                }
-                {this.props.name === "rooms" &&
-                <Button onPress={Actions.room}>Contacts</Button>
-                }
-                <Button onPress={Actions.pop}>Back</Button>
+              <Button onPress={Actions.room}>Room</Button>
+              <Button onPress={Actions.rooms}>Rooms</Button>
+              <Button onPress={Actions.contacts}>Contacts</Button>
+              <Button onPress={Actions.profile}>User profile</Button>
+              <Button onPress={Actions.pop}>Back</Button>
             </View>
         );
     }

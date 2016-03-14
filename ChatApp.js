@@ -39,20 +39,23 @@ const TabIcon = (props, state) => {
 
 import codePush from 'react-native-code-push';
 
-import Login from './modal/Login';
-import Error from './modal/Error';
+import Login from './components/modal/Login';
+import Error from './components/modal/Error';
 
-import Launch from './Launch';
+import Launch from './components/Launch';
 
 // main pages: container sets state from Firebase to display on page (contacts, messages)
-import ContactsContainer from '../containers/ContactsContainer';
-import RoomsContainer from '../containers/RoomsContainer';
-import ChatRoomContainer from '../containers/ChatRoomContainer';
 
-import SideDrawer from './SideDrawer';
+import ChatRoomScreen from './screens/ChatRoomScreen';
+import RoomsScreen from './screens/RoomsScreen';
+import ContactsScreen from './screens/ContactsScreen';
+import LoginScreen from './screens/LoginScreen';
+import UserProfileScreen from './screens/UserProfileScreen';
+
+import SideDrawer from './components/SideDrawer';
 
 // import NavBar from './NavBar';
-import TabView from './TabView';  
+import TabView from './components/TabView';  
 
 /*
 Three kinds of Route animations defined as schemas:
@@ -93,7 +96,7 @@ class Header extends Component {
     render(){
         return ( 
         <View style={styles.navBar}>
-          <Text style={styles.navTitle}>{this.name}</Text>
+          <Text style={styles.navTitle}>{this.name || 'Home'}</Text>
           <Button style={styles.navTitle} onPress={Actions.drawer}>=</Button>
        </View>
        );
@@ -126,7 +129,7 @@ export default class ChatApp extends Component {
        
     return (
       <Provider store={store}>
-        <Router hideNavBar={true} name="root">
+        <Router hideNavBar={false} name="root" footer={TabView}>
           <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
           <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
           <Schema name="tab" type="switch" icon={TabIcon} />
@@ -136,14 +139,14 @@ export default class ChatApp extends Component {
             hideNavBar={hideNavBar}
           />
 
-          <Route name="launch" initial={true} header={Header} component={ChatRoomContainer} wrapRouter={true} hideNavBar={true}/>
-          <Route name="loggedIn" component={ChatRoomContainer}/>
-          <Route name="login" schema="modal" component={Login}/>
+          <Route name="launch" initial={true} header={Header} component={ChatRoomScreen} wrapRouter={true} hideNavBar={true}/>
+          <Route name="loggedIn" component={ChatRoomScreen}/>
+          <Route name="login" schema="modal" component={LoginScreen}/>
           <Route name="error" type="modal" component={Error}/>
-          <Route name="room" title="Chat Room" component={ChatRoomContainer}/>
-          <Route name="contacts" component={ContactsContainer}/>
-          <Route name="rooms" title="List Room" component={RoomsContainer} />
-
+          <Route name="room" title="Chat Room" component={ContactsScreen}/>
+          <Route name="contacts" component={ContactsScreen} title='Contacts'/>
+          <Route name="profile" component={UserProfileScreen} title='User profile'/>
+          <Route name="rooms" title="Rooms" component={RoomsScreen} title='Rooms'/>
 
           <Route name='drawer' hideNavBar={true} type='reset'>
             <SideDrawer>
@@ -152,9 +155,10 @@ export default class ChatApp extends Component {
                 navigationBarStyle={styles.navBar}
                 titleStyle={styles.navTitle}
               >
-                <Route name='room' component={ChatRoomContainer} schema='main' title='Home' />
-                <Route name='rooms' component={RoomsContainer} schema='main' title='Screen1' />
-                <Route name='contacts' component={ContactsContainer} schema='main' title='Screen2' />
+                <Route name="profile" component={UserProfileScreen}/>
+                <Route name='room' component={ChatRoomScreen} schema='main' title='Room' />
+                <Route name='rooms' component={RoomsScreen} schema='main' title='Rooms' />
+                <Route name='contacts' component={ContactsScreen} schema='main' title='Contacts' />
               </Router>
             </SideDrawer>
           </Route>
@@ -170,11 +174,11 @@ ChatApp.childContextTypes = {
   drawer: React.PropTypes.object,
 };
 
-
 const styles = StyleSheet.create({
 	navBar: {
 		flex: 1,
 		flexDirection: 'row',
+    height: 30,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: 'blue',
