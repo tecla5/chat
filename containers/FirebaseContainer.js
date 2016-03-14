@@ -45,8 +45,8 @@ export default class FirebaseContainer extends Component {
   }
 
   _onSynced(){
-    _onSync();
-    _onSyncOk();    
+    this._onSync();
+    this._onSyncOk();    
   }
 
   // on successful sync

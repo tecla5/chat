@@ -47,8 +47,8 @@ export default class Conversation extends Component {
     // Send message.text to your server
     
     // TODO: Here we should use our Firebase adapter
-    
-    
+    debugger;
+    console.log('_GiftedMessenger', this._GiftedMessenger);
     // this._GiftedMessenger.setMessageStatus('Sent', rowID);
     // this._GiftedMessenger.setMessageStatus('Seen', rowID);
     // this._GiftedMessenger.setMessageStatus('Custom label status', rowID);

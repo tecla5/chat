@@ -2,7 +2,7 @@ import React, {
   StyleSheet
 } from 'react-native';
 
-import utils from '../utils';
+import {sliceList} from '../utils';
 import FirebaseContainer from './FirebaseContainer';
 
 import ChatRoom from '../components/room/ChatRoom.js';
@@ -11,11 +11,6 @@ import ChatRoom from '../components/room/ChatRoom.js';
 const constants = {
   showMessageCount: 10
 };
-
-// Make adapter available for child components
-ChatRoomContainer.childContextTypes = {
-  adapter: React.PropTypes.object
-}
 
 export default class ChatRoomContainer extends FirebaseContainer {
   constructor(props){
@@ -42,7 +37,7 @@ export default class ChatRoomContainer extends FirebaseContainer {
   _onSync(){  
     console.log('syncing', this._endpoint);
       // sort messages into earlier and latest
-    const sliced = utils.sliceList(this.state.messages, constants.showMessageCount)
+    const sliced = sliceList(this.state.messages, constants.showMessageCount)
     this.setState({
       earlier: sliced.before,
       latest: sliced.after
@@ -54,4 +49,9 @@ export default class ChatRoomContainer extends FirebaseContainer {
         <ChatRoom {...this.state}/>                    
     );
   }  
+}
+
+// Make adapter available for child components
+ChatRoomContainer.childContextTypes = {
+  adapter: React.PropTypes.object
 }

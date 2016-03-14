@@ -31,14 +31,14 @@ export default class Messenger extends Component {
     constructor(props) {
         super(props);
         
-        let listViewMaxHeight = _listViewMaxHeight();
+        let listViewMaxHeight = this._listViewMaxHeight();
 
         this.state = {
             firstDisplay: true,
             listHeight: 0,
             footerY: 0,
 
-            dataSource: _dataSource().cloneWithRows([]),
+            dataSource: this._dataSource().cloneWithRows([]),
             text: '',
             disabled: true,
             height: new Animated.Value(listViewMaxHeight),
