@@ -14,6 +14,12 @@ import {Actions} from 'react-native-router-flux';
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
+//import Firebase from 'firebase';
+import Rebase from 're-base';
+
+let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+
+
 
 export default class Launch extends Component {
     
@@ -39,7 +45,8 @@ export default class Launch extends Component {
         GoogleSignin.currentUserAsync().then((user) => {
             console.log('Async USER', user);
             this.setState({user: user});
-            Actions.contacts(); 
+            // Actions.contacts(); 
+            // base.post ${id}
         }).done();
     }
     
@@ -50,7 +57,14 @@ export default class Launch extends Component {
         GoogleSignin.signIn()
         .then((user) => {
             console.log(user);
-           this.setState({user: user});
+            this.setState({user: user});
+            base.push('users', {
+                data: user,
+                then(){
+                    Actions.contacts(); 
+                    //Router.transitionTo('dashboard');
+                }
+            });
         })
         .catch((err) => {
             console.log('WRONG SIGNIN', err);
@@ -61,7 +75,7 @@ export default class Launch extends Component {
     _signOut() {
         GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
             this.setState({user: null});        
-            Actions.login(); 
+            Actions.launch(); 
         })
         .done();
     }
@@ -82,6 +96,11 @@ export default class Launch extends Component {
                         style={styles.icon}
                         source={{uri: this.state.user.photo}}   />      
                     <Text>{this.state.user.name} Logged</Text>
+                    <TouchableOpacity onPress={() => {this._signOut(); }}>
+                        <View style={{marginTop: 50}}>
+                        <Text>Log out</Text>
+                        </View>
+                    </TouchableOpacity>                    
                 </View>                
             )
         }        
