@@ -50,6 +50,8 @@ import ContactsContainer from '../containers/ContactsContainer';
 import RoomsContainer from '../containers/RoomsContainer';
 import ChatRoomContainer from '../containers/ChatRoomContainer';
 
+import SideDrawer from './SideDrawer';
+
 // import NavBar from './NavBar';
 import TabView from './TabView';  
 
@@ -82,14 +84,27 @@ To go to a route, use Actions.[route name] such as Actions.login() or Actions.co
 // - https://github.com/exponentjs/ex-navigator
 // - https://github.com/react-native-fellowship/react-native-navbar
 
+// We can use a Side drawer using this example: https://github.com/efkan/rndrawer-implemented-rnrouter
+
+const hideNavBar = Platform.OS === 'android'
+const paddingTop = Platform.OS === 'android' ? 0 : 8
+
 // TODO: show name of Room (initial route)
 class Header extends React.Component {
     render(){
-        return <Text style={styles.title}>Chat App</Text>
+        return <Text style={styles.navTitle}>Chat App</Text>
     }
 }
 
 export default class ChatApp extends Component {
+
+	constructor (props) {
+		super(props);
+		this.state = {
+			drawer: null,
+		};
+	}
+
   componentDidMount(params) {
       console.log('componentDidMount ', params);
       codePush.sync({
@@ -101,15 +116,22 @@ export default class ChatApp extends Component {
   }
 
   render() {
-    // header={NavBar}
+    // TODO: add to top level Router
     // footer={TabView}
-    
+
+    const { drawer } = this.state;    
+       
     return (
       <Provider store={store}>
         <Router hideNavBar={true} name="root">
           <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
           <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
           <Schema name="tab" type="switch" icon={TabIcon} />
+          <Schema
+            name='main'
+            sceneConfig={Navigator.SceneConfigs.FadeAndroid}
+            hideNavBar={hideNavBar}
+          />
 
           <Route name="launch" initial={true} header={Header} component={ChatRoomContainer} wrapRouter={true} hideNavBar={true}/>
           <Route name="loggedIn" component={ChatRoomContainer}/>
@@ -118,16 +140,48 @@ export default class ChatApp extends Component {
           <Route name="room" title="Chat Room" component={ChatRoomContainer}/>
           <Route name="contacts" component={ContactsContainer}/>
           <Route name="rooms" title="List Room" component={RoomsContainer} />
+
+
+          <Route name='drawer' hideNavBar={true} type='reset'>
+            <SideDrawer>
+              <Router
+                sceneStyle={styles.routerScene}
+                navigationBarStyle={styles.navBar}
+                titleStyle={styles.navTitle}
+              >
+                <Route name='Home' component={Screen_Home} schema='main' title='Home' />
+                <Route name='Screen1' component={Screen1} schema='main' title='Screen1' />
+                <Route name='Screen2' component={Screen2} schema='main' title='Screen2' />
+              </Router>
+            </SideDrawer>
+          </Route>
+
         </Router>
       </Provider>
     );
   }
 }
 
+// Used for to pass the drawer to the all children
+ChatApp.childContextTypes = {
+  drawer: React.PropTypes.object,
+};
+
+
 const styles = StyleSheet.create({
-  title: {
-      color: 'green'
-  }
+	navBar: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'red',
+	},
+	navTitle: {
+		color: 'white',
+	},
+	routerScene: {
+		paddingTop: Navigator.NavigationBar.Styles.General.NavBarHeight, // some navbar padding to avoid content overlap
+	}
 });
 
 
