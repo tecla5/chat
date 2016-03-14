@@ -1,24 +1,23 @@
 'use strict';
 
-import React from 'react-native';
-
-const {
+import React, {
+  Platform,
   Component, 
   Navigator, 
   StyleSheet,
   Text,
   View
-} = React;
+} from 'react-native';
 
-import RNRF from 'react-native-router-flux';
+import Button from 'react-native-button';
 
-const {
-  Route, 
+import RNRF, {
+  Route,
   Schema, 
-  Animations, 
+  // Animations, 
   Actions, 
   TabBar
-} = RNRF;
+} from 'react-native-router-flux';
 
 // Redux stuff is optional
 import { createStore } from 'redux'
@@ -90,9 +89,14 @@ const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
 // TODO: show name of Room (initial route)
-class Header extends React.Component {
+class Header extends Component {
     render(){
-        return <Text style={styles.navTitle}>Chat App</Text>
+        return ( 
+        <View style={styles.navBar}>
+          <Text style={styles.navTitle}>{this.name}</Text>
+          <Button style={styles.navTitle} onPress={Actions.drawer}>=</Button>
+       </View>
+       );
     }
 }
 
@@ -106,7 +110,6 @@ export default class ChatApp extends Component {
 	}
 
   componentDidMount(params) {
-      console.log('componentDidMount ', params);
       codePush.sync({
           updateDialog: true,
           installMode: codePush.InstallMode.INMEDIATE
@@ -149,9 +152,9 @@ export default class ChatApp extends Component {
                 navigationBarStyle={styles.navBar}
                 titleStyle={styles.navTitle}
               >
-                <Route name='Home' component={Screen_Home} schema='main' title='Home' />
-                <Route name='Screen1' component={Screen1} schema='main' title='Screen1' />
-                <Route name='Screen2' component={Screen2} schema='main' title='Screen2' />
+                <Route name='room' component={ChatRoomContainer} schema='main' title='Home' />
+                <Route name='rooms' component={RoomsContainer} schema='main' title='Screen1' />
+                <Route name='contacts' component={ContactsContainer} schema='main' title='Screen2' />
               </Router>
             </SideDrawer>
           </Route>
@@ -174,7 +177,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: 'red',
+		backgroundColor: 'blue',
 	},
 	navTitle: {
 		color: 'white',
@@ -203,14 +206,13 @@ const styles = StyleSheet.create({
     //     </Router>
     // </Route>
 
+    // <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
 
-                    // <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
-
-                    // <Route name="loggedIn" component={ChatRoomContainer}/>
-                    
-                    // <Route name="login" schema="modal" component={Login}/>
-                    // <Route name="error" type="modal" component={Error}/>
-                    // <Route name="room" component={ChatRoomContainer}/>
-                    // <Route name="contacts" component={ContactsContainer}/>
+    // <Route name="loggedIn" component={ChatRoomContainer}/>
+    
+    // <Route name="login" schema="modal" component={Login}/>
+    // <Route name="error" type="modal" component={Error}/>
+    // <Route name="room" component={ChatRoomContainer}/>
+    // <Route name="contacts" component={ContactsContainer}/>
 
 

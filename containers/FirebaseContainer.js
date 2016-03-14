@@ -41,7 +41,7 @@ export default class FirebaseContainer extends Component {
     * You will use that ref to remove the binding here.
   */
   componentWillUnmount(){
-    this.adapter.disConnect();
+    this.adapter.closeConnection();
   }
 
   _onSynced(){

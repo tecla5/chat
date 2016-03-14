@@ -9,6 +9,11 @@ import Drawer from 'react-native-drawer';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 
+// Taken from: https://github.com/efkan/rndrawer-implemented-rnrouter
+ 
+//  https://github.com/root-two/react-native-drawer
+//  https://github.com/react-native-fellowship/react-native-side-menu
+
 class SideDrawerContent extends Component {
 	render() {
 		const { drawer } = this.context;
