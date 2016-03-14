@@ -5,61 +5,32 @@ import React, {
   View
 } from 'react-native';
 
-import codePush from 'react-native-code-push';
-
-//import Firebase from 'firebase';
-import Rebase from 're-base';
-
 import RoomList from '../components/room/RoomList';
 
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+const fakeRooms = [{
+    id: 1,
+    title: 'Room #1',
+  }, {
+      id: 2,
+      title: 'Room #2',
+  }];
 
-export default class RoomsContainer extends Component {
-
+export default class RoomsContainer extends FirebaseContainer {
   constructor(props){
     super(props);
-    this.state = {
-      rooms: []
-    };
-        
+    this._endpoint = [props.userId || 'user-1', 'rooms'].join('/');        
   }
           
   componentWillMount(){      
-      
-    /*
-    * Here we call 'bindToState', which will update
-    * our local 'messages' state whenever our 'chats'
-    * Firebase endpoint changes.
-    */
-    //base.bindToState('rooms', {
-    base.syncState('rooms', {
-      context: this,
-      state: 'rooms',
-      asArray: true
-    });
-    
+    super.componentWillMount();    
     // fake rooms
-    this.setState({
-        rooms:  this.state.rooms.concat({
-            id: 1,
-            title: 'Javier Cabrera',
-        }    ,
-    {
-        id: 2,
-        title: 'Kristian Mandrup',
-    }
-        ) //updates Firebase and the local state
-    });      
-    
-    
-      console.log('componentWillMount',this.state.rooms);    
-    
+    this.setState({rooms: this.state.rooms.concat(fakeRooms) });      
+    console.log('componentWillMount',this.state.rooms);        
   }  
   
   componentDidMount(){
-    console.log('componentDidMount',this.state.rooms);    
-  }
-  
+    // console.log('componentDidMount',this.state.rooms);    
+  }  
     
   render() {
     return (
