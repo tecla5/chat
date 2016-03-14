@@ -5,6 +5,8 @@ import React, {
   View
 } from 'react-native';
 
+import FirebaseContainer from './FirebaseContainer';
+
 import RoomList from '../components/room/RoomList';
 
 const fakeRooms = [{

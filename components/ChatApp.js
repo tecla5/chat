@@ -50,6 +50,9 @@ import ContactsContainer from '../containers/ContactsContainer';
 import RoomsContainer from '../containers/RoomsContainer';
 import ChatRoomContainer from '../containers/ChatRoomContainer';
 
+// import NavBar from './NavBar';
+import TabView from './TabView';  
+
 /*
 Three kinds of Route animations defined as schemas:
   - modal (floats up from bottom)
@@ -79,6 +82,12 @@ To go to a route, use Actions.[route name] such as Actions.login() or Actions.co
 // - https://github.com/exponentjs/ex-navigator
 // - https://github.com/react-native-fellowship/react-native-navbar
 
+// TODO: show name of Room (initial route)
+class Header extends React.Component {
+    render(){
+        return <Text style={styles.title}>Chat App</Text>
+    }
+}
 
 export default class ChatApp extends Component {
   componentDidMount(params) {
@@ -92,6 +101,9 @@ export default class ChatApp extends Component {
   }
 
   render() {
+    // header={NavBar}
+    // footer={TabView}
+    
     return (
       <Provider store={store}>
         <Router hideNavBar={true} name="root">
@@ -99,7 +111,7 @@ export default class ChatApp extends Component {
           <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
           <Schema name="tab" type="switch" icon={TabIcon} />
 
-          <Route name="launch" initial={true} component={ChatRoomContainer} wrapRouter={true} hideNavBar={true}/>
+          <Route name="launch" initial={true} header={Header} component={ChatRoomContainer} wrapRouter={true} hideNavBar={true}/>
           <Route name="loggedIn" component={ChatRoomContainer}/>
           <Route name="login" schema="modal" component={Login}/>
           <Route name="error" type="modal" component={Error}/>
@@ -111,6 +123,14 @@ export default class ChatApp extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  title: {
+      color: 'green'
+  }
+});
+
+
 
 // leftTitle="Back" rightTitle="Menu"
 
