@@ -1,3 +1,4 @@
+'use strict';
 
 import React, {
   Component,
@@ -7,26 +8,23 @@ import React, {
   View
 } from 'react-native';
 
-var Button = require('react-native-button');
+import Button from 'react-native-button';
 
 import Rebase from 're-base';
+const base = Rebase.createClass('https://t5-chat.firebaseio.com/');
 
-
-
-var base = Rebase.createClass('https://t5-chat.firebaseio.com/');
-
-
-class NewChat extends React.Component {
+export default class WriteMessage extends Component {
 
   constructor(props){
     super(props);
+    console.log('create:WriteMessage', props);
     this.state = {
-      message: ''
+      message: null
     }
   }
     
-  _newChat(event){
-    console.log('Pressed!');
+  _newMsg(event) {
+    console.log('_newMsg props', this.props);
     /*
      * Here, we call .post on the '/chats' ref
      * of our Firebase.  This will do a one-time 'set' on
@@ -39,10 +37,10 @@ class NewChat extends React.Component {
      * to return a mutated copy of your state)
     */
 
-    base.post('chats', {
-      data: this.props.chats.concat([{
-        //title: 'hola', //this.refs.title.getDOMNode().value ,
-        message: this.state.message //event.target.value
+    base.post('messages', {
+      // adds message to list of messages
+      data: this.props.messages.concat([{
+        message: this.state.message
       }]),
       context: this,
       /*
@@ -55,28 +53,31 @@ class NewChat extends React.Component {
     });
   }
   
-    
+  _handleSubmit(event) {
+     this.setState({message: event.nativeEvent.text});  
+  }
+      
   render(){
+    console.log('render:WriteMessage', this.state.message)
     return (
       <View style={styles.chatForm}>
         <TextInput
             style={styles.chatInput}
-            onChangeText={(message) => this.setState({message})}
+            onSubmitEditing={this._handleSubmit.bind(this)}
             value={this.state.message}
+            placeholder='Type a message'
+            placeholderTextColor='blue'
         />        
         <Button
-            onPress={this._newChat.bind(this)}
-            style={styles.chatInput}
+            onPress={this._newMsg.bind(this)}
+            style={styles.chatBtn}
         >
             Press Me To Chat!
         </Button>          
       </View>
     );
-  }
-    
-  
+  }   
 }
-
 
 const styles = StyleSheet.create({
   chatForm: {
@@ -85,18 +86,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  chatBtn: {
+    
+  },
   chatInput: {
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+    height: 40,
+    width: 200,
+    borderWidth: 2,
     borderColor: 'blue'
-    //borderBottom: 2
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
-
-export default NewChat;

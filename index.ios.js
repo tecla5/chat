@@ -1,25 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
-
 import React, {
-  AppRegistry,
-  Component
+  AppRegistry
 } from 'react-native';
 
-import T5Chat from './components/T5Chat';
+import ChatApp from './components/ChatApp';
 
-class chat extends Component {    
-
-  render() {
-    return (
-        <T5Chat />      
-    );
-  }
-}
-
-
-AppRegistry.registerComponent('chat', () => chat);
+AppRegistry.registerComponent('chat', () => ChatApp);

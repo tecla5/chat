@@ -1,3 +1,4 @@
+'use strict';
 
 import React, {
   Component,
@@ -6,24 +7,22 @@ import React, {
   ListView,
   View
 } from 'react-native';
+
 import Button from 'react-native-button';
 
-
-
-class Message extends React.Component {
+export default class Message extends React.Component {
   render(){
     return (
       <View>     
-        <Text> { this.props.thread.message } </Text>
-        <Button
-            onPress={ this.props.removeMessage.bind(null) }
-            style={styles.basic} >
-        </Button>
+        <Text>{ this.props.text }</Text>
       </View>
     );
   }
-
 }
+
+// Message.propTypes = { 
+//   message: React.PropTypes.string
+// }
 
 const styles = StyleSheet.create({
   basic: {
@@ -49,4 +48,3 @@ const styles = StyleSheet.create({
 
  */
 
-export default Message
