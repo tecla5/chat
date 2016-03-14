@@ -11,6 +11,7 @@
     "react-native": "^0.21.0",
     "react-native-button": "^1.4.2",
     "react-native-code-push": "^1.7.3-beta",
+    "react-native-google-signin": "^0.4.3",
     "react-native-navbar": "^1.2.2",
     "react-native-router-flux": "^2.3.12",
     "react-redux": "^4.4.0",

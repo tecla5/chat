@@ -25,7 +25,7 @@ export default class ContactsContainer extends Component {
   }
           
   componentWillMount(){      
-      
+    console.log('componentWillMount');
     /*
     * Here we call 'bindToState', which will update
     * our local 'messages' state whenever our 'chats'
