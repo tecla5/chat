@@ -122,8 +122,8 @@ export default class ChatApp extends Component {
   }
 
   render() {
-    // TODO: add to top level Router
-    // footer={TabView}
+    // TODO: add to initial route: launch
+    // header={Header}
 
     const { drawer } = this.state;    
        
@@ -139,7 +139,7 @@ export default class ChatApp extends Component {
             hideNavBar={hideNavBar}
           />
 
-          <Route name="launch" initial={true} header={Header} component={ChatRoomScreen} wrapRouter={true} hideNavBar={true}/>
+          <Route name="launch" initial={true}  component={ChatRoomScreen} wrapRouter={true} hideNavBar={true}/>
           <Route name="loggedIn" component={ChatRoomScreen}/>
           <Route name="login" schema="modal" component={LoginScreen}/>
           <Route name="error" type="modal" component={Error}/>

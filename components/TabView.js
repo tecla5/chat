@@ -9,6 +9,11 @@ import React, {
 
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
+import {titleCase} from '../utils';
+
+const TabButton = (props, state) => {
+  return <Button style={styles.tab} onPress={Actions[props.action]}>{titleCase(props.label || props.action)}</Button>
+}
 
 export default class TabView extends Component {
     render(){
@@ -16,11 +21,10 @@ export default class TabView extends Component {
       
         return (
             <View style={styles.container}>
-              <Button onPress={Actions.room}>Room</Button>
-              <Button onPress={Actions.rooms}>Rooms</Button>
-              <Button onPress={Actions.contacts}>Contacts</Button>
-              <Button onPress={Actions.profile}>User profile</Button>
-              <Button onPress={Actions.pop}>Back</Button>
+              <TabButton action='room' />
+              <TabButton action='rooms' />
+              <TabButton action='contacts' />
+              <TabButton action='profile' />              
             </View>
         );
     }
@@ -29,18 +33,14 @@ export default class TabView extends Component {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: 'green',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
+    tab: {
+      marginLeft: 5,
+      marginRight: 5,
+      textAlign: 'center'      
+    }
 });

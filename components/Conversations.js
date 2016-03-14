@@ -35,8 +35,3 @@ export default class Conversations extends Component {
         );
     }
 }
-
-
-/*
-
-*/

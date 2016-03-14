@@ -9,12 +9,16 @@ import React, {
 
 
 import ChatRoomContainer from '../containers/ChatRoomContainer';
+import {styles} from './Screen';
 
 export default class ChatRoomScreen extends Component {
     render(){
+      // <ChatRoomContainer/>
         return (
-            // <ChatRoomContainer/>
-            <Text>ChatRoom</Text>
+            <View style={styles.screen}>
+              <Text>Chat Room</Text>
+            </View>
         );
     }
 }
+

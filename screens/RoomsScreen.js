@@ -8,12 +8,16 @@ import React, {
 } from 'react-native';
 
 import RoomsContainer from '../containers/RoomsContainer';
+import {styles} from './Screen';
 
 export default class RoomsScreen extends Component {
     render(){
+      // <RoomsContainer/>
         return (
-            // <RoomsContainer/>
-            <Text>Rooms</Text>
+            <View style={styles.screen}>
+              <Text>Rooms</Text>
+            </View>
         );
     }
 }
+
