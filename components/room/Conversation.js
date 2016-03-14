@@ -118,11 +118,11 @@ export default class Conversation extends Component {
         
         autoFocus={false}
         messages={this.getMessages()}
-        handleSend={this.handleSend}
+        handleSend={this.handleSend.bind(this)}
         onErrorButtonPress={this.onErrorButtonPress}
         maxHeight={Dimensions.get('window').height - navBarHeight - statusBarHeight}
         loadEarlierMessagesButton={true}
-        onLoadEarlierMessages={this.onLoadEarlierMessages}
+        onLoadEarlierMessages={this.onLoadEarlierMessages.bind(this)}
 
         senderName='Developer'
         senderImage={null}
@@ -130,9 +130,9 @@ export default class Conversation extends Component {
         displayNames={true}
         
         parseText={true} // enable handlePhonePress and handleUrlPress
-        handlePhonePress={this.handlePhonePress}
-        handleUrlPress={this.handleUrlPress}
-        handleEmailPress={this.handleEmailPress}
+        handlePhonePress={this.handlePhonePress.bind(this)}
+        handleUrlPress={this.handleUrlPress.bind(this)}
+        handleEmailPress={this.handleEmailPress.bind(this)}
         
         inverted={true}
       />

@@ -37,8 +37,10 @@
   // jsCodeLocation = [CodePush bundleURL];
 
   #ifdef DEBUG
+      console.log('debug mode: localhost:8081');
       jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
   #else
+      console.log('code push mode', bundleURL);
       jsCodeLocation = [CodePush bundleURL];
   #endif
 
