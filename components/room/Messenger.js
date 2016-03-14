@@ -30,29 +30,15 @@ type MessageType = {
 export default class Messenger extends Component {
     constructor(props) {
         super(props);
-
-        let textInputHeight = 0;
-        if (this.props.hideTextInput === false) {
-            textInputHeight = 44;
-        }
-
-        let listViewMaxHeight = this.props.maxHeight - textInputHeight;
-
-        let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => {
-                if (typeof r1.status !== 'undefined') {
-                    return true;
-                }
-                return r1 !== r2;
-            }
-        });
+        
+        let listViewMaxHeight = _listViewMaxHeight();
 
         this.state = {
             firstDisplay: true,
             listHeight: 0,
             footerY: 0,
 
-            dataSource: ds.cloneWithRows([]),
+            dataSource: _dataSource().cloneWithRows([]),
             text: '',
             disabled: true,
             height: new Animated.Value(listViewMaxHeight),
@@ -64,6 +50,26 @@ export default class Messenger extends Component {
         this._data = [];
         this._rowIds = [];
         this.listViewMaxHeight = listViewMaxHeight;
+    }
+
+    _dataSource() {
+      return new ListView.DataSource({
+            rowHasChanged: (r1, r2) => {
+                if (typeof r1.status !== 'undefined') {
+                    return true;
+                }
+                return r1 !== r2;
+            }
+      });
+    }
+
+    _listViewMaxHeight() {
+        let textInputHeight = 0;
+        if (this.props.hideTextInput === false) {
+            textInputHeight = 44;
+        }
+
+        return this.props.maxHeight - textInputHeight;
     }
 
     getMessage(rowID) {
