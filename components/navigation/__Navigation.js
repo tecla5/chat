@@ -8,12 +8,7 @@ var {
   StyleSheet
 } = React;
 
-function titleCase(text) {
-    console.log('title', text); 
-    return text.replace(/\b\w+\b/g, function(word) { 
-        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase(); 
-    }); 
-}
+import {titleCase} from '../utils';
 
 var Navigation = React.createClass({    
   getInitialState() {
