@@ -8,8 +8,15 @@ import FirebaseAdapter from '../adapters/FirebaseAdapter';
 
 export default class FirebaseContainer extends Component {
   constructor(props){
-    super(props);    
-    this.state = Object.assign({}, this.initialState(), {loading: true}); 
+    super(props);  
+  }
+  
+  setEndpoint() {
+    this.state = Object.assign({}, 
+      this.initialState(), 
+      {loading: true}
+    );
+    console.log('rooms state', this.state)
   }
 
   // creates initial state as: {messages: []} for a '[userId]/messages' endpoint.          
@@ -21,15 +28,15 @@ export default class FirebaseContainer extends Component {
 
   // find last part of endpoint
   _defaultState() {
-    return this._endpoint.match(/\/?(\w+)$/)[0];  
+    return this.endpoint.match(/\/?(\w+)$/)[1];  
   }
           
   // uses generic adapter        
   componentWillMount(){
-    if (!this._endpoint) {
+    if (!this.endpoint) {
       throw "Container missing an endpoint. Please set this._endpoint to a firebase path in your constructor";  
     }    
-    this.adapter = new FirebaseAdapter({endpoint: this._endpoint});    
+    this.adapter = new FirebaseAdapter({endpoint: this.endpoint});    
     // will sync firebase with local state
     this.adapter.syncState({then: this._onSynced, ctx: this});
   }
@@ -60,7 +67,7 @@ export default class FirebaseContainer extends Component {
   render() {
     return (
       <View>
-        <Text>Firebase container: {this._endpoint} {this.state.loading}</Text>
+        <Text>Firebase container: {this.endpoint} {this.state.loading}</Text>
       </View>      
     );
   }

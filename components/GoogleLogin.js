@@ -34,9 +34,7 @@ export default class GoogleLogin extends Component {
                
     }
     
-    componentDidMount() {
-        console.log('componentDidMount');
-        
+    componentDidMount() {        
         // user { email name id photo scopes[plus, userInfo]}
         GoogleSignin.currentUserAsync().then((user) => {
             console.log('Async USER', user, this.state);
@@ -49,16 +47,16 @@ export default class GoogleLogin extends Component {
         }).done();
     }
     componentDidUpdate(prevProps) {
-        console.log('componentDidUpdate');
     }    
     
     
     _signIn(){
-        console.log('pressed login');
+        console.log('do signIn');
+        // Actions.contacts();
         
         GoogleSignin.signIn()
         .then((user) => {
-            //console.log('signIn.then',user, this.state);
+            console.log('signIn.then', user, this.state);
             if (!this.state.user) {                    
                 this.setState({user: user});
             }
@@ -69,7 +67,7 @@ export default class GoogleLogin extends Component {
                 data: this.state.user,
                 priority: false,
                 then(){
-                    console.log('fb done');
+                    console.log('fiebase post user done');
                     //Actions.contacts();
                     //Actions.dismiss();
                     Actions.contacts(); 
@@ -79,7 +77,7 @@ export default class GoogleLogin extends Component {
             
         } ) 
         .catch((err) => {
-            console.log('WRONG SIGNIN', err);            
+            console.log('SIGNIN error', err);            
         })
         .done();        
     }

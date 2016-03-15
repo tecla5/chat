@@ -124,10 +124,10 @@ export default class ChatApp extends Component {
 
           <Route name="error" type="modal" component={Error}/>
           
-          <Route name="login"       component={LoginScreen}        schema='boot' type="replace" title="Login"  initial={true} hideNavBar={true} />
+          <Route name="login"       component={LoginScreen}        schema='boot' type="replace" title="Login"  hideNavBar={true} />
           <Route name="loggedIn"    component={ChatRoomScreen}     footer={TabView} />
 
-          <Route name="contacts"    component={ContactsScreen}     type="replace" title='Contacts' footer={TabView}  renderRightButton={googleLogout.signoutButton} />
+          <Route name="contacts"    component={ContactsScreen}    initial={true} type="replace" title='Contacts' footer={TabView}  renderRightButton={googleLogout.signoutButton} />
           <Route name="profile"     component={UserProfileScreen}  title='User profile' footer={TabView} />
           <Route name="rooms"       component={RoomsScreen}        title="Rooms" footer={TabView} />
           <Route name="room"        component={ContactsScreen}     title="Chat Room" footer={TabView} />
