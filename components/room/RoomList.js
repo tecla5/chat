@@ -14,7 +14,7 @@ export default class RoomList extends List {
   constructor(props){
     super(props);
     this.state = {
-      rooms: _dataSource().cloneWithRows(this.props.rooms),
+      rooms: this._dataSource().cloneWithRows(this.props.rooms),
     };    
   }
             

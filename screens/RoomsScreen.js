@@ -15,7 +15,7 @@ export default class RoomsScreen extends Component {
       // <RoomsContainer/>
         return (
             <View style={styles.screen}>
-              <Text>Rooms</Text>
+              <RoomsContainer />
             </View>
         );
     }

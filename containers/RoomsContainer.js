@@ -20,8 +20,13 @@ const fakeRooms = [{
 export default class RoomsContainer extends FirebaseContainer {
   constructor(props){
     super(props);
-    this._endpoint = [props.userId || 'user-1', 'rooms'].join('/');        
+    // Sync with firebase: user-1/rooms
+    this.setEndpoint();
   }
+            
+  get endpoint() {
+    return [this.props.userId || 'user-1', 'rooms'].join('/')    
+  }          
           
   componentWillMount(){      
     super.componentWillMount();    

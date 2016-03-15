@@ -2,6 +2,9 @@
 
 import React, {
   Component, 
+  Platform,
+  StyleSheet,
+  Navigator
 } from 'react-native';
 
 import RNRF, {
@@ -12,7 +15,7 @@ import RNRF, {
   TabBar
 } from 'react-native-router-flux';
 
-import{ connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 const Router = connect()(RNRF.Router);
 
@@ -85,9 +88,7 @@ export default class AppRouter extends Component {
         <Route name="profile"     component={UserProfileScreen}  title='User profile' footer={TabView} />
         <Route name="rooms"       component={RoomsScreen}        title="Rooms" footer={TabView} />
         <Route name="room"        component={ContactsScreen}     title="Chat Room" footer={TabView} />
-
-        
-
+       
         <Route name='drawer' hideNavBar={true} type='reset'>
           <SideDrawer>
             <Router

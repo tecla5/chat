@@ -38,6 +38,8 @@ We will use this [basic chat structure](https://docs-examples.firebaseio.com/web
         "two": { ... },
         "three": { ... }
       },
+      
+      // which rooms can a given user see on the Rooms screen!!>!>!>!>!>!>!>!>
 
       // room members are easily accessible (or restricted)
       // we also store these by room ID
