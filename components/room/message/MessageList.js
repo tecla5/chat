@@ -169,7 +169,7 @@ export default class MessageList extends MessageBridge {
     _listViewMaxHeight(topBarHeight = 30) {
         let textInputHeight = this.props.hideTextInput ? 0 : 44;
         var listViewHeight = this.props.maxHeight - textInputHeight - topBarHeight;
-        console.log('listViewHeight', listViewHeight, this.props.maxHeight, ' - ', topBarHeight, textInputHeight);
+        // console.log('listViewHeight', listViewHeight, this.props.maxHeight, ' - ', topBarHeight, textInputHeight);
         return listViewHeight;
     }
   

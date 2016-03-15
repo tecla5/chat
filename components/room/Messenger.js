@@ -159,7 +159,6 @@ export default class Messenger extends Component {
 
     setMessageStatus(status = '', rowID) {
         if (!this._data[rowID]) {
-          console.log('error rowID no data', rowID);
           throw 'error rowID no data';
         }
         if (status === 'ErrorButton') {

@@ -12,12 +12,9 @@ import Conversation from './Conversation.js';
 export default class ChatRoom extends Component {
   constructor(props){
     super(props);
-    console.log('create:ChatRoom', props);
   }
     
   render() {
-    console.log('ChatRoom:props', this.props);
-    
     return (
         <View style={styles.container}>
           <Text>Chat Messenger</Text>

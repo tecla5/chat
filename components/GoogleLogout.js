@@ -46,8 +46,6 @@ export default class GoogleLogout extends Component {
         
     render() {
         const user = GoogleSignin.currentUser();
-        //console.log('render user: ', user);
-
             return (
                 <View style={styles.container} >
                     <Image

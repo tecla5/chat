@@ -37,18 +37,15 @@ export default class Conversation extends Component {
   // messages then divided into earlier and latest on state and passed down as props
   getMessages() {
     // return this.messages.latest();
-    console.log('getMessages: latest', this.props.latest)
     return this.props.latest || [];
   }
 
   // Send message to server  
-  handleSend(message = {}, rowID = null) {
-    console.log('handleSend', message, rowID);
-    
+  handleSend(message = {}, rowID = null) {    
     // status can be any of 'Sent', 'Seen' or 'ErrorButton'
     // See message/Message renderStatus() and styles.status
     let onSent = (err) => {
-      console.log('Sent', message);
+      // console.log('Sent', message);
       let status = {};
       status.type = err ? 'error' : 'sentOk';
       this._GiftedMessenger.setMessageStatus(status, rowID);
@@ -88,8 +85,7 @@ export default class Conversation extends Component {
   onImagePress(rowData = {}, rowID = null) {
     // Your logic here
     // Eg: Navigate to the user profile
-    console.log('Go to user profile', rowData, rowId);
-    console.log('Actions.profile(userId)');
+    console.log('TODO: Go to user profile', rowData, rowId);
   }
   
   render() {

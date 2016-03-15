@@ -31,8 +31,7 @@ export default class ContactsContainer extends FirebaseContainer {
     });    
   } 
   
-  componentDidMount(){
-    console.log('componentDidMount', this.state.contacts);    
+  componentDidMount(){    
   }
       
   render() {

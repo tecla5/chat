@@ -26,8 +26,7 @@ export default class RoomsContainer extends FirebaseContainer {
   componentWillMount(){      
     super.componentWillMount();    
     // fake rooms
-    this.setState({rooms: this.state.rooms.concat(fakeRooms) });      
-    console.log('componentWillMount',this.state.rooms);        
+    this.setState({rooms: this.state.rooms.concat(fakeRooms) });              
   }  
   
   componentDidMount(){

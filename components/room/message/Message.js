@@ -107,8 +107,6 @@ export default class Message extends Component {
             onImagePress
         } = this.props;
 
-        console.log('render message with props: ', this.props);
-
         let flexStyle = {};
         let RowView = Bubble;
         if (rowData.text.length > 40) {
