@@ -7,13 +7,17 @@ import React, {
   StyleSheet
 } from 'react-native';
 
-// import UserProfile from '../containers/RoomsContainer';
+// import UserProfile from '../containers/UserProfileContainer';
 
-export default class RoomsScreen extends Component {
+import {styles} from './Screen';
+
+export default class UserProfileScreen extends Component {
     render(){
+      // <UserProfileContainer/>
         return (
-            // <UserProfile/>
-            <Text>User profile</Text>
+            <View style={styles.screen}>
+              <Text>User Profile</Text>
+            </View>
         );
     }
 }

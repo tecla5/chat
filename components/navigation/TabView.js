@@ -9,10 +9,12 @@ import React, {
 
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
-import {titleCase} from '../utils';
+import {titleCase} from '../../utils';
 
 const TabButton = (props, state) => {
-  return <Button style={styles.tab} onPress={Actions[props.action]}>{titleCase(props.label || props.action)}</Button>
+  console.log('tab', props);
+  let label = titleCase(props.label || props.action);
+  return <Button style={styles.tab} onPress={Actions[props.action]}>{label}</Button>
 }
 
 export default class TabView extends Component {
@@ -32,15 +34,15 @@ export default class TabView extends Component {
 
 var styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: 'green',
+        backgroundColor: 'blue',
     },
     tab: {
-      marginLeft: 5,
-      marginRight: 5,
-      textAlign: 'center'      
+      flex: 1,      
+      margin: 10,
+      textAlign: 'center',
+      color: 'white'      
     }
 });
