@@ -1,4 +1,5 @@
 import React, {
+  View,
   StyleSheet
 } from 'react-native';
 
@@ -29,7 +30,7 @@ export default class ChatRoomContainer extends FirebaseContainer {
   
   // Sync with firebase: user-1/rooms            
   get endpoint() {
-    return [props.roomId || 'room-1', 'messages'].join('/');    
+    return [this.props.roomId || 'room-1', 'messages'].join('/');    
   }            
   
   initialState() {
@@ -49,7 +50,7 @@ export default class ChatRoomContainer extends FirebaseContainer {
   }
   
   _onSync(){  
-    console.log('syncing', this._endpoint);
+    console.log('syncing', this.endpoint);
       // sort messages into earlier and latest
     const sliced = sliceList(this.state.messages, constants.showMessageCount)
     this.setState({
@@ -58,10 +59,9 @@ export default class ChatRoomContainer extends FirebaseContainer {
     });   
   }
        
-  render(){
-    debugger;
+  render(){    
     return (
-      <View style={styles.container}>    
+      <View style={styles.container}>
         <ChatRoom {...this.state} />  
       </View>                  
     );
@@ -71,9 +71,9 @@ export default class ChatRoomContainer extends FirebaseContainer {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'green',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: 'green',
   }
 });
 
