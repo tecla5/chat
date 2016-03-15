@@ -1,5 +1,4 @@
 import React, {
-    Component,
     Text,
     View,
     TextInput,
@@ -8,19 +7,16 @@ import React, {
 } from 'react-native';
 
 import Button from 'react-native-button';
+import MessageBridge from './MessageBridge';
 
-export default class MessageInput extends Component {
+export default class MessageInput extends MessageBridge {
   constructor(props) {
       super(props);
       this.state = {
         text: ''
       }
   }
-  
-  appendMessage(message) {
-    return this.context.messenger.appendMessage(message);
-  }
-  
+    
   onSend() {
     let message = {
         text: this.state.text.trim(),
@@ -82,7 +78,7 @@ export default class MessageInput extends Component {
 
 // access container
 MessageInput.contextTypes = {
-  container: React.PropTypes.object,
+  // container: React.PropTypes.object,
   messenger: React.PropTypes.object
 }      
 

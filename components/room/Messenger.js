@@ -15,8 +15,8 @@ import GiftedSpinner from 'react-native-gifted-spinner';
 import moment from 'moment';
 import Button from 'react-native-button';
 
-import MessageInput from './message/MessageInput'; 
-import Message from './message/Message';
+import MessageInput from './message/MessageInput';
+import MessageRow from './message/MessageRow';
 
 type MessageType = {
     text:string;
@@ -179,60 +179,15 @@ export default class Messenger extends Component {
         return null;
     }
 
-    renderDate(rowData = {}, rowID = null) {
-        let diffMessage = null;
-        if (rowData.isOld === true) {
-            diffMessage = this.getPreviousMessage(rowID);
-        } else {
-            diffMessage = this.getNextMessage(rowID);
-        }
-        if (rowData.date instanceof Date) {
-            if (diffMessage === null) {
-                return (
-                    <Text style={[styles.date, this.props.styles.date]}>
-                        {moment(rowData.date).calendar()}
-                    </Text>
-                );
-            } else if (diffMessage.date instanceof Date) {
-                let diff = moment(rowData.date).diff(moment(diffMessage.date), 'minutes');
-                if (diff > 5) {
-                    return (
-                        <Text style={[styles.date, this.props.styles.date]}>
-                            {moment(rowData.date).calendar()}
-                        </Text>
-                    );
-                }
-            }
-        }
-        return null;
-    }
-
     renderRow(rowData = {}, sectionID = null, rowID = null) {
-        let diffMessage = null;
-        if (rowData.isOld === true) {
-            diffMessage = this.getPreviousMessage(rowID);
-        } else {
-            diffMessage = this.getNextMessage(rowID);
-        }
-
-        console.log('render message with: ', rowData, rowID);
-
-        return (            
-            <View>
-                {this.renderDate(rowData, rowID)}
-                <Message
-                    rowData={rowData}
-                    rowID={rowID}
-                    onErrorButtonPress={this.props.onErrorButtonPress}
-                    displayNames={this.props.displayNames}
-                    diffMessage={diffMessage}
-                    position={rowData.position}
-                    forceRenderImage={this.props.forceRenderImage}
-                    onImagePress={this.props.onImagePress}
-                    renderCustomText={this.props.renderCustomText}
-                    styles={styles}/>
-            </View>
-        )
+      return (
+        <MessageRow 
+          rowData={rowData}
+          sectionID={sectionID}
+          rowID={rowID}
+          {...this.props}
+          />
+      )
     }
 
 
