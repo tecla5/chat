@@ -39,12 +39,18 @@ export default class GoogleLogin extends Component {
         
         // user { email name id photo scopes[plus, userInfo]}
         GoogleSignin.currentUserAsync().then((user) => {
-            console.log('Async USER', user);
-            this.setState({user: user});
-            // Actions.contacts(); 
-            // base.post ${id}
+            console.log('Async USER', user, this.state);
+            if(user){
+                if (!this.state.user) {                    
+                    this.setState({user: user});
+                    Actions.contacts(user);        
+                }
+            } 
         }).done();
     }
+    componentDidUpdate(prevProps) {
+        console.log('componentDidUpdate');
+    }    
     
     
     _signIn(){
@@ -52,18 +58,28 @@ export default class GoogleLogin extends Component {
         
         GoogleSignin.signIn()
         .then((user) => {
-            console.log(user);
-            this.setState({user: user});
-            base.push('users', {
-                data: user,
+            //console.log('signIn.then',user, this.state);
+            if (!this.state.user) {                    
+                this.setState({user: user});
+            }
+                            
+        })
+        .then( () => {
+            base.post(`users/${this.state.user.id}`, {
+                data: this.state.user,
+                priority: false,
                 then(){
+                    console.log('fb done');
+                    //Actions.contacts();
+                    //Actions.dismiss();
                     Actions.contacts(); 
-                    //Router.transitionTo('dashboard');
+                    
                 }
             });
-        })
+            
+        } ) 
         .catch((err) => {
-            console.log('WRONG SIGNIN', err);
+            console.log('WRONG SIGNIN', err);            
         })
         .done();        
     }
@@ -71,35 +87,35 @@ export default class GoogleLogin extends Component {
     _signOut() {
         GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
             this.setState({user: null});        
-            Actions.launch(); 
+            // Actions.login(); 
         })
         .done();
     }
+
+/*
+    <TouchableOpacity onPress={() => {this._signOut(); }}>
+        <View style={{marginTop: 50}}>
+        <Text>Log out</Text>
+        </View>
+    </TouchableOpacity>                    
+*/
     
     
-  render() {
-        console.log('state: ',this.state);
-        
+    render() {
         const user = GoogleSignin.currentUser();
-        console.log('user: ',user);
+        //console.log('render user: ', user);
 
         if (this.state.user) {           
-            console.log('user: ',this.state.user.photo);
-            // user:  https://lh3.googleusercontent.com/-OYwIzV2Diw0/AAAAAAAAAAI/AAAAAAAAASk/9SdME9llISA/photo.jpg
+            // basic info from user
             return (
-                <View style={styles.contact} >
+                <View style={styles.container} >
                     <Image
                         style={styles.icon}
                         source={{uri: this.state.user.photo}}   />      
                     <Text>{this.state.user.name} Logged</Text>
-                    <TouchableOpacity onPress={() => {this._signOut(); }}>
-                        <View style={{marginTop: 50}}>
-                        <Text>Log out</Text>
-                        </View>
-                    </TouchableOpacity>                    
                 </View>                
             )
-        }        
+        }
          
         return (
             <GoogleSigninButton
@@ -108,17 +124,17 @@ export default class GoogleLogin extends Component {
                 color={GoogleSigninButton.Color.Dark}
                 onPress={this._signIn.bind(this)}/>                
         )        
-  }
+    }
   
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
     login: {
         backgroundColor: '#F5FCFF',
         width: 48, 
