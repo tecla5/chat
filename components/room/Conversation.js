@@ -95,15 +95,7 @@ export default class Conversation extends Component {
   render() {
     return (
       <Messenger
-        ref={(c) => this._GiftedMessenger = c}
-    
-        styles={{
-          bubbleRight: {
-            marginLeft: 70,
-            backgroundColor: '#007aff', // styling of right bubble message
-          },
-        }}
-        
+        ref={(c) => this._GiftedMessenger = c}        
         autoFocus={false}
         messages={this.getMessages()}
         handleSend={this.handleSend.bind(this)}

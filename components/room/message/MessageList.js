@@ -166,13 +166,11 @@ export default class MessageList extends MessageBridge {
         );
     }  
   
-    _listViewMaxHeight() {
-        let textInputHeight = 0;
-        if (this.props.hideTextInput === false) {
-            textInputHeight = 44;
-        }
-
-        return this.props.maxHeight - textInputHeight;
+    _listViewMaxHeight(topBarHeight = 30) {
+        let textInputHeight = this.props.hideTextInput ? 0 : 44;
+        var listViewHeight = this.props.maxHeight - textInputHeight - topBarHeight;
+        console.log('listViewHeight', listViewHeight, this.props.maxHeight, ' - ', topBarHeight, textInputHeight);
+        return listViewHeight;
     }
   
     // will scroll to bottom after update if told to by Messenger via appendMessage(s)
@@ -234,7 +232,8 @@ MessageList.contextTypes = {
 
 const styles = StyleSheet.create({
     listView: {
-        flex: 1
+        flex: 1,
+        marginTop: 20
     },
     date: {
         color: '#aaaaaa',

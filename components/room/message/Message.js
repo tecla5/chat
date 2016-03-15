@@ -142,6 +142,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginBottom: 10
     },
+    
+    // default
+    bubbleRight: {
+      marginLeft: 70,
+      backgroundColor: '#007aff', // styling of right bubble message
+    },    
+    
     name: {
         color: '#aaaaaa',
         fontSize: 12,

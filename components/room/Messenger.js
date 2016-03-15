@@ -276,6 +276,10 @@ Messenger.defaultProps = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF'
+        // borderWidth: 2,
+        // borderColor: 'green',
+        // backgroundColor: 'lime',
+        marginTop: 47, // to not be behind top NavBar
+        // marginBottom: 40
     }
 });

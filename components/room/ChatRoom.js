@@ -21,7 +21,7 @@ export default class ChatRoom extends Component {
     return (
         <View style={styles.container}>
           <Text>Chat Messenger</Text>
-          <Conversation {...this.props} />
+          <Conversation style={styles.conversation} {...this.props} />
         </View>                    
     );
   }
@@ -36,7 +36,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // alignItems: 'center',
+    // backgroundColor: 'yellow',
+    // borderWidth: 2,
+    // borderColor: 'red',
+  },
+  conversation: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: 'purple',
   }
 });

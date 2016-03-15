@@ -90,12 +90,13 @@ const styles = StyleSheet.create({
         borderColor: '#b2b2b2',
         flexDirection: 'row',
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        // marginBottom: 4
     },
     textInput: {
         alignSelf: 'center',
         height: 30,
-        width: 100,
+        // width: 100,
         backgroundColor: '#FFF',
         flex: 1,
         padding: 0,
