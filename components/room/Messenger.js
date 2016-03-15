@@ -15,6 +15,7 @@ import GiftedSpinner from 'react-native-gifted-spinner';
 import moment from 'moment';
 import Button from 'react-native-button';
 
+import MessageInput from './message/MessageInput'; 
 import Message from './message/Message';
 
 type MessageType = {
@@ -32,7 +33,7 @@ export default class Messenger extends Component {
         super(props);
         
         let listViewMaxHeight = this._listViewMaxHeight();
-
+        
         this.state = {
             firstDisplay: true,
             listHeight: 0,
@@ -52,6 +53,14 @@ export default class Messenger extends Component {
         this.listViewMaxHeight = listViewMaxHeight;
     }
 
+    // Define how the context looks like
+    // make messenger available to down stream components like: Message and MessageInput
+    getChildContext() {
+      return {
+        messenger: this
+      }
+    }
+
     _dataSource() {
       return new ListView.DataSource({
             rowHasChanged: (r1, r2) => {
@@ -61,6 +70,77 @@ export default class Messenger extends Component {
                 return r1 !== r2;
             }
       });
+    }
+
+    prependMessages(messages:Array<MessageType> = []) {
+        let rowID = null;
+        for (let i = 0; i < messages.length; i++) {
+            this._data.push(messages[i]);
+            this._rowIds.unshift(this._data.length - 1);
+            rowID = this._data.length - 1;
+        }
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
+        });
+        return rowID;
+    }
+
+    prependMessage(message:MessageType = {}) {
+        return this.prependMessages([message]);
+    }
+
+    appendMessages(messages:Array<MessageType> = []) {
+        let rowID = null;
+        console.log('append messages to data', this._data, this._rowIds, messages);
+        for (let i = 0; i < messages.length; i++) {
+            messages[i].isOld = true;
+            this._data.push(messages[i]);
+            this._rowIds.push(this._data.length - 1);
+            rowID = this._data.length - 1;
+        }
+        console.log('set state of list dataSource', this._data, this._rowIds);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
+        });
+        return rowID;
+    }
+
+    appendMessage(message:MessageType = {}, scrollToBottom = true) {
+        console.log('container appendMessage', message);
+        let rowID = this.appendMessages([message]);
+        console.log('gets row id', rowID);
+        if (scrollToBottom === true) {
+            setTimeout(() => {
+                // inspired by http://stackoverflow.com/a/34838513/1385109
+                this.scrollToBottom();
+            }, (Platform.OS === 'android' ? 200 : 100));
+        }
+        return rowID;
+    }
+
+    postLoadEarlierMessages(messages:Array<MessageType> = [], allLoaded = false) {
+        this.prependMessages(messages);
+        this.setState({
+            isLoadingEarlierMessages: false
+        });
+        if (allLoaded === true) {
+            this.setState({
+                allLoaded: true
+            });
+        }
+    }
+
+    preLoadEarlierMessages() {
+        this.setState({
+            isLoadingEarlierMessages: true
+        });
+        this.props.onLoadEarlierMessages(this._data[this._rowIds[this._rowIds.length - 1]], this.postLoadEarlierMessages.bind(this));
+    }
+
+    refreshRows() {
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
+        });
     }
 
     _listViewMaxHeight() {
@@ -135,7 +215,9 @@ export default class Messenger extends Component {
             diffMessage = this.getNextMessage(rowID);
         }
 
-        return (
+        console.log('render message with: ', rowData, rowID);
+
+        return (            
             <View>
                 {this.renderDate(rowData, rowID)}
                 <Message
@@ -153,23 +235,8 @@ export default class Messenger extends Component {
         )
     }
 
-    onChangeText(text) {
-        this.setState({
-            text: text
-        });
-        if (text.trim().length > 0) {
-            this.setState({
-                disabled: false
-            });
-        } else {
-            this.setState({
-                disabled: true
-            });
-        }
-        this.props.onChangeText(text);
-    }
 
-    componentDidMount() {
+    componentDidMount() {            
         this.scrollResponder = this.refs.listView.getScrollResponder();
 
         if (this.props.messages.length > 0) {
@@ -230,42 +297,6 @@ export default class Messenger extends Component {
         }
     }
 
-    onSend() {
-        let message = {
-            text: this.state.text.trim(),
-            name: this.props.senderName,
-            image: this.props.senderImage,
-            position: 'right',
-            date: new Date()
-        };
-        if (this.props.onCustomSend) {
-            this.props.onCustomSend(message);
-        } else {
-            let rowID = this.appendMessage(message);
-            this.props.handleSend(message, rowID);
-            this.onChangeText('');
-        }
-    }
-
-    postLoadEarlierMessages(messages:Array<MessageType> = [], allLoaded = false) {
-        this.prependMessages(messages);
-        this.setState({
-            isLoadingEarlierMessages: false
-        });
-        if (allLoaded === true) {
-            this.setState({
-                allLoaded: true
-            });
-        }
-    }
-
-    preLoadEarlierMessages() {
-        this.setState({
-            isLoadingEarlierMessages: true
-        });
-        this.props.onLoadEarlierMessages(this._data[this._rowIds[this._rowIds.length - 1]], this.postLoadEarlierMessages.bind(this));
-    }
-
     renderLoadEarlierMessages() {
         if (this.props.loadEarlierMessagesButton === true) {
             if (this.state.allLoaded === false) {
@@ -291,55 +322,11 @@ export default class Messenger extends Component {
         return null;
     }
 
-    prependMessages(messages:Array<MessageType> = []) {
-        let rowID = null;
-        for (let i = 0; i < messages.length; i++) {
-            this._data.push(messages[i]);
-            this._rowIds.unshift(this._data.length - 1);
-            rowID = this._data.length - 1;
-        }
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
-        });
-        return rowID;
-    }
-
-    prependMessage(message:MessageType = {}) {
-        return this.prependMessages([message]);
-    }
-
-    appendMessages(messages:Array<MessageType> = []) {
-        let rowID = null;
-        for (let i = 0; i < messages.length; i++) {
-            messages[i].isOld = true;
-            this._data.push(messages[i]);
-            this._rowIds.push(this._data.length - 1);
-            rowID = this._data.length - 1;
-        }
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
-        });
-        return rowID;
-    }
-
-    appendMessage(message:MessageType = {}, scrollToBottom = true) {
-        let rowID = this.appendMessages([message]);
-        if (scrollToBottom === true) {
-            setTimeout(() => {
-                // inspired by http://stackoverflow.com/a/34838513/1385109
-                this.scrollToBottom();
-            }, (Platform.OS === 'android' ? 200 : 100));
-        }
-        return rowID;
-    }
-
-    refreshRows() {
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
-        });
-    }
-
     setMessageStatus(status = '', rowID) {
+        if (!this._data[rowID]) {
+          console.log('error rowID no data', rowID);
+          throw 'error rowID no data';
+        }
         if (status === 'ErrorButton') {
             if (this._data[rowID].position === 'right') {
                 this._data[rowID].status = 'ErrorButton';
@@ -430,30 +417,23 @@ export default class Messenger extends Component {
     renderTextInput() {
         if (this.props.hideTextInput === false) {
             return (
-                <View style={[styles.textInputContainer, this.props.styles.textInputContainer]}>
-                    <TextInput
-                        style={[styles.textInput, this.props.styles.textInput]}
-                        placeholder={this.props.placeholder}
-                        ref='textInput'
-                        onChangeText={this.onChangeText.bind(this)}
-                        value={this.state.text}
-                        autoFocus={this.props.autoFocus}
-                        returnKeyType={this.props.submitOnReturn ? 'send' : 'default'}
-                        onSubmitEditing={this.props.submitOnReturn ? this.onSend.bind(this) : null}
-                        blurOnSubmit={false}/>
-                    <Button
-                        style={[styles.sendButton, this.props.styles.sendButton]}
-                        styleDisabled={[this.props.styles.sendButtonDisabled]}
-                        onPress={this.onSend.bind(this)}
-                        disabled={this.state.disabled}>
-                        {this.props.sendButtonText}
-                    </Button>
-                </View>
+              <MessageInput {...this.props} />
             );
         }
         return null;
     }
 }
+
+// access container
+Messenger.contextTypes = {
+  container: React.PropTypes.object,
+}      
+
+// make messenger type available downstream
+Messenger.childContextTypes = {
+  messenger: React.PropTypes.object,
+}      
+
 
 Messenger.propTypes = {
     displayNames: React.PropTypes.bool,
@@ -517,28 +497,6 @@ const styles = StyleSheet.create({
     },
     listView: {
         flex: 1
-    },
-    textInputContainer: {
-        height: 44,
-        borderTopWidth: 1 / PixelRatio.get(),
-        borderColor: '#b2b2b2',
-        flexDirection: 'row',
-        paddingLeft: 10,
-        paddingRight: 10
-    },
-    textInput: {
-        alignSelf: 'center',
-        height: 30,
-        width: 100,
-        backgroundColor: '#FFF',
-        flex: 1,
-        padding: 0,
-        margin: 0,
-        fontSize: 15
-    },
-    sendButton: {
-        marginTop: 11,
-        marginLeft: 10
     },
     date: {
         color: '#aaaaaa',

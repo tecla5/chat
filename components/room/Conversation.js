@@ -43,10 +43,12 @@ export default class Conversation extends Component {
 
   // Send message to server  
   handleSend(message = {}, rowID = null) {
+    console.log('handleSend', message, rowID);
+    
     // status can be any of 'Sent', 'Seen' or 'ErrorButton'
     // See message/Message renderStatus() and styles.status
-    let  onSent = (err) => {
-      console.log('Sent', err, message);
+    let onSent = (err) => {
+      console.log('Sent', message);
       let status = {};
       status.type = err ? 'error' : 'sentOk';
       this._GiftedMessenger.setMessageStatus(status, rowID);

@@ -7,18 +7,14 @@ import React, {
   StyleSheet
 } from 'react-native';
 
-
 import ChatRoomContainer from '../containers/ChatRoomContainer';
 import {styles} from './Screen';
 
 export default class ChatRoomScreen extends Component {
-    render(){
-      // <ChatRoomContainer/>
-        return (
-            <View style={styles.screen}>
-              <Text>Chat Room</Text>
-            </View>
-        );
-    }
+  render(){ 
+    return (
+      <ChatRoomContainer/>
+    );
+  }
 }
 

@@ -12,6 +12,16 @@ const constants = {
   showMessageCount: 10
 };
 
+type MessageType = {
+    text:string;
+    name:string;
+    image:?Object;
+    position:?string;
+    date:Date;
+    view:?any;
+    isOld:boolean;
+}
+
 export default class ChatRoomContainer extends FirebaseContainer {
   constructor(props){
     super(props);
@@ -30,7 +40,8 @@ export default class ChatRoomContainer extends FirebaseContainer {
   // Define how the context looks like
   getChildContext() {
     return {
-      adapter: this.adapter
+      adapter: this.adapter,
+      container: this
     }
   }
   
@@ -51,7 +62,8 @@ export default class ChatRoomContainer extends FirebaseContainer {
   }  
 }
 
-// Make adapter available for child components
+// Make adapter and container available for child components
 ChatRoomContainer.childContextTypes = {
-  adapter: React.PropTypes.object
+  adapter: React.PropTypes.object,
+  container: React.PropTypes.object
 }
