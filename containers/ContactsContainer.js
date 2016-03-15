@@ -1,4 +1,5 @@
 import React, {
+  View,
   StyleSheet
 } from 'react-native';
 
@@ -19,9 +20,12 @@ const fakeContacts = [{
 export default class ContactsContainer extends FirebaseContainer {
   constructor(props){
     super(props);
-    // TODO: should be: [userId]/contacts 
-    this._endpoint = [props.userId || 'user-1', 'contacts'].join('/');
   }
+
+  // Sync with firebase: user-1/contacts            
+  get endpoint() {
+    return [this.props.userId || 'user-1', 'contacts'].join('/')    
+  }          
                     
   componentWillMount(){
     super.componentWillMount();      

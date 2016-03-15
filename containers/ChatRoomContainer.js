@@ -5,7 +5,7 @@ import React, {
 import {sliceList} from '../utils';
 import FirebaseContainer from './FirebaseContainer';
 
-import ChatRoom from '../components/room/ChatRoom.js';
+import ChatRoom from '../components/room/ChatRoom';
 
 // number of messages to display as latest (how many messages appear initially in ListView)
 const constants = {
@@ -24,10 +24,13 @@ type MessageType = {
 
 export default class ChatRoomContainer extends FirebaseContainer {
   constructor(props){
-    super(props);
-    // TODO: should be: [roomId]/messages 
-    this._endpoint = [props.roomId || 'room-1', 'messages'].join('/');;
+    super(props);    
   }
+  
+  // Sync with firebase: user-1/rooms            
+  get endpoint() {
+    return [props.roomId || 'room-1', 'messages'].join('/');    
+  }            
   
   initialState() {
     return {
@@ -56,11 +59,24 @@ export default class ChatRoomContainer extends FirebaseContainer {
   }
        
   render(){
-    return (    
-        <ChatRoom {...this.state}/>                    
+    debugger;
+    return (
+      <View style={styles.container}>    
+        <ChatRoom {...this.state} />  
+      </View>                  
     );
   }  
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'green',
+  }
+});
+
 
 // Make adapter and container available for child components
 ChatRoomContainer.childContextTypes = {

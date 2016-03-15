@@ -87,7 +87,7 @@ export default class AppRouter extends Component {
         <Route name="contacts"    component={ContactsScreen}     initial={true} type="replace" title='Contacts' footer={TabView} renderRightButton={googleLogout.signoutButton} />
         <Route name="profile"     component={UserProfileScreen}  title='User profile' footer={TabView} />
         <Route name="rooms"       component={RoomsScreen}        title="Rooms" footer={TabView} />
-        <Route name="room"        component={ContactsScreen}     title="Chat Room" footer={TabView} />
+        <Route name="room"        component={ChatRoomScreen}     title="Chat Room" footer={TabView} />
        
         <Route name='drawer' hideNavBar={true} type='reset'>
           <SideDrawer>

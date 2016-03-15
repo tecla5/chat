@@ -20,11 +20,10 @@ export default class ContactsScreen extends Component {
     }
     
     
-    render(){
-      // <ContactsContainer/>
+    render(){ 
         return (
             <View style={styles.screen}>
-              <Text>Contacts</Text>
+              <ContactsContainer />
             </View>
         );
     }
