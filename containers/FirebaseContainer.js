@@ -50,7 +50,9 @@ export default class FirebaseContainer extends Component {
   }
 
   // on successful sync
-  _onSync(){ }
+  _onSync(){ 
+    
+  }
 
   _onSyncOk(){  
     this.state.loading = false; // hides load indicator!
