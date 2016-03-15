@@ -13,7 +13,8 @@ export default class MessageInput extends MessageBridge {
   constructor(props) {
       super(props);
       this.state = {
-        text: ''
+        text: '',
+        disabled: true
       }
   }
     
@@ -29,12 +30,12 @@ export default class MessageInput extends MessageBridge {
         this.props.onCustomSend(message);
     } else {
         let rowID = this.appendMessage(message);
-        console.log('appended message at row:', rowID)
+
         this.props.handleSend(message, rowID);
         this.onChangeText('');
     }
   }  
-
+  
   onChangeText(text) {
     this.setState({
         text: text
@@ -76,7 +77,7 @@ export default class MessageInput extends MessageBridge {
   }
 }
 
-// access container
+// access messenger
 MessageInput.contextTypes = {
   // container: React.PropTypes.object,
   messenger: React.PropTypes.object

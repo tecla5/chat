@@ -3,20 +3,16 @@ import React, {
     Text,
     View,
     ListView,
-    TextInput,
-    Dimensions,
     Animated,
     Platform,
-    PixelRatio,
+    Dimensions,
     StyleSheet
 } from 'react-native';
 
-import GiftedSpinner from 'react-native-gifted-spinner';
 import moment from 'moment';
-import Button from 'react-native-button';
 
 import MessageInput from './message/MessageInput';
-import MessageRow from './message/MessageRow';
+import MessageList from './message/MessageList';
 
 type MessageType = {
     text:string;
@@ -28,29 +24,18 @@ type MessageType = {
     isOld:boolean;
 }
 
+// State manager for messages including MessageList
 export default class Messenger extends Component {
     constructor(props) {
-        super(props);
-        
-        let listViewMaxHeight = this._listViewMaxHeight();
-        
+        super(props);        
         this.state = {
-            firstDisplay: true,
-            listHeight: 0,
-            footerY: 0,
-
             dataSource: this._dataSource().cloneWithRows([]),
-            text: '',
-            disabled: true,
-            height: new Animated.Value(listViewMaxHeight),
             isLoadingEarlierMessages: false,
             allLoaded: false,
-            appearAnim: new Animated.Value(0)
         };
         
         this._data = [];
-        this._rowIds = [];
-        this.listViewMaxHeight = listViewMaxHeight;
+        this._rowIds = [];                
     }
 
     // Define how the context looks like
@@ -63,12 +48,12 @@ export default class Messenger extends Component {
 
     _dataSource() {
       return new ListView.DataSource({
-            rowHasChanged: (r1, r2) => {
-                if (typeof r1.status !== 'undefined') {
-                    return true;
-                }
-                return r1 !== r2;
-            }
+          rowHasChanged: (r1, r2) => {
+              if (typeof r1.status !== 'undefined') {
+                  return true;
+              }
+              return r1 !== r2;
+          }
       });
     }
 
@@ -89,33 +74,23 @@ export default class Messenger extends Component {
         return this.prependMessages([message]);
     }
 
-    appendMessages(messages:Array<MessageType> = []) {
+    appendMessages(messages:Array<MessageType> = [], scrollToBottom:boolean = false) {
         let rowID = null;
-        console.log('append messages to data', this._data, this._rowIds, messages);
         for (let i = 0; i < messages.length; i++) {
             messages[i].isOld = true;
             this._data.push(messages[i]);
             this._rowIds.push(this._data.length - 1);
             rowID = this._data.length - 1;
         }
-        console.log('set state of list dataSource', this._data, this._rowIds);
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
+            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds),
+            scrollToBottom: scrollToBottom
         });
         return rowID;
     }
 
     appendMessage(message:MessageType = {}, scrollToBottom = true) {
-        console.log('container appendMessage', message);
-        let rowID = this.appendMessages([message]);
-        console.log('gets row id', rowID);
-        if (scrollToBottom === true) {
-            setTimeout(() => {
-                // inspired by http://stackoverflow.com/a/34838513/1385109
-                this.scrollToBottom();
-            }, (Platform.OS === 'android' ? 200 : 100));
-        }
-        return rowID;
+       return this.appendMessages([message], scrollToBottom);       
     }
 
     postLoadEarlierMessages(messages:Array<MessageType> = [], allLoaded = false) {
@@ -141,15 +116,6 @@ export default class Messenger extends Component {
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
         });
-    }
-
-    _listViewMaxHeight() {
-        let textInputHeight = 0;
-        if (this.props.hideTextInput === false) {
-            textInputHeight = 44;
-        }
-
-        return this.props.maxHeight - textInputHeight;
     }
 
     getMessage(rowID) {
@@ -179,21 +145,7 @@ export default class Messenger extends Component {
         return null;
     }
 
-    renderRow(rowData = {}, sectionID = null, rowID = null) {
-      return (
-        <MessageRow 
-          rowData={rowData}
-          sectionID={sectionID}
-          rowID={rowID}
-          {...this.props}
-          />
-      )
-    }
-
-
     componentDidMount() {            
-        this.scrollResponder = this.refs.listView.getScrollResponder();
-
         if (this.props.messages.length > 0) {
             this.appendMessages(this.props.messages);
         } else if (this.props.initialMessages.length > 0) {
@@ -203,78 +155,6 @@ export default class Messenger extends Component {
                 allLoaded: true
             });
         }
-    }
-
-    onKeyboardWillHide(e) {
-        Animated.timing(this.state.height, {
-            toValue: this.listViewMaxHeight,
-            duration: 150
-        }).start();
-    }
-
-    onKeyboardWillShow(e) {
-        Animated.timing(this.state.height, {
-            toValue: this.listViewMaxHeight - (e.endCoordinates ? e.endCoordinates.height : e.end.height),
-            duration: 200
-        }).start();
-    }
-
-    onKeyboardDidShow(e) {
-        if(Platform.OS == 'android') {
-            this.onKeyboardWillShow(e);
-        }
-        this.scrollToBottom();
-    }
-
-    onKeyboardDidHide(e) {
-        if(Platform.OS == 'android') {
-            this.onKeyboardWillHide(e);
-        }
-    }
-
-    scrollToBottom() {
-        if (this.state.listHeight && this.state.footerY && this.state.footerY > this.state.listHeight) {
-            let scrollDistance = this.state.listHeight - this.state.footerY;
-            this.scrollResponder.scrollTo({
-                y: -scrollDistance
-            });
-        }
-    }
-
-    scrollWithoutAnimationToBottom() {
-        if (this.state.listHeight && this.state.footerY && this.state.footerY > this.state.listHeight) {
-            let scrollDistance = this.state.listHeight - this.state.footerY;
-            this.scrollResponder.scrollTo({
-                y: -scrollDistance,
-                x: 0,
-                animated: false
-            });
-        }
-    }
-
-    renderLoadEarlierMessages() {
-        if (this.props.loadEarlierMessagesButton === true) {
-            if (this.state.allLoaded === false) {
-                if (this.state.isLoadingEarlierMessages === true) {
-                    return (
-                        <View style={[styles.loadEarlierMessages, this.props.styles.loadEarlierMessages]}>
-                            <GiftedSpinner />
-                        </View>
-                    );
-                } else {
-                    return (
-                        <View style={[styles.loadEarlierMessages, this.props.styles.loadEarlierMessages]}>
-                            <Button
-                                style={[styles.loadEarlierMessagesButton, this.props.styles.loadEarlierMessagesButton]}
-                                onPress={this.preLoadEarlierMessages.bind(this)}>
-                                {this.props.loadEarlierMessagesButtonText}
-                            </Button>
-                        </View>
-                    );
-                }
-            }
-        }
-        return null;
     }
 
     setMessageStatus(status = '', rowID) {
@@ -302,80 +182,28 @@ export default class Messenger extends Component {
         }
     }
 
-    listViewOnLayout(event) {
-        let layout = event.nativeEvent.layout;
-        this.setState({
-            listHeight: layout.height
-        });
-        if (this.state.firstDisplay === true) {
-            requestAnimationFrame(()=>{
-                this.setState({
-                    firstDisplay: false
-                }, function() {
-                    this.scrollWithoutAnimationToBottom();
-                });
-            });
-        }
-    }
-
-    listViewRenderFooter() {
+    renderList() {
         return (
-            <View onLayout={(event)=>{
-                let layout = event.nativeEvent.layout;
-                this.setState({footerY: layout.y});
-                }}/>
-        );
-    }
-
-    renderAnimatedView() {
-        return (
-            <Animated.View style={{height: this.state.height}}>
-                <ListView
-                    ref='listView'
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)}
-                    renderHeader={this.renderLoadEarlierMessages.bind(this)}
-                    onLayout={this.listViewOnLayout.bind(this)}
-                    renderFooter={this.listViewRenderFooter.bind(this)}
-                    style={[styles.listView, this.props.styles.listView]}
-
-                    // not working android RN 0.14.2
-                    onKeyboardWillShow={this.onKeyboardWillShow.bind(this)}
-                    onKeyboardDidShow={this.onKeyboardDidShow.bind(this)}
-                    onKeyboardWillHide={this.onKeyboardWillHide.bind(this)}
-                    onKeyboardDidHide={this.onKeyboardDidHide.bind(this)}
-
-                    /*
-                      keyboardShouldPersistTaps={false} // @issue keyboardShouldPersistTaps={false} + textInput focused = 2 taps are needed to trigger the ParsedText links
-                      keyboardDismissMode='interactive'
-                    */
-                    keyboardShouldPersistTaps={true}
-                    keyboardDismissMode='interactive'
-
-                    initialListSize={10}
-                    pageSize={this.props.messages.length}
-
-                    {...this.props}/>
-            </Animated.View>
+          <MessageList {...this.props} {...this.state}/>
         );
     }
 
     render() {
         return (
             <View style={[styles.container, this.props.styles.container]} ref='container'>
-                {this.renderAnimatedView()}
+                {this.renderList()}
                 {this.renderTextInput()}
             </View>
         )
     }
 
     renderTextInput() {
-        if (this.props.hideTextInput === false) {
-            return (
-              <MessageInput {...this.props} />
-            );
-        }
-        return null;
+        if (this.props.hideTextInput)
+          return;
+          
+        return (
+          <MessageInput {...this.props} />
+        );
     }
 }
 
@@ -390,33 +218,33 @@ Messenger.childContextTypes = {
 }      
 
 
-Messenger.propTypes = {
-    displayNames: React.PropTypes.bool,
-    placeholder: React.PropTypes.string,
-    styles: React.PropTypes.object,
-    autoFocus: React.PropTypes.bool,
-    onErrorButtonPress: React.PropTypes.func,
-    loadEarlierMessagesButton: React.PropTypes.bool,
-    loadEarlierMessagesButtonText: React.PropTypes.string,
-    onLoadEarlierMessages: React.PropTypes.func,
-    parseText: React.PropTypes.bool,
-    handleUrlPress: React.PropTypes.func,
-    handlePhonePress: React.PropTypes.func,
-    handleEmailPress: React.PropTypes.func,
-    initialMessages: React.PropTypes.array,
-    messages: React.PropTypes.array,
-    handleSend: React.PropTypes.func,
-    onCustomSend: React.PropTypes.func,
-    renderCustomText: React.PropTypes.func,
-    maxHeight: React.PropTypes.number,
-    senderName: React.PropTypes.string,
-    senderImage: React.PropTypes.object,
-    sendButtonText: React.PropTypes.string,
-    onImagePress: React.PropTypes.func,
-    hideTextInput: React.PropTypes.bool,
-    forceRenderImage: React.PropTypes.bool,
-    onChangeText: React.PropTypes.func
-};
+// Messenger.propTypes = {
+//     displayNames: React.PropTypes.bool,
+//     placeholder: React.PropTypes.string,
+//     styles: React.PropTypes.object,
+//     autoFocus: React.PropTypes.bool,
+//     onErrorButtonPress: React.PropTypes.func,
+//     loadEarlierMessagesButton: React.PropTypes.bool,
+//     loadEarlierMessagesButtonText: React.PropTypes.string,
+//     onLoadEarlierMessages: React.PropTypes.func,
+//     parseText: React.PropTypes.bool,
+//     handleUrlPress: React.PropTypes.func,
+//     handlePhonePress: React.PropTypes.func,
+//     handleEmailPress: React.PropTypes.func,
+//     initialMessages: React.PropTypes.array,
+//     messages: React.PropTypes.array,
+//     handleSend: React.PropTypes.func,
+//     onCustomSend: React.PropTypes.func,
+//     renderCustomText: React.PropTypes.func,
+//     maxHeight: React.PropTypes.number,
+//     senderName: React.PropTypes.string,
+//     senderImage: React.PropTypes.object,
+//     sendButtonText: React.PropTypes.string,
+//     onImagePress: React.PropTypes.func,
+//     hideTextInput: React.PropTypes.bool,
+//     forceRenderImage: React.PropTypes.bool,
+//     onChangeText: React.PropTypes.func
+// };
 
 Messenger.defaultProps = {
     displayNames: true,
@@ -449,33 +277,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFF'
-    },
-    listView: {
-        flex: 1
-    },
-    date: {
-        color: '#aaaaaa',
-        fontSize: 12,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginBottom: 8
-    },
-    link: {
-        color: '#007aff',
-        textDecorationLine: 'underline'
-    },
-    linkLeft: {
-        color: '#000'
-    },
-    linkRight: {
-        color: '#fff'
-    },
-    loadEarlierMessages: {
-        height: 44,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    loadEarlierMessagesButton: {
-        fontSize: 14
     }
 });

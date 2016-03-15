@@ -18,4 +18,8 @@ export default class MessageBridge extends Component {
   appendMessage(message) {
     return this.context.messenger.appendMessage(message);
   }  
+  
+  preLoadEarlierMessages() {
+    this.context.messenger.preLoadEarlierMessages()
+  }
 }
