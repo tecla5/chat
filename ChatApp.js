@@ -6,10 +6,14 @@ import React, {
   Navigator, 
   StyleSheet,
   Text,
+  TouchableOpacity,  
   View
 } from 'react-native';
 
 import Button from 'react-native-button';
+
+import {GoogleSignin} from 'react-native-google-signin';
+
 
 import RNRF, {
   Route,
@@ -31,30 +35,32 @@ function reducer(state = {}, action) {
 let store = createStore(reducer);
 const Router = connect()(RNRF.Router);
 
-const TabIcon = (props, state) => {
+/*const TabIcon = (props, state) => {
     return (
         <Text style={{color: this.props.selected ? 'red' :'black'}}>{this.props.title}</Text>
     );
-}
+}*/
 
 import codePush from 'react-native-code-push';
 
-import Login from './components/modal/Login';
-import Error from './components/modal/Error';
 
-import Launch from './components/Launch';
 
 // main pages: container sets state from Firebase to display on page (contacts, messages)
+
+//import LaunchScreen from './screens/LaunchScreen';
+import LoginScreen from './screens/LoginScreen';
 
 import ChatRoomScreen from './screens/ChatRoomScreen';
 import RoomsScreen from './screens/RoomsScreen';
 import ContactsScreen from './screens/ContactsScreen';
-import LoginScreen from './screens/LoginScreen';
 import UserProfileScreen from './screens/UserProfileScreen';
 
 import SideDrawer from './components/navigation/SideDrawer';
 import Header from './components/navigation/Header';
 import TabView from './components/navigation/TabView';  
+import GoogleLogout from './components/GoogleLogout';
+let googleLogout = new GoogleLogout();
+
 
 /*
 Three kinds of Route animations defined as schemas:
@@ -91,47 +97,42 @@ const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
 export default class ChatApp extends Component {
-
-	constructor (props) {
-		super(props);
-		this.state = {
-			drawer: null,
-		};
-	}
-
-  componentDidMount(params) {
-      codePush.sync({
-          updateDialog: true,
-          installMode: codePush.InstallMode.INMEDIATE
-      }, function (status) {
-          console.log('codepush ', status);
-      });
-  }
-
+        
+      
+    
   render() {
     // TODO: add header={Header} to initial route: launch
-    const { drawer } = this.state;    
-       
-    return (
-      <Provider store={store}>
-        <Router hideNavBar={false} name="root" footer={TabView}>
-          <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
-          <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-          <Schema name="tab" type="switch" icon={TabIcon} />
-          <Schema
-            name='main'
-            sceneConfig={Navigator.SceneConfigs.FadeAndroid}
-            hideNavBar={hideNavBar}
-          />
+    // const { drawer } = this.state;    
+          // icon={TabIcon}
+          // wrapRouter={true} hideNavBar={false} title="Home" rightTitle="menu" onRight={() => {Actions.drawer() }}
+    //           <Route name="launch"       component={LaunchScreen}      title="Launch" initial={true} hideNavBar={true} />
+    
+    //{this.createRightButton}
 
-          <Route name="launch" initial={true} component={ChatRoomScreen} wrapRouter={true} hideNavBar={false} title="Home" rightTitle="menu" onRight={() => {Actions.drawer() }}/>
-          <Route name="loggedIn" component={ChatRoomScreen}/>
-          <Route name="login" schema="modal" component={LoginScreen}/>
+    return (
+        
+      <Provider store={store}>
+        <Router hideNavBar={false} name="root" >
+        
+          <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
+          <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom} />
+          <Schema name='boot'  sceneConfig={Navigator.SceneConfigs.FadeAndroid}  hideNavBar={true} type='replace' />          
+          <Schema name="tab" type="switch"  />
+          <Schema name='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={hideNavBar}  />
+
+
+
           <Route name="error" type="modal" component={Error}/>
-          <Route name="profile" component={UserProfileScreen} title='User profile'/>
-          <Route name="room" title="Chat Room" component={ContactsScreen}/>
-          <Route name="contacts" component={ContactsScreen} title='Contacts'/>          
-          <Route name="rooms" title="Rooms" component={RoomsScreen} title='Rooms'/>
+          
+          <Route name="login"       component={LoginScreen}        schema='boot' type="replace" title="Login"  initial={true} hideNavBar={true} />
+          <Route name="loggedIn"    component={ChatRoomScreen}     footer={TabView} />
+
+          <Route name="contacts"    component={ContactsScreen}     type="replace" title='Contacts' footer={TabView}  renderRightButton={googleLogout.signoutButton} />
+          <Route name="profile"     component={UserProfileScreen}  title='User profile' footer={TabView} />
+          <Route name="rooms"       component={RoomsScreen}        title="Rooms" footer={TabView} />
+          <Route name="room"        component={ContactsScreen}     title="Chat Room" footer={TabView} />
+
+          
 
           <Route name='drawer' hideNavBar={true} type='reset'>
             <SideDrawer>
