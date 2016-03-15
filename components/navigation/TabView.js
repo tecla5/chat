@@ -12,14 +12,14 @@ import {Actions} from 'react-native-router-flux';
 import {titleCase} from '../../utils';
 
 const TabButton = (props, state) => {
-  console.log('tab', props);
+  // console.log('tab', props);
   let label = titleCase(props.label || props.action);
   return <Button style={styles.tab} onPress={Actions[props.action]}>{label}</Button>
 }
 
 export default class TabView extends Component {
     render(){
-        console.log('route', this.props.name);
+        //console.log('route', this.props.name);
       
         return (
             <View style={styles.container}>

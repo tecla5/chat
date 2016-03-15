@@ -7,6 +7,8 @@ import React, {
   StyleSheet
 } from 'react-native';
 
+import GoogleLogin from '../components/GoogleLogin';
+
 // import UserProfile from '../containers/UserProfileContainer';
 
 import {styles} from './Screen';

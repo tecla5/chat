@@ -6,10 +6,14 @@ import React, {
   Navigator, 
   StyleSheet,
   Text,
+  TouchableOpacity,  
   View
 } from 'react-native';
 
 import Button from 'react-native-button';
+
+import {GoogleSignin} from 'react-native-google-signin';
+
 
 import RNRF, {
   Route,
@@ -41,11 +45,11 @@ import codePush from 'react-native-code-push';
 
 
 
-
 // main pages: container sets state from Firebase to display on page (contacts, messages)
 
+//import LaunchScreen from './screens/LaunchScreen';
 import LoginScreen from './screens/LoginScreen';
-import LaunchScreen from './screens/LaunchScreen';
+
 import ChatRoomScreen from './screens/ChatRoomScreen';
 import RoomsScreen from './screens/RoomsScreen';
 import ContactsScreen from './screens/ContactsScreen';
@@ -54,7 +58,8 @@ import UserProfileScreen from './screens/UserProfileScreen';
 import SideDrawer from './components/navigation/SideDrawer';
 import Header from './components/navigation/Header';
 import TabView from './components/navigation/TabView';  
-
+import GoogleLogout from './components/GoogleLogout';
+let googleLogout = new GoogleLogout();
 
 
 /*
@@ -92,37 +97,40 @@ const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
 export default class ChatApp extends Component {
+        
+      
+    
   render() {
     // TODO: add header={Header} to initial route: launch
     // const { drawer } = this.state;    
           // icon={TabIcon}
           // wrapRouter={true} hideNavBar={false} title="Home" rightTitle="menu" onRight={() => {Actions.drawer() }}
-       
+    //           <Route name="launch"       component={LaunchScreen}      title="Launch" initial={true} hideNavBar={true} />
+    
+    //{this.createRightButton}
+
     return (
+        
       <Provider store={store}>
-        <Router hideNavBar={false} name="root" footer={TabView}>
-          <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
+        <Router hideNavBar={false} name="root" >
+        
           <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-          
+          <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom} />
+          <Schema name='boot'  sceneConfig={Navigator.SceneConfigs.FadeAndroid}  hideNavBar={true} type='replace' />          
           <Schema name="tab" type="switch"  />
-          <Schema
-            name='main'
-            sceneConfig={Navigator.SceneConfigs.FadeAndroid}
-            hideNavBar={hideNavBar}
-          />
+          <Schema name='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={hideNavBar}  />
+
+
 
           <Route name="error" type="modal" component={Error}/>
           
-          
-          <Route name="launch"       component={LaunchScreen}      title="Launch" initial={true} hideNavBar={true} />
+          <Route name="login"       component={LoginScreen}        schema='boot' type="replace" title="Login"  initial={true} hideNavBar={true} />
+          <Route name="loggedIn"    component={ChatRoomScreen}     footer={TabView} />
 
-          <Route name="login"       component={LoginScreen}        title="Login"  schema="modal" />
-          <Route name="loggedIn"    component={ChatRoomScreen}     />
-
-          <Route name="profile"     component={UserProfileScreen}  title='User profile' />
-          <Route name="contacts"    component={ContactsScreen}     title='Contacts' />
-          <Route name="rooms"       component={RoomsScreen}        title="Rooms" />
-          <Route name="room"        component={ContactsScreen}     title="Chat Room" />
+          <Route name="contacts"    component={ContactsScreen}     type="replace" title='Contacts' footer={TabView}  renderRightButton={googleLogout.signoutButton} />
+          <Route name="profile"     component={UserProfileScreen}  title='User profile' footer={TabView} />
+          <Route name="rooms"       component={RoomsScreen}        title="Rooms" footer={TabView} />
+          <Route name="room"        component={ContactsScreen}     title="Chat Room" footer={TabView} />
 
           
 

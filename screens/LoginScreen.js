@@ -7,15 +7,17 @@ import React, {
   StyleSheet
 } from 'react-native';
 
-import ContactsContainer from '../containers/ContactsContainer';
-import Login from '../components/modal/Login';
-import {styles} from './Screen';
+import GoogleLogin from '../components/GoogleLogin';
 
+import {styles} from './Screen';
+// style={[styles.container, this.props.styles.container]}
 
 export default class LoginScreen extends Component {
     render(){
         return (
-            <Login/>
+            <View style={styles.screen}>
+                <GoogleLogin/>
+            </View>
         );
     }
 }
