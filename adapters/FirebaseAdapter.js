@@ -35,21 +35,56 @@ export default class FirebaseAdapter extends BaseAdapter {
     }    
   }
 
-  // onSuccess: function
+  closeConnection() {
+    this.base.removeBinding(this.ref);
+  }
+
+  reset() {
+    this.base.reset();
+  }
+
+  // call then to signal success
   syncState(options) {
     // will sync messages on state
     this.ref = this.base.syncState(this.endpoint, {
       context: options.ctx,
       state: this._defaultState() || this.state,
       asArray: this.asArray || options.asArray,
-      then: options.onSuccess 
+      queries: options.queries,
+      then: options.then 
     });   
   }
   
-  closeConnection() {
-    this.base.removeBinding(this.ref);
+  bindState(options) {
+    this.ref = this.base.bindState(this.endpoint, {
+      context: options.ctx,
+      state: this._defaultState() || this.state,
+      asArray: this.asArray || options.asArray,
+      queries: options.queries,
+      then: options.then 
+    });       
   }
   
+  listen(options) {
+    this.ref = this.base.listenTo(this.endpoint, {
+      context: options.ctx,
+      asArray: this.asArray || options.asArray,
+      queries: options.queries,
+      then: options.then
+    });           
+  }
+  
+  fetch(options) {
+    this.ref = this.base.fetch(this.endpoint, {
+      context: options.ctx,
+      asArray: this.asArray || options.asArray,
+      queries: options.queries,
+      then: options.then, 
+      timeout: options.timeout,
+      failure: options.failure
+    });               
+  }
+    
   // Post a message to firebase messages list
   // TODO: Should throw an error on Timeout (3 secs)
   // TODO: Should (perhaps) use priority (see firechat example)
@@ -65,16 +100,21 @@ export default class FirebaseAdapter extends BaseAdapter {
     * the data in your Firebase (ie, use concat
     * to return a mutated copy of your state)
   */  
-  post(conversationId, message, options = {}) {
+  post(data, options = {}) {
     this.base.post(this.endpoint, {
-      data: message,
+      data: data,
       context: options.ctx,
-      /*
-       * This 'then' method will run after the
-       * post has finished.
-       * On error will be passed an Error object
-       */
-      then: options.onSent
+      // on error will be passed an Error object
+      then: options.then
+    });
+  }  
+
+  push(data, options = {}) {
+    this.base.push(this.endpoint, {
+      data: data,
+      // context: options.ctx,
+      // on error will be passed an Error object
+      then: options.then
     });
   }  
 }  

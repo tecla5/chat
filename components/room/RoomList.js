@@ -1,35 +1,32 @@
 'use strict';
 
 import React, {
-  Component,
   StyleSheet,
   Text,
   View,
   ListView
 } from 'react-native';
 
+import List from '../base/List';
 import Room from './Room';
 
-export default class RoomList extends Component {
-
+export default class RoomList extends List {
   constructor(props){
     super(props);
-
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      rooms: ds.cloneWithRows(this.props.rooms),
+      rooms: _dataSource().cloneWithRows(this.props.rooms),
     };    
   }
             
   render() {
     return (
       <View style={styles.container}>
-        <ListView dataSource={ this.state.rooms } renderRow={this._renderRoom}/>
+        <ListView dataSource={ this.state.rooms } renderRow={this._renderRow}/>
       </View>      
     );
   }
   
-  _renderRoom(msg) {
+  _renderRow(msg) {
     return <Room {...msg}/>;
   }
   

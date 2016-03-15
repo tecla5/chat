@@ -5,12 +5,13 @@ export default class BaseAdapter {
   closeConnection() {    
   }
   
-  // onSuccess: function
+  // call then to signal success
   syncState(options) {  
-    // options.onSuccess();
+    options.then();
   }
-  
-  post(conversationId, message, options) {
-    // options.onSuccess();
+
+  // call then to signal success  
+  post(message, options) {
+    options.then();
   }
 }  

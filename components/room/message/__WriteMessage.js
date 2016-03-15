@@ -88,7 +88,7 @@ export default class WriteMessage extends Component {
     
   _newMsg(event) {
     console.log('_newMsg');
-    this.adapter.post(this._messageData(), {onSuccess: this._messagePosted, ctx: this});
+    this.adapter.post(this._messageData(), {then: this._messagePosted, ctx: this});
   }
 
   // concat?

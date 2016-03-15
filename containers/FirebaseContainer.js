@@ -31,7 +31,7 @@ export default class FirebaseContainer extends Component {
     }    
     this.adapter = new FirebaseAdapter({endpoint: this._endpoint});    
     // will sync firebase with local state
-    this.adapter.syncState({onSuccess: this._onSynced, ctx: this});
+    this.adapter.syncState({then: this._onSynced, ctx: this});
   }
 
   /*

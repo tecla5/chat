@@ -53,7 +53,7 @@ export default class Conversation extends Component {
     }
   
     // we use our Firebase adapter to send
-    this.context.adapter.post(this.roomId, message, {onSent: onSent, ctx: this});        
+    this.context.adapter.post(message, {then: onSent, ctx: this});        
   }
     
   // TODO: use Messages adapter!
