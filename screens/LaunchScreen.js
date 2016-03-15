@@ -8,14 +8,14 @@ import React, {
 } from 'react-native';
 
 import ContactsContainer from '../containers/ContactsContainer';
-import Login from '../components/modal/Login';
+import Launch from '../components/Launch';
 import {styles} from './Screen';
 
 
-export default class LoginScreen extends Component {
+export default class LaunchScreen extends Component {
     render(){
         return (
-            <Login/>
+            <Launch/>
         );
     }
 }

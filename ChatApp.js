@@ -31,31 +31,32 @@ function reducer(state = {}, action) {
 let store = createStore(reducer);
 const Router = connect()(RNRF.Router);
 
-const TabIcon = (props, state) => {
+/*const TabIcon = (props, state) => {
     return (
         <Text style={{color: this.props.selected ? 'red' :'black'}}>{this.props.title}</Text>
     );
-}
+}*/
 
 import codePush from 'react-native-code-push';
 
-import Login from './components/modal/Login';
-import Error from './components/modal/Error';
 
-import Launch from './components/Launch';
+
 
 // main pages: container sets state from Firebase to display on page (contacts, messages)
 
+import LoginScreen from './screens/LoginScreen';
+import LaunchScreen from './screens/LaunchScreen';
 import ChatRoomScreen from './screens/ChatRoomScreen';
 import RoomsScreen from './screens/RoomsScreen';
 import ContactsScreen from './screens/ContactsScreen';
-import LoginScreen from './screens/LoginScreen';
 import UserProfileScreen from './screens/UserProfileScreen';
 
-import SideDrawer from './components/SideDrawer';
-
+// import Error from './components/modal/Error';
+// import SideDrawer from './components/SideDrawer';
 // import NavBar from './NavBar';
 import TabView from './components/TabView';  
+
+
 
 /*
 Three kinds of Route animations defined as schemas:
@@ -91,77 +92,24 @@ To go to a route, use Actions.[route name] such as Actions.login() or Actions.co
 const hideNavBar = Platform.OS === 'android'
 const paddingTop = Platform.OS === 'android' ? 0 : 8
 
-// TODO: show name of Room (initial route)
-class Header extends Component {
-    render(){
-        return ( 
-        <View style={styles.navBar}>
-          <Text style={styles.navTitle}>{this.name || 'Home'}</Text>
-          <Button style={styles.navTitle} onPress={Actions.drawer}>=</Button>
-       </View>
-       );
-    }
-}
-
 export default class ChatApp extends Component {
-
-	constructor (props) {
-		super(props);
-		this.state = {
-			drawer: null,
-		};
-	}
-
-  componentDidMount(params) {
-      codePush.sync({
-          updateDialog: true,
-          installMode: codePush.InstallMode.INMEDIATE
-      }, function (status) {
-          console.log('codepush ', status);
-      });
-  }
-
   render() {
     // TODO: add to initial route: launch
     // header={Header}
-
-    const { drawer } = this.state;    
-       
+    // wrapRouter={true} hideNavBar={true}
+          
     return (
       <Provider store={store}>
         <Router hideNavBar={false} name="root" footer={TabView}>
-          <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
-          <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-          <Schema name="tab" type="switch" icon={TabIcon} />
-          <Schema
-            name='main'
-            sceneConfig={Navigator.SceneConfigs.FadeAndroid}
-            hideNavBar={hideNavBar}
-          />
+          <Route name="profile"     component={UserProfileScreen}  title='User profile' />
+          <Route name="contacts"    component={ContactsScreen}     title='Contacts' />
+          <Route name="rooms"       component={RoomsScreen}        title="Rooms" />
+          <Route name="room"        component={ContactsScreen}     title="Chat Room" />
 
-          <Route name="launch" initial={true}  component={ChatRoomScreen} wrapRouter={true} hideNavBar={true}/>
-          <Route name="loggedIn" component={ChatRoomScreen}/>
-          <Route name="login" schema="modal" component={LoginScreen}/>
-          <Route name="error" type="modal" component={Error}/>
-          <Route name="room" title="Chat Room" component={ContactsScreen}/>
-          <Route name="contacts" component={ContactsScreen} title='Contacts'/>
-          <Route name="profile" component={UserProfileScreen} title='User profile'/>
-          <Route name="rooms" title="Rooms" component={RoomsScreen} title='Rooms'/>
+          <Route name="login"       component={LoginScreen}        title="Login"  />
+          <Route name="launch"       component={LaunchScreen}        title="Launch" initial={true} hideNavBar={true} />
 
-          <Route name='drawer' hideNavBar={true} type='reset'>
-            <SideDrawer>
-              <Router
-                sceneStyle={styles.routerScene}
-                navigationBarStyle={styles.navBar}
-                titleStyle={styles.navTitle}
-              >
-                <Route name="profile" component={UserProfileScreen}/>
-                <Route name='room' component={ChatRoomScreen} schema='main' title='Room' />
-                <Route name='rooms' component={RoomsScreen} schema='main' title='Rooms' />
-                <Route name='contacts' component={ContactsScreen} schema='main' title='Contacts' />
-              </Router>
-            </SideDrawer>
-          </Route>
+
 
         </Router>
       </Provider>
