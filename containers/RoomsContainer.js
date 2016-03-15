@@ -19,11 +19,10 @@ const fakeRooms = [{
 
 export default class RoomsContainer extends FirebaseContainer {
   constructor(props){
-    super(props);
-    // Sync with firebase: user-1/rooms
-    this.setEndpoint();
+    super(props);    
   }
-            
+
+  // Sync with firebase: user-1/rooms            
   get endpoint() {
     return [this.props.userId || 'user-1', 'rooms'].join('/')    
   }          
@@ -31,11 +30,12 @@ export default class RoomsContainer extends FirebaseContainer {
   componentWillMount(){      
     super.componentWillMount();    
     // fake rooms
-    this.setState({rooms: this.state.rooms.concat(fakeRooms) });              
+    this.setState({
+      rooms: this.state.rooms.concat(fakeRooms) 
+    });              
   }  
   
-  componentDidMount(){
-    // console.log('componentDidMount',this.state.rooms);    
+  componentDidMount(){    
   }  
     
   render() {

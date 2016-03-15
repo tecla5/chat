@@ -1,11 +1,12 @@
 import React, {
+  View,
   StyleSheet
 } from 'react-native';
 
 import {sliceList} from '../utils';
 import FirebaseContainer from './FirebaseContainer';
 
-import ChatRoom from '../components/room/ChatRoom.js';
+import ChatRoom from '../components/room/ChatRoom';
 
 // number of messages to display as latest (how many messages appear initially in ListView)
 const constants = {
@@ -24,10 +25,13 @@ type MessageType = {
 
 export default class ChatRoomContainer extends FirebaseContainer {
   constructor(props){
-    super(props);
-    // TODO: should be: [roomId]/messages 
-    this._endpoint = [props.roomId || 'room-1', 'messages'].join('/');;
+    super(props);    
   }
+  
+  // Sync with firebase: user-1/rooms            
+  get endpoint() {
+    return [this.props.roomId || 'room-1', 'messages'].join('/');    
+  }            
   
   initialState() {
     return {
@@ -46,7 +50,7 @@ export default class ChatRoomContainer extends FirebaseContainer {
   }
   
   _onSync(){  
-    console.log('syncing', this._endpoint);
+    console.log('syncing', this.endpoint);
       // sort messages into earlier and latest
     const sliced = sliceList(this.state.messages, constants.showMessageCount)
     this.setState({
@@ -55,12 +59,24 @@ export default class ChatRoomContainer extends FirebaseContainer {
     });   
   }
        
-  render(){
-    return (    
-        <ChatRoom {...this.state}/>                    
+  render(){    
+    return (
+      <View style={styles.container}>
+        <ChatRoom {...this.state} />  
+      </View>                  
     );
   }  
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: 'green',
+  }
+});
+
 
 // Make adapter and container available for child components
 ChatRoomContainer.childContextTypes = {
