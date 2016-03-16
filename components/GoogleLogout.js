@@ -9,30 +9,47 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 
+
+import Icon from 'react-native-vector-icons/FontAwesome';
+//var myIcon = (<Icon name="rocket" size={30} color="#900" />);
+
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
+
+
 import Rebase from 're-base';
 let base = Rebase.createClass('https://t5-chat.firebaseio.com');
 
 export default class GoogleLogout extends Component {
+
     
-    signoutButton(){        
+
+
+    signoutButton(){ 
+        var logoutF = function (){
+            console.log('signout');       
+            GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
+                Actions.login(); 
+            })
+            .done();            
+        };
+
       return (
         <View style={styles.rightButton}>
-            <TouchableOpacity onPress={() => {
-                    console.log('signout');       
-                    GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-                        Actions.login(); 
-                    })
-                    .done();
-                }}>
-                <Text>Logout</Text>
+            <TouchableOpacity onPress={ logoutF }>
+                <Icon name="sign-out" size={30} color="#900" />
             </TouchableOpacity>                    
         </View>          
-      );    
+      );
+    /*            
+        <Icon.Button name="sign-out" backgroundColor="#3b5998" onPress={ logoutF }>
+            Logout
+        </Icon.Button>
+    */    
+          
     }   
     
    

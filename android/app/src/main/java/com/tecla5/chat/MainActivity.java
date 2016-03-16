@@ -1,6 +1,9 @@
 package com.tecla5.chat;
 
 import com.facebook.react.ReactActivity;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -66,7 +69,10 @@ public class MainActivity extends ReactActivity {
 
         // 5. Add the CodePush package to the list of existing packages
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage(), 
+            new MainReactPackage(),
+            new VectorIconsPackage(),
+            new ReactMaterialKitPackage(),
+            //new RNGoogleSigninPackage(), 
             new RNGoogleSigninPackage(this), // <------ add this line to yout MainActivity class            
             this._codePush.getReactPackage()
         );                
