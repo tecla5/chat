@@ -21,7 +21,7 @@ import RNRF, {
 } from 'react-native-router-flux';
 
 /*
-  Expected data format for a contact:
+  Expected data format for a contact: (really just a User - but showing less details)
   {
     userId: 'kmandrup',
     fullName: 'Kristian Mandrup',
@@ -29,29 +29,42 @@ import RNRF, {
   }
 */
 export default class Contact extends Component {
-  // define PropTypes
+  // expect to get an Id or a User?
+  constructor(props){
+    super(props);
+    console.log('contact', props);
+  }
   
+  // TODO: subdivide into smaller components  
   render(){
-    return (
-      <TouchableWithoutFeedback onPress={this._toRoom.bind(this)}>
+    return (      
       <View style={styles.contact} >
-        <Image
-            style={styles.icon}
-            source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   />      
-        <Text>{ this.props.name }</Text>
+        <TouchableWithoutFeedback onPress={this._toProfile.bind(this)}>
+          <Image
+              style={styles.icon}
+              source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   
+          />
+        </TouchableWithoutFeedback>
+              
+        <TouchableWithoutFeedback onPress={this._toRoom.bind(this)}>              
+          <Text>{ this.props.name }</Text>
+        </TouchableWithoutFeedback>
       </View>
-      </TouchableWithoutFeedback>      
+            
     );
   }
   
   _toRoom(){
     Actions.room(this.props.id);
-  }
-  
+  }  
+
+  // do we send just Id or entire contact over?
+  _toProfile(){
+    Actions.profile(this.props.id);
+  }  
 }
-/*
-        <Button onPress={Actions.enterRoom(this.props.id)} />
-*/
+
+// define PropTypes
 
 const styles = StyleSheet.create({
   contact: {

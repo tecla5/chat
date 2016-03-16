@@ -36,7 +36,7 @@ export default class RoomList extends List {
             
   render() {
     return (
-      <View style={style.list}>
+      <View style={styles.list}>
         <ListView dataSource={ this.state.rooms } renderRow={this._renderRow}/>
       </View>      
     );
@@ -50,7 +50,7 @@ export default class RoomList extends List {
 
 import { merge, common } from '../../styles';
 
-let style = merge({
+const styles = merge({
     list: common.list
   },    
   // custom overrides

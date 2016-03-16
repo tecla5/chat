@@ -2,24 +2,32 @@
 
 import React, {
   Component,
-  View, 
-  Text, 
-  StyleSheet
+  View 
 } from 'react-native';
 
-import GoogleLogin from '../components/GoogleLogin';
+// TODO: wrap with Container?
+import UserProfile from '../components/user/UserProfile';
+import Screen from './Screen';
 
-// import UserProfile from '../containers/UserProfileContainer';
-
-import {styles} from './Screen';
-
-export default class UserProfileScreen extends Component {
-    render(){
-      // <UserProfileContainer/>
-        return (
-            <View style={styles.screen}>
-              <Text>User Profile</Text>
-            </View>
-        );
-    }
+export default class UserProfileScreen extends Screen {      
+  constructor(props){
+    super(props);    
+  }
+ 
+  render(){
+    return (
+      <View style={styles.screen}>
+        <UserProfile {...this.props} />        
+      </View>
+    );
+  }
 }
+
+import { merge, common } from '../styles';
+
+let styles = merge({
+    screen: common.screen
+  },    
+  // custom overrides
+  // {}
+); 

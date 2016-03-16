@@ -2,20 +2,24 @@
 
 import React, {
   Component,
-  View, 
-  Text, 
-  StyleSheet
+  View 
 } from 'react-native';
 
 import ContactsContainer from '../containers/ContactsContainer';
 import Launch from '../components/Launch';
-import {styles} from './Screen';
+import Screen from './Screen';
 
-
-export default class LaunchScreen extends Component {
-    render(){
-        return (
-            <Launch/>
-        );
-    }
+export default class LaunchScreen extends Screen {
+  render(){
+    return (
+      <Launch/>
+    );
+  }
 }
+
+import { merge, common } from '../styles';
+
+const styles = merge({
+    screen: common.screen
+  }
+); 

@@ -32,7 +32,7 @@ export default class ContactList extends List {
             
   render() {
     return (
-      <View style={style.list}>
+      <View style={styles.list}>
         <ListView dataSource={ this.state.contacts } renderRow={this._renderContact}/>
       </View>      
     );
@@ -47,7 +47,7 @@ export default class ContactList extends List {
 
 import { merge, common } from '../../styles';
 
-let style = merge({
+const styles = merge({
     list: common.list
   },    
   // custom overrides
