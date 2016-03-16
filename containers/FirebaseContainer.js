@@ -36,9 +36,24 @@ export default class FirebaseContainer extends Component {
     if (!this.endpoint) {
       throw "Container missing an endpoint. Please set create a `get endpoint()` that returns a firebase path";  
     }    
-    this.adapter = new FirebaseAdapter({endpoint: this.endpoint});    
-    // will sync firebase with local state
-    this.adapter.syncState({then: this._onSynced, ctx: this});
+    this.adapter = new FirebaseAdapter({endpoint: this.endpoint});
+    
+    // call fetch or sync depending on type of data binding (one- or two-way, ie. read only or read/write)
+    this[this.type]();    
+  }
+
+  // sync by default  
+  get type() {
+    return 'sync';
+  }  
+
+  // will sync firebase with local state
+  sync() {    
+    this.adapter.syncState({then: this._onSynced, ctx: this});    
+  }
+
+  fetch() {    
+    this.adapter.fetch({then: this._onFetched, failure: this._onFail, ctx: this});    
   }
 
   /*
@@ -49,6 +64,17 @@ export default class FirebaseContainer extends Component {
   */
   componentWillUnmount(){
     this.adapter.closeConnection();
+  }
+  
+  _onFetched(data) {
+    this.setState({
+      user: data
+    }); 
+  }
+  
+  // handle error on fetch
+  _onFail(err) {
+    console.error(err);
   }
 
   _onSynced(){

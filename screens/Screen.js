@@ -1,13 +1,11 @@
 'use strict';
 
 import React, {
-  StyleSheet
+  Component
 } from 'react-native';
 
-export const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }    
-});
+export default class Screen extends Component {      
+  constructor(props){
+    super(props);    
+  }
+}

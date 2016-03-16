@@ -2,15 +2,13 @@
 
 import React, {
   Component,
-  View, 
-  Text, 
-  StyleSheet
+  View 
 } from 'react-native';
 
 import ChatRoomContainer from '../containers/ChatRoomContainer';
-import {styles} from './Screen';
+import Screen from './Screen';
 
-export default class ChatRoomScreen extends Component {
+export default class ChatRoomScreen extends Screen {
   render(){ 
     return (
       <ChatRoomContainer/>
@@ -18,3 +16,9 @@ export default class ChatRoomScreen extends Component {
   }
 }
 
+import { merge, common } from '../styles';
+
+const styles = merge({
+    screen: common.screen
+  }
+); 

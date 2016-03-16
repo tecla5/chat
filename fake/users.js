@@ -10,3 +10,5 @@ export const users = [
     thumbnail: 'my/cool-thumb.png',    
   }
 ]
+
+export const user = users[0];
