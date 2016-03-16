@@ -46,8 +46,8 @@ export default class Bubble extends React.Component {
 
 Bubble.propTypes = {
     position: React.PropTypes.oneOf(['left', 'right']),
-    status: React.PropTypes.object,
-    text: React.PropTypes.string,
+    // status: React.PropTypes.object,
+    // text: React.PropTypes.string,
     renderCustomText: React.PropTypes.func
 };
 
