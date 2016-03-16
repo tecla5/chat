@@ -1,4 +1,4 @@
-export const users = [
+export default [
   {
     id: '2472357239237',
     userId: 'kmandrup',
@@ -10,5 +10,3 @@ export const users = [
     thumbnail: 'my/cool-thumb.png',    
   }
 ]
-
-export const user = users[0];

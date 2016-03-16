@@ -14,6 +14,7 @@ export default class UserProfileScreen extends Screen {
     super(props);    
   }
  
+  // TODO: use Container
   render(){
     return (
       <View style={styles.screen}>

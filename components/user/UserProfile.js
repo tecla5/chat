@@ -12,7 +12,9 @@ import TouchableWithoutFeedback from 'TouchableWithoutFeedback';
 
 import { Actions } from 'react-native-router-flux'
 
-import fake from '../../fake';
+import ImageButton from '../ImageButton';
+
+import { users } from '../../fake';
 /*
   Expected data format for a user profile:
   {
@@ -30,21 +32,18 @@ export default class UserProfile extends Component {
   // expect to get an Id or a User?
   constructor(props){
     super(props);
-    console.log('profile', props);
+    console.log('USER profile', props);
   }
   
   render() {
     return (      
-        <View style={styles.userProfile} >
-          <TouchableWithoutFeedback onPress={this._showMainPic.bind(this)}>
-            <Image
-                style={styles.icon}
-                source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   
-            />      
-          </TouchableWithoutFeedback>
-          <Text>{ this.props.fullName }</Text>
-          <Text>{ this.props.email }</Text>
-          <Text>{ this.props.phone }</Text>
+        <View style={[styles.listItem, styles.userProfile]} >
+          <ImageButton {...this.props} onPress={this._showMainPic.bind(this)} />
+          <View>
+            <Text>{ this.props.fullName }</Text>
+            <Text>{ this.props.email }</Text>
+            <Text>{ this.props.phone }</Text>
+          </View>
         </View>      
     );
   }  
@@ -57,25 +56,18 @@ export default class UserProfile extends Component {
 
 // define PropTypes
 
-const styles = StyleSheet.create({
-  userProfile: {
-    margin: 2,
-    backgroundColor:'#bbaa99',
-    width:300,
-    paddingTop:10,
-    paddingBottom:10,
-    paddingLeft:20, 
-    borderRadius:10,
-    borderColor: 'black',
-    borderWidth: 1,   
-    flexDirection:'row',
-  },
-  icon: {
-    width: 40, 
-    height: 40,
-    marginRight:30,
-  }  
-});
+import { merge, common } from '../../styles';
+
+const styles = merge({
+    listItem: common.listItem
+  }, {
+    userProfile: {
+      backgroundColor: 'green'
+    }
+  }
+); 
+
+
 
 
 

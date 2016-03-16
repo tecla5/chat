@@ -10,7 +10,7 @@ import React, {
 import Contact from './Contact';
 import List from '../base/List';
 
-import fake from '../../fake'; 
+import { contacts } from '../../fake'; 
 /*
   Expected data format for each contact:
   Will for now use fake.contacts if none provided by props
@@ -24,9 +24,9 @@ export default class ContactList extends List {
 
   constructor(props){
     super(props);
-
+    console.log('contacts', contacts)
     this.state = {
-      contacts: this._dataSource().cloneWithRows(this.props.contacts || fake.contacts),
+      contacts: this._dataSource().cloneWithRows(this.props.contacts || contacts)
     };    
   }
             
@@ -39,17 +39,10 @@ export default class ContactList extends List {
   }
   
   _renderContact(contact) {
+    console.log('single contact', contact)
     return <Contact {...contact}/>;
   }  
 }
 
-// Demonstrates how we can define and use Global styles that you can be override locally 
-
-import { merge, common } from '../../styles';
-
-const styles = merge({
-    list: common.list
-  },    
-  // custom overrides
-  // {}
-); 
+import { useCommon } from '../../styles';
+const styles = useCommon('list');

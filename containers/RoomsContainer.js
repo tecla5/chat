@@ -9,13 +9,7 @@ import FirebaseContainer from './FirebaseContainer';
 
 import RoomList from '../components/room/RoomList';
 
-const fakeRooms = [{
-    id: 1,
-    title: 'Room #1',
-  }, {
-      id: 2,
-      title: 'Room #2',
-  }];
+import { rooms } from '../fake';
 
 export default class RoomsContainer extends FirebaseContainer {
   constructor(props){
@@ -27,17 +21,14 @@ export default class RoomsContainer extends FirebaseContainer {
     return [this.props.userId || 'user-1', 'rooms'].join('/')    
   }          
           
-  componentWillMount(){      
+  componentWillMount() {      
     super.componentWillMount();    
     // fake rooms
     this.setState({
-      rooms: this.state.rooms.concat(fakeRooms) 
+      rooms: this.state.rooms.concat(rooms) 
     });              
   }  
-  
-  componentDidMount(){    
-  }  
-    
+      
   render() {
     return (
       <View style={styles.container}>
@@ -47,11 +38,5 @@ export default class RoomsContainer extends FirebaseContainer {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  }
-});
+import { useCommon } from '../styles';
+const styles = useCommon('container');

@@ -7,15 +7,7 @@ import FirebaseContainer from './FirebaseContainer';
 
 import ContactList from '../components/contact/ContactList';
 
-const fakeContacts = [{
-    id: 1,
-    name: 'Javier Cabrera',
-    email: 'cabrera.javier@gmail.com'
-  }, {
-    id: 2,
-    name: 'Kristian Mandrup',
-    email: 'kmandrup@gmail.com'
-  }];
+import { contacts } from '../fake';
 
 export default class ContactsContainer extends FirebaseContainer {
   constructor(props){
@@ -31,7 +23,7 @@ export default class ContactsContainer extends FirebaseContainer {
     super.componentWillMount();      
     // fake contacts
     this.setState({
-        contacts:  this.state.contacts.concat(fakeContacts)
+        contacts: this.state.contacts.concat(contacts)
     });    
   } 
   
@@ -47,11 +39,5 @@ export default class ContactsContainer extends FirebaseContainer {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: 'green',
-  }
-});
+import { useCommon } from '../styles';
+const styles = useCommon('container');

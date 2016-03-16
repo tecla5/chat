@@ -1,4 +1,4 @@
-export const contacts = [
+export default [
   {
     id: '65843723920',
     userId: 'kmandrup',

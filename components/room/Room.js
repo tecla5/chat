@@ -3,12 +3,11 @@
 import React, {
   Component,
   StyleSheet,
-  Text,
-  View,
-  Image
+  View
 } from 'react-native';
 
-import TouchableWithoutFeedback from 'TouchableWithoutFeedback';
+import Button from 'react-native-button';
+import ImageButton from '../ImageButton';
 
 import { Actions } from 'react-native-router-flux'
 
@@ -34,14 +33,10 @@ export default class Room extends Component {
   
   render(){
     return (
-      <TouchableWithoutFeedback onPress={this._toRoom.bind(this)}>
-        <View style={styles.room} >
-          <Image
-              style={styles.icon}
-              source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   />      
-          <Text>{ this.props.title }</Text>
-        </View>
-      </TouchableWithoutFeedback>      
+      <View style={styles.listItem} >
+        <ImageButton {...this.props} onPress={this._toRoom.bind(this)} />
+        <Button onPress={this._toRoom.bind(this)}>{this.props.name}</Button>           
+      </View>                  
     );
   }
   
@@ -50,27 +45,10 @@ export default class Room extends Component {
   } 
 }
 
-// define PropTypes
+// TODO: define PropTypes
 
-const styles = StyleSheet.create({
-  room: {
-    margin: 2,
-    backgroundColor:'#bbaa99',
-    width:300,
-    paddingTop:10,
-    paddingBottom:10,
-    paddingLeft:20, 
-    borderRadius:10,
-    borderColor: 'black',
-    borderWidth: 1,   
-    flexDirection:'row',
-  },
-  icon: {
-    width: 40, 
-    height: 40,
-    marginRight:30,
-  }  
-});
+import { useCommon } from '../../styles';
+const styles = useCommon('listItem');
 
 
 

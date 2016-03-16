@@ -1,4 +1,4 @@
-export const rooms = [
+export default [
   {
     id: '1463423336236',
     roomId: 'one',

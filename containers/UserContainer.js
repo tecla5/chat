@@ -7,12 +7,12 @@ import FirebaseContainer from './FirebaseContainer';
 
 import ContactList from '../components/contact/ContactList';
 
-import fake from '../fake';
+import { users } from '../fake';
 
 export default class UserContainer extends FirebaseContainer {
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = users[0];
   }
   
   get type() {
@@ -37,11 +37,6 @@ export default class UserContainer extends FirebaseContainer {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: 'green',
-  }
-});
+import { useCommon } from '../styles';
+const styles = useCommon('container');
+

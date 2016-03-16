@@ -21,9 +21,9 @@ export default class FirebaseContainer extends Component {
 
   // creates initial state as: {messages: []} for a '[userId]/messages' endpoint.          
   initialState() {
-    var x = {};
-    x[this._defaultState()] = [];
-    return x;    
+    return {
+      [this._defaultState()]: []
+    };
   }    
 
   // find last part of endpoint

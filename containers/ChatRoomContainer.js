@@ -68,15 +68,8 @@ export default class ChatRoomContainer extends FirebaseContainer {
   }  
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: 'green',
-  }
-});
-
+import { useCommon } from '../styles';
+const styles = useCommon('container');
 
 // Make adapter and container available for child components
 ChatRoomContainer.childContextTypes = {

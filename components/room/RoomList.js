@@ -9,7 +9,7 @@ import React, {
 
 import List from '../base/List';
 import Room from './Room';
-import fake from '../../fake'; 
+import { rooms } from '../../fake'; 
 
 /*
   Expected data format for each room:
@@ -30,7 +30,7 @@ export default class RoomList extends List {
   constructor(props){
     super(props);
     this.state = {
-      rooms: this._dataSource().cloneWithRows(this.props.rooms || fake.rooms),
+      rooms: this._dataSource().cloneWithRows(this.props.rooms || rooms),
     };    
   }
             
@@ -48,11 +48,5 @@ export default class RoomList extends List {
   
 }
 
-import { merge, common } from '../../styles';
-
-const styles = merge({
-    list: common.list
-  },    
-  // custom overrides
-  // {}
-); 
+import { useCommon } from '../../styles';
+const styles = useCommon('list');
