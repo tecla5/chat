@@ -8,23 +8,26 @@ import React, {
   View,
   Image
 } from 'react-native';
-var TouchableWithoutFeedback = require('TouchableWithoutFeedback');
 
+import TouchableWithoutFeedback from 'TouchableWithoutFeedback';
 import Button from 'react-native-button';
 
-
-import RNRF from 'react-native-router-flux';
-
-const {
+import RNRF, {
   Route, 
   Schema, 
   Animations, 
   Actions, 
   TabBar
-} = RNRF;
+} from 'react-native-router-flux';
 
-
-
+/*
+  Expected data format for a contact:
+  {
+    userId: 'kmandrup',
+    fullName: 'Kristian Mandrup',
+    email: 'kmandrup@gmail.com'
+  }
+*/
 export default class Contact extends Component {
   // define PropTypes
   
@@ -42,22 +45,17 @@ export default class Contact extends Component {
   }
   
   _toRoom(){
-    console.log('toRoom: ', this.props);
     Actions.room(this.props.id);
   }
   
 }
-
-
-
 /*
         <Button onPress={Actions.enterRoom(this.props.id)} />
 */
 
-
 const styles = StyleSheet.create({
   contact: {
-    margin: 2,
+    margin: 4,
     backgroundColor:'#ef553a',
     width:300,
     paddingTop:10,

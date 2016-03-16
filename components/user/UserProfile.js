@@ -13,17 +13,16 @@ import TouchableWithoutFeedback from 'TouchableWithoutFeedback';
 import { Actions } from 'react-native-router-flux'
 
 /*
-  Expected data format for a room:
+  Expected data format for a user profile:
   {
-    roomId: 'two',
-    started: {
-      by: 'kmandrup',
-      time: 1458149252615
-    },
-    members: [
-      'kmandrup',
-      'jcabrera'
-    ]
+    id: '2472357239237',
+    userId: 'kmandrup',
+    fullName: 'Kristian Mandrup',
+    description: 'Oh so nice, full of spice!',
+    email: 'kmandrup@gmail.com',
+    phone: '+44 135832140',
+    image: 'my/sweet-selfie.png',
+    thumbnail: 'my/cool-thumb.png',    
   }
 */
 export default class Room extends Component {
@@ -34,20 +33,24 @@ export default class Room extends Component {
   
   render(){
     return (
-      <TouchableWithoutFeedback onPress={this._toRoom.bind(this)}>
+      
         <View style={styles.room} >
-          <Image
-              style={styles.icon}
-              source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   />      
-          <Text>{ this.props.title }</Text>
+          <TouchableWithoutFeedback onPress={this._showMainPic.bind(this)}>
+            <Image
+                style={styles.icon}
+                source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   />      
+          </TouchableWithoutFeedback>
+          <Text>{ this.props.fullName }</Text>
+          <Text>{ this.props.email }</Text>
+          <Text>{ this.props.phone }</Text>
         </View>
-      </TouchableWithoutFeedback>      
+      
     );
-  }
+  }  
   
-  _toRoom(){
-    Actions.room(this.props.id);
-  } 
+  _showSelfie() {
+    // open a modal with main picture in full size
+  }
 }
 
 // define PropTypes

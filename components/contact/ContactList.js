@@ -2,44 +2,54 @@
 
 import React, {
   Component,
-  StyleSheet,
   Text,
   View,
   ListView
 } from 'react-native';
 
 import Contact from './Contact';
+import List from '../base/List';
 
-export default class ContactList extends Component {
+import fake from '../../fake'; 
+/*
+  Expected data format for each contact:
+  Will for now use fake.contacts if none provided by props
+  {
+    userId: 'kmandrup',
+    fullName: 'Kristian Mandrup',
+    email: 'kmandrup@gmail.com'
+  }
+*/
+export default class ContactList extends List {
 
   constructor(props){
     super(props);
 
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      contacts: ds.cloneWithRows(this.props.contacts),
+      contacts: this._dataSource().cloneWithRows(this.props.contacts || fake.contacts),
     };    
   }
             
   render() {
     return (
-      <View style={styles.container}>
+      <View style={style.list}>
         <ListView dataSource={ this.state.contacts } renderRow={this._renderContact}/>
       </View>      
     );
   }
   
-  _renderContact(msg) {
-    return <Contact {...msg}/>;
-  }
-  
+  _renderContact(contact) {
+    return <Contact {...contact}/>;
+  }  
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  }
-});
+// Demonstrates how we can define and use Global styles that you can be override locally 
+
+import { merge, common } from '../../styles';
+
+let style = merge({
+    list: common.list
+  },    
+  // custom overrides
+  // {}
+); 
