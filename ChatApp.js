@@ -4,6 +4,8 @@ import React, {
   Component  
 } from 'react-native';
 
+import codePush from 'react-native-code-push';
+
 // Redux stuff is optional
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -16,17 +18,29 @@ function reducer(state = {}, action) {
 
 let store = createStore(reducer);
 
-// import codePush from 'react-native-code-push';
 
 export default class ChatApp extends Component {
+    
+    
+    componentDidMount() {
+        console.log('componentDidMount ');
+        codePush.sync({
+            updateDialog: true,
+            //installMode: codePush.InstallMode.INMEDIATE
+        }, function (status) {
+            console.log('codepush ', status);
+        });
+    }    
                  
-  render() {
-    return (        
-      <Provider store={store}>
-        <AppRouter />
-      </Provider>
-    );
-  }
+    render() {
+        return (        
+        <Provider store={store}>
+            <AppRouter />
+        </Provider>
+        );
+    }
+
+
 }
 
 

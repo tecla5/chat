@@ -3,7 +3,6 @@ package com.tecla5.chat;
 import com.facebook.react.ReactActivity;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -28,7 +27,7 @@ public class MainActivity extends ReactActivity {
     protected String getJSBundleFile() {
         return this._codePush.getBundleUrl("index.android.bundle");
     }
-
+    
 
     // add this method inside your activity class
     @Override
