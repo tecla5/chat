@@ -18,7 +18,7 @@ export default class ChatRoom extends Component {
     return (
         <View style={styles.container}>
           <Text>Chat Messenger</Text>
-          <Conversation style={styles.conversation} {...this.props} />
+          <Conversation {...this.props} />
         </View>                    
     );
   }
@@ -29,18 +29,5 @@ export default class ChatRoom extends Component {
 //   message: React.PropTypes.string
 // }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: 'yellow',
-    // borderWidth: 2,
-    // borderColor: 'red',
-  },
-  conversation: {
-    flex: 1,
-    borderWidth: 2,
-    borderColor: 'purple',
-  }
-});
+import { useCommon } from '../../styles';
+const styles = useCommon('container');

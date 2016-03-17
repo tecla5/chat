@@ -66,7 +66,8 @@ export default class Conversation extends Component {
     var earlierMessages = this.messages.earlier();
     
     setTimeout(() => {
-      callback(earlierMessages, false); // when second parameter is true, the "Load earlier messages" button will be hidden      
+      // when second parameter is true, the "Load earlier messages" button will be hidden
+      callback(earlierMessages, false);       
     }, 1000);
   }
   

@@ -101,6 +101,7 @@ export default class MessageList extends MessageBridge {
         }
     }      
   
+    // TODO: extract
     renderSpinner() {
       return (
         <View style={[styles.loadEarlierMessages, this.props.styles.loadEarlierMessages]}>
@@ -109,6 +110,7 @@ export default class MessageList extends MessageBridge {
       );
     }
 
+    // TODO: extract
     renderReloadBtn() {
       return (
         <View style={[styles.loadEarlierMessages, this.props.styles.loadEarlierMessages]}>
@@ -234,23 +236,6 @@ const styles = StyleSheet.create({
     listView: {
         flex: 1,
         marginTop: 20
-    },
-    date: {
-        color: '#aaaaaa',
-        fontSize: 12,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginBottom: 8
-    },
-    link: {
-        color: '#007aff',
-        textDecorationLine: 'underline'
-    },
-    linkLeft: {
-        color: '#000'
-    },
-    linkRight: {
-        color: '#fff'
     },
     loadEarlierMessages: {
         height: 44,

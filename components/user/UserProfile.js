@@ -28,6 +28,18 @@ import { users } from '../../fake';
     thumbnail: 'my/cool-thumb.png',    
   }
 */
+
+const UserDetails = (props, state) => {
+  return (
+    <View>
+      <Text>{ this.props.fullName }</Text>
+      <Text>{ this.props.email }</Text>
+      <Text>{ this.props.phone }</Text>
+    </View>    
+  );
+}
+
+
 export default class UserProfile extends Component {
   // expect to get an Id or a User?
   constructor(props){
@@ -39,11 +51,7 @@ export default class UserProfile extends Component {
     return (      
         <View style={[styles.listItem, styles.userProfile]} >
           <ImageButton {...this.props} onPress={this._showMainPic.bind(this)} />
-          <View>
-            <Text>{ this.props.fullName }</Text>
-            <Text>{ this.props.email }</Text>
-            <Text>{ this.props.phone }</Text>
-          </View>
+          <UserDetails {...this.props} />
         </View>      
     );
   }  

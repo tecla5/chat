@@ -59,10 +59,8 @@ export default class Messenger extends Component {
 
     prependMessages(messages:Array<MessageType> = []) {
         let rowID = null;
-        for (let i = 0; i < messages.length; i++) {
-            this._data.push(messages[i]);
-            this._rowIds.unshift(this._data.length - 1);
-            rowID = this._data.length - 1;
+        for (let message of messages) {
+            rowID = _addMessageFirst(messages)
         }
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
@@ -76,17 +74,29 @@ export default class Messenger extends Component {
 
     appendMessages(messages:Array<MessageType> = [], scrollToBottom:boolean = false) {
         let rowID = null;
-        for (let i = 0; i < messages.length; i++) {
-            messages[i].isOld = true;
-            this._data.push(messages[i]);
-            this._rowIds.push(this._data.length - 1);
-            rowID = this._data.length - 1;
+        for (let message of messages) { 
+            message.isOld = true;
+            rowID = this._addMessageLast(message);
         }
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds),
             scrollToBottom: scrollToBottom
         });
         return rowID;
+    }
+
+    _addMessageFirst(message) {
+      this._data.push(message);
+      let lastRow = this._data.length - 1;
+      this._rowIds.unshift(lastRow);
+      return lastRow;      
+    }
+
+    _addMessageLast(message) {
+      this._data.push(message);
+      let lastRow = this._data.length - 1;
+      this._rowIds.push(lastRow);
+      return lastRow;      
     }
 
     appendMessage(message:MessageType = {}, scrollToBottom = true) {
@@ -109,7 +119,11 @@ export default class Messenger extends Component {
         this.setState({
             isLoadingEarlierMessages: true
         });
-        this.props.onLoadEarlierMessages(this._data[this._rowIds[this._rowIds.length - 1]], this.postLoadEarlierMessages.bind(this));
+        this.props.onLoadEarlierMessages(this._lastMessage(), this.postLoadEarlierMessages.bind(this));
+    }
+
+    _lastMessage() {
+      return this._data[this._rowIds[this._rowIds.length - 1]]
     }
 
     refreshRows() {
@@ -118,67 +132,59 @@ export default class Messenger extends Component {
         });
     }
 
+    _hasRowAt(rowID) {
+      return (typeof this._rowIds[this._rowIds.indexOf(rowID)] !== 'undefined');
+    }
+
+    _rowAt(rowID) {
+      return this._rowIds[this._rowIds.indexOf(rowID)];
+    }
+
+    // TODO: refactor nested ifs
     getMessage(rowID) {
-        if (typeof this._rowIds[this._rowIds.indexOf(rowID)] !== 'undefined') {
-            if (typeof this._data[this._rowIds[this._rowIds.indexOf(rowID)]] !== 'undefined') {
-                return this._data[this._rowIds[this._rowIds.indexOf(rowID)]];
-            }
-        }
-        return null;
+      return this._hasRowAt(rowID) ? this._rowAt(rowID) : null;
     }
 
+    // TODO: refactor nested ifs
     getPreviousMessage(rowID) {
-        if (typeof this._rowIds[this._rowIds.indexOf(rowID - 1)] !== 'undefined') {
-            if (typeof this._data[this._rowIds[this._rowIds.indexOf(rowID - 1)]] !== 'undefined') {
-                return this._data[this._rowIds[this._rowIds.indexOf(rowID - 1)]];
-            }
-        }
-        return null;
+      return this._hasRowAt(rowID - 1) ? this.rowAt(rowID - 1) : null; 
     }
 
+    // TODO: refactor nested ifs
     getNextMessage(rowID) {
-        if (typeof this._rowIds[this._rowIds.indexOf(rowID + 1)] !== 'undefined') {
-            if (typeof this._data[this._rowIds[this._rowIds.indexOf(rowID + 1)]] !== 'undefined') {
-                return this._data[this._rowIds[this._rowIds.indexOf(rowID + 1)]];
-            }
-        }
-        return null;
+        return this._hasRowAt(rowID + 1) ? this.rowAt(rowID + 1) : null;
     }
 
-    componentDidMount() {            
-        if (this.props.messages.length > 0) {
-            this.appendMessages(this.props.messages);
-        } else if (this.props.initialMessages.length > 0) {
-            this.appendMessages(this.props.initialMessages);
-        } else {
-            this.setState({
-                allLoaded: true
-            });
-        }
+    // TODO: refactor nested ifs
+    componentDidMount() {   
+        let messages = this.props.messages.concat(this.props.initialMessages);         
+        this.appendMessages(messages); 
+        this.setState({
+            allLoaded: true
+        });
     }
 
+    _setErrorMessage(rowID) {
+            
+    }
+
+    // TODO: refactor nested ifs
     setMessageStatus(status = '', rowID) {
-        if (!this._data[rowID]) {
-          throw 'error rowID no data';
-        }
-        if (status === 'ErrorButton') {
-            if (this._data[rowID].position === 'right') {
-                this._data[rowID].status = 'ErrorButton';
-                this.refreshRows();
-            }
-        } else {
-            if (this._data[rowID].position === 'right') {
-                this._data[rowID].status = status;
+      let currentMessage = this._data[rowID];
+      if (currentMessage.position !== 'right')
+        return;
 
-                // only 1 message can have a status
-                for (let i = 0; i < this._data.length; i++) {
-                    if (i !== rowID && this._data[i].status !== 'ErrorButton') {
-                        this._data[i].status = '';
-                    }
-                }
-                this.refreshRows();
-            }
-        }
+      currentMessage.status = status;
+
+      // TODO: refactor for ??
+      // only 1 message can have a status
+      for (let message of messages) {
+          let isCurrentRow = i === rowID;
+          if (!isCurrentRow && message.status !== 'error') {
+              message.status = '';
+          }
+      }
+      this.refreshRows();              
     }
 
     renderList() {
@@ -272,13 +278,5 @@ Messenger.defaultProps = {
     onChangeText: (text) => {}
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // borderWidth: 2,
-        // borderColor: 'green',
-        // backgroundColor: 'lime',
-        marginTop: 47, // to not be behind top NavBar
-        // marginBottom: 40
-    }
-});
+import { useCommon } from '../../styles';
+const styles = useCommon('container');
