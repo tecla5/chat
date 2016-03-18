@@ -1,4 +1,15 @@
-# chat
+# Chat
+
+## Troubleshooting
+
+### iOS
+
+If you get a an error that your app can't connect to the development server, try looking in `ios/chat/AppDelegate.m` and check that the IP address
+matches the IP of your machine.  
+
+### Android
+
+??
 
 ### User Presence
 
@@ -84,7 +95,156 @@ message-id
   timestamp - The time at which the message was sent.
 ```
 
+### Other collections
+
+```js
+users
+  - userId
+    - name
+    - email
+    - facebookId
+    - googleId
+    - ...
+
+members
+  - roomId
+    - username: true
+    - username: true
+
+contacts
+  - userId
+    - username: true
+    - username: true
+
+friends
+  - userId
+    - google
+      - email
+        - username
+        - googleId    
+    - facebook
+      - email
+        - username
+        - facebookId    
+      ...
+```   
+
+## Data- and User flow
+
+### User registration
+
+User performs account login/registration via social login (Facebook, Twitter or Google). 
+Many users have the same username/email across all these accounts.
+
+We will ask permission to collect contacts/friends from their account.
+These friends/contacts are stored under `friends/[userId]/[social login type]`.
+The user will be asked to invite one or more friends to the App (at least 1 required?).
+We will then look up all the contacts in the users collection and add the matching users under
+`contacts/[userId]`. The app then displays the contact screen with all users for `contacts/[userId]` 
+where `userID` is the logged in user.
+
+Whenever a user is registered, a background job is activated to update contacts in the database.
+For each user, their `friends/[userId]` is scanned for a matching friend, and their `contacts/[userId]` updated
+on a match, and they are sent an App notification that the given user has signed up.  
+  
+### Contacts screen - initiate Conversation
+
+When one or more contacts are selected and a Conversation opened, we search the `members` collection for a room with users matching all users.
+If no match is found, we create a new room. The initiating user will have the option to name the room before notifications are sent to the other users
+that they are invited to participate in a conversation (listing who initiated and who have been invited).
+
+An alternative would be to show all previous conversations with those users (f.ex grouped by location, time, topic) (by default sorted most recent first) and letting the user choose 
+to either continue existing conversation or create a new one. 
+Conversations management could be included later to allow conversations to be grouped by topic, time or location.
+ 
+### Conversation - find contacts
+
+An alternative to initiating directly with existing contacts, is to open an "empty" conversation and make a "shout out" with a given topic/location.
+This invite can either be public (f.ex within certain radius of current/given location) or private (to a group of contacts).
+Listeners can then choose to participate in the conversation if interested. 
+
+### Negotiation cards
+
+As part of a Conversation, the users can create *Negotiation cards*. These cards vary by type, and can include:
+- Invite
+- Vote
+- Event
+
+Card examples:
+- Food
+  - Food vote
+  - Pizza (social)
+- Item(s)
+  - Vehicle
+  - ..
+- Service  
+  - Transport
+  - Haircut
+  - ...
+
+On a card:
+- topic with a `#` tag, such as `#van`
+- time, using time format such as `10:30` or `tmrw` etc.
+- location using `@` tag, such as `@barcelona`
+- price using currency code or tag, such as `$`, `€`, `DKK` or even `euro` or `kr.`
+- price range     
+- max asked for (invited)
+- specific criteria
+
+Examples:
+
+*Invite*
+
+```
+"Beach party"
+#women #beach #party
+age[20-30]
+tomorrow @20:00
+@barcelonetta @barcoa
+max:10
+```
+
+*Request a van*
+
+```
+"Move a table"
+#van 
+now
+@barcelona @gracia
+to: @barcelona @tetuan
+rent: $10-15
+```
+
+Individuals and clients/companies subscribing to #van in @barcelona can then engage in the conversation.
+They can offer one of:
+- free
+- swap (item or service)
+- rent (price)
+- buy (price)
+
+The user who created the card will see different offers coming in under each category. F.ex:
+
+```
+#van
+- #car
+- #truck
+(current location)
+@barcelonetta 
+@gracia
+(time can offer)
+15 mins
+30 mins
+(rent price)
+$12 (green)
+$17 (yellow - higher than max range)
+
+Note: Will never allow a bid at 100% of max range or higher (such as $30 in this case) 
+The bidders will be notified of current best bid accepted by the user and are invited to bid lower. 
+On any bid acceptance, bidders have the option to counter bid for a given time selected by the card issuer.
+  
 ### Creating/Entering rooms
+
+(improved: see above)
 
 From the `members` collection, we can see which users are members of each room. 
 When a user who wishes to initiate a conversation with one or more users, we first check if we 
