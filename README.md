@@ -137,11 +137,39 @@ User performs account login/registration via social login (Facebook, Twitter or 
 Many users have the same username/email across all these accounts.
 
 We will ask permission to collect contacts/friends from their account.
-These friends/contacts are stored under `friends/[userId]/[social login type]`.
+These friends/contacts are then stored under `friends/[userId]/[social login type]`.
+This save is done via `push`.
+
 The user will be asked to invite one or more friends to the App (at least 1 required?).
-We will then look up all the contacts in the users collection and add the matching users under
-`contacts/[userId]`. The app then displays the contact screen with all users for `contacts/[userId]` 
+
+We will then look up all the contacts in the `users` collection.
+
+See [Firebase: Retrieving data](https://www.firebase.com/docs/web/guide/retrieving-data.html)
+
+This is done via an [equalTo](https://www.firebase.com/docs/web/api/query/equalto.html) query.
+
+```js
+usersRef.orderByChild('email').equalTo(email).on("child_added", function(snapshot) {
+}
+```
+
+Matching users are added as (active) contacts for the user under `contacts/[userId]`. 
+
+```js
+.on("child_added", function(snapshot) {
+  contactsRef.child(snapshot.userId).push(snapshot);
+}
+```
+
+The app then displays the contact screen with all users for `contacts/[userId]` 
 where `userID` is the logged in user.
+
+```js
+contactsRef.child(userId).orderByChild('email').on("child_added", function(snapshot) {
+  // called with snapshot for each match
+}
+```
+
 
 Whenever a user is registered, a background job is activated to update contacts in the database.
 For each user, their `friends/[userId]` is scanned for a matching friend, and their `contacts/[userId]` updated
@@ -150,8 +178,43 @@ on a match, and they are sent an App notification that the given user has signed
 ### Contacts screen - initiate Conversation
 
 When one or more contacts are selected and a Conversation opened, we search the `members` collection for a room with users matching all users.
-If no match is found, we create a new room. The initiating user will have the option to name the room before notifications are sent to the other users
-that they are invited to participate in a conversation (listing who initiated and who have been invited).
+members collection can iterate rooms via [forEach](https://www.firebase.com/docs/web/api/datasnapshot/foreach.html)
+Username check be done (effectively?) using [exists](https://www.firebase.com/docs/web/api/datasnapshot/exists.html)
+
+```js
+findRoomWithNames(usernames, cb) {
+  var membersRef = new Firebase("https://chat.firebaseio.com/members");
+  var matchingNames = {};
+  membersRef.once("value", function(snapshot) {
+    // The callback function will get called twice, once for "fred" and once for "barney"
+    snapshot.forEach(function(room) {
+      matchingNames[room.value()] = usernames.map(name => roomRef.child(username).exists());
+    });
+    cb(matchingNames);
+  })
+}
+```
+
+If no match is found, we create a new room (via push to `members` with usernames).
+The initiating user will have the option to name the room
+ 
+```js
+createRoom(usernames, roomName, cb) {
+  var membersRef = new Firebase("https://chat.firebaseio.com/members");
+  roomName = roomName || defaultRoomName(usernames);
+  
+  var newRoomRef = membersRef.push(roomName)
+  newRoomRef.then(() =>
+    for (name of usernames) {
+      newRoomRef.set(name, true);
+    }
+    cb(newRoomRef);  
+  });
+}
+```
+
+Then notifications are sent to the other users that they are invited to participate in a conversation (listing who initiated and who have been invited). 
+If only one other user is invited, we use the username as room name. Otherwise we generate a reasonable name (how?).
 
 An alternative would be to show all previous conversations with those users (f.ex grouped by location, time, topic) (by default sorted most recent first) and letting the user choose 
 to either continue existing conversation or create a new one. 
@@ -237,10 +300,24 @@ The user who created the card will see different offers coming in under each cat
 (rent price)
 $12 (green)
 $17 (yellow - higher than max range)
+```
 
 Note: Will never allow a bid at 100% of max range or higher (such as $30 in this case) 
 The bidders will be notified of current best bid accepted by the user and are invited to bid lower. 
 On any bid acceptance, bidders have the option to counter bid for a given time selected by the card issuer.
+
+### Listening for data
+
+[on()](https://www.firebase.com/docs/web/api/query/on.html) is used to listen for data changes at a particular location. 
+This is the primary way to read data from a Firebase database. 
+
+Your callback will be triggered for the initial data AND again whenever the data changes. 
+  
+For conversations over 100 messages, we likely want to limit initial data load via limit queries.
+
+The `limitToFirst()` and `limitToLast()` queries are used to set a maximum number of children to be synced for a given callback. If we set a limit of 100, we will initially only receive up to 100 child_added events. If we have fewer than 100 messages stored in our database, a child_added event will fire for each message. However, if we have over 100 messages, we will only receive a child_added event for 100 of those messages. These will be the first 100 ordered messages if we are using `limitToFirst()` or the last 100 ordered messages if we are using `limitToLast()`  
+  
+
   
 ### Creating/Entering rooms
 
