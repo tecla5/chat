@@ -65,8 +65,14 @@ To go to a route, use Actions.[route name] such as Actions.login() or Actions.co
 
 // We can use a Side drawer using this example: https://github.com/efkan/rndrawer-implemented-rnrouter
 
-const hideNavBar = Platform.OS === 'android'
-const paddingTop = Platform.OS === 'android' ? 0 : 8
+console.log(Platform.OS);
+
+const isAndroid = Platform.OS === 'android'
+const paddingTop = isAndroid ? 0 : 8
+
+const isIos = Platform.OS === 'ios'
+// TODO: remove when login is working on ios
+const skipLogin = isIos; 
 
 export default class AppRouter extends Component {
   render() {
@@ -78,14 +84,14 @@ export default class AppRouter extends Component {
         <Schema name='boot'  sceneConfig={Navigator.SceneConfigs.FadeAndroid}  hideNavBar={true} type='replace' />
         <Schema name='screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} footer={TabView} />          
         <Schema name="tab"  type="switch"  />
-        <Schema name='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={hideNavBar}  />
+        <Schema name='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={isAndroid}  />
 
         <Route name="error" type="modal" component={Error}/>
         
-        <Route name="login"       component={LoginScreen}        schema='boot' type="replace" title="Login" hideNavBar={true} />
+        <Route name="login"       component={LoginScreen}        schema='boot' type="replace" title="Login" initial={isAndroid} hideNavBar={true} />
         <Route name="loggedIn"    component={ChatRoomScreen}     schema='screen' />
 
-        <Route name="contacts"    component={ContactsScreen}     title='Contacts' schema='screen' initial={true} type="replace" renderRightButton={googleLogout.signoutButton} />
+        <Route name="contacts"    component={ContactsScreen}     title='Contacts' schema='screen' initial={skipLogin} type="replace" renderRightButton={googleLogout.signoutButton} />
         <Route name="profile"     component={UserProfileScreen}  title='User profile' schema='screen' />
         <Route name="rooms"       component={RoomsScreen}        title="Rooms" schema='screen' />
         <Route name="room"        component={ChatRoomScreen}     title="Chat Room" schema='screen' />

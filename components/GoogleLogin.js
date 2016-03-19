@@ -9,6 +9,8 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 
+//import Icon from 'react-native-vector-icons/FontAwesome';
+
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 
@@ -62,41 +64,28 @@ export default class GoogleLogin extends Component {
             }
                             
         })
-        .then( () => {
+        .then( () =>  {
+            console.log('firebase post user',this.state.user);
+
+            // ON DEBUG does not call or insert 
+            //base.push('users', {
             base.post(`users/${this.state.user.id}`, {
                 data: this.state.user,
-                priority: false,
                 then(){
-                    console.log('fiebase post user done');
-                    //Actions.contacts();
-                    //Actions.dismiss();
-                    Actions.contacts(); 
-                    
+                    console.log('done??');
                 }
             });
             
-        } ) 
+        })
+        .then ( () => {
+            Actions.contacts(); 
+        })
         .catch((err) => {
             console.log('SIGNIN error', err);            
         })
         .done();        
     }
     
-    _signOut() {
-        GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-            this.setState({user: null});        
-            // Actions.login(); 
-        })
-        .done();
-    }
-
-/*
-    <TouchableOpacity onPress={() => {this._signOut(); }}>
-        <View style={{marginTop: 50}}>
-        <Text>Log out</Text>
-        </View>
-    </TouchableOpacity>                    
-*/
     
     
     render() {
