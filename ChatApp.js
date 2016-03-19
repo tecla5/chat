@@ -1,7 +1,8 @@
 'use strict';
 
 import React, {
-  Component  
+  Component,
+  Platform  
 } from 'react-native';
 
 import codePush from 'react-native-code-push';
@@ -16,12 +17,11 @@ function reducer(state = {}, action) {
   return state;
 }
 
+console.log('Platform', Platform.OS );
+
 let store = createStore(reducer);
 
-
-export default class ChatApp extends Component {
-    
-    
+export default class ChatApp extends Component {       
     componentDidMount() {
         console.log('componentDidMount ');
         codePush.sync({

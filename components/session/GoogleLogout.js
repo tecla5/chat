@@ -23,18 +23,10 @@ import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 import Rebase from 're-base';
 let base = Rebase.createClass('https://t5-chat.firebaseio.com');
 
-export default class GoogleLogout extends Component {
-
-    
-
-
+export default class GoogleLogout extends Component {   
     signoutButton(){ 
         var logoutF = function (){
             console.log('signout');       
-            GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-                Actions.login(); 
-            })
-            .done();            
         };
 
       return (
@@ -48,18 +40,17 @@ export default class GoogleLogout extends Component {
         <Icon.Button name="sign-out" backgroundColor="#3b5998" onPress={ logoutF }>
             Logout
         </Icon.Button>
-    */    
-          
+    */              
     }   
     
    
     _signOut() {
-        GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-            this.setState({user: null});        
-            // Actions.login(); 
-        })
-        .done();
+      this.sessionAdapter.signOut({ logoutCb: this.logoutUser });
     }
+        
+    logoutUser() {
+      this.setState({user: null});              
+    }        
         
     render() {
         const user = GoogleSignin.currentUser();
@@ -77,9 +68,7 @@ export default class GoogleLogout extends Component {
                 </View>                
             )
          
-    }
-    
-  
+    }      
 }
 
 const styles = StyleSheet.create({

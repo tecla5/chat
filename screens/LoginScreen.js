@@ -5,7 +5,7 @@ import React, {
   View
 } from 'react-native';
 
-import GoogleLogin from '../components/GoogleLogin';
+import GoogleLogin from '../components/session/GoogleLogin';
 import Screen from './Screen';
 
 export default class LoginScreen extends Screen {

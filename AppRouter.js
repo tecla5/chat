@@ -30,7 +30,7 @@ import UserProfileScreen from './screens/UserProfileScreen';
 import SideDrawer from './components/navigation/SideDrawer';
 import Header from './components/navigation/Header';
 import TabView from './components/navigation/TabView';  
-import GoogleLogout from './components/GoogleLogout';
+import GoogleLogout from './components/session/GoogleLogout';
 
 let googleLogout = new GoogleLogout();
 
