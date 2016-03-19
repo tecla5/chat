@@ -77,6 +77,7 @@ export default class AppRouter extends Component {
         <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom} />
         <Schema name='boot'  sceneConfig={Navigator.SceneConfigs.FadeAndroid}  hideNavBar={true} type='replace' />
         <Schema name='screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} footer={TabView} />          
+        <Schema name='footless-screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} />
         <Schema name="tab"  type="switch"  />
         <Schema name='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={hideNavBar}  />
 
@@ -88,7 +89,7 @@ export default class AppRouter extends Component {
         <Route name="contacts"    component={ContactsScreen}     title='Contacts' schema='screen' initial={true} type="replace" renderRightButton={googleLogout.signoutButton} />
         <Route name="profile"     component={UserProfileScreen}  title='User profile' schema='screen' />
         <Route name="rooms"       component={RoomsScreen}        title="Rooms" schema='screen' />
-        <Route name="room"        component={ChatRoomScreen}     title="Chat Room" schema='screen' />
+        <Route name="room"        component={ChatRoomScreen}     title="Chat Room" schema='footless-screen'/>
        
         <Route name='drawer' hideNavBar={true} type='reset'>
           <SideDrawer>

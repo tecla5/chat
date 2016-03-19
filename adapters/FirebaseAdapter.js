@@ -100,6 +100,7 @@ export default class FirebaseAdapter extends BaseAdapter {
     * to return a mutated copy of your state)
   */  
   post(data, options = {}) {
+    console.log('post message:', data, ' to:', this.endpoint )
     this.base.post(this.endpoint, {
       data: data,
       context: options.ctx,
