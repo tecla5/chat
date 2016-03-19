@@ -15,7 +15,7 @@ export default class GoogleSessionAdapter extends SessionAdapter {
     }
     
     currentUser() {
-      return GoogleSignin.currentUser()
+      return GoogleSignin.currentUser();
     }
 
     signIn(options = {}) {

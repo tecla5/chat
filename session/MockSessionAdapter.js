@@ -17,6 +17,10 @@ export default class MockSessionAdapter extends SessionAdapter {
       return users[0];
     }
 
+    currentUser() {
+      return this.mockUser();
+    }
+
     // simulate server comm. via nested timeouts
     signIn(options = {}) {
       setTimeout(() => {
