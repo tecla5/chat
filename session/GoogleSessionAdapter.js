@@ -13,6 +13,10 @@ export default class GoogleSessionAdapter extends SessionAdapter {
       let cbFun = options[cbName];
       (cbFun && cbFun(...args)) || console.log(cbName, ' callback missing', ...args);  
     }
+    
+    currentUser() {
+      return GoogleSignin.currentUser()
+    }
 
     signIn(options = {}) {
         GoogleSignin.signIn()

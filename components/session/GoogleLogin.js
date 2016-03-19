@@ -32,12 +32,23 @@ export default class GoogleLogin extends Component {
         this.state = {
             user: null,
         };
-        this.sessionAdapter = new GoogleSessionAdapter(GoggleAPIoptions);
+        
+        // TODO: set sessionType from ENV or config file
+        this.sessionAdapter = this._createAdapter(props.sessionType || 'google');
 
         // note: we call with Object to allow for other options if needed in the future
         this.sessionAdapter.signOut({logoutCb: () => {
           Actions.login(); 
         }});                                  
+    }
+    
+    _createAdapter(type) {
+      switch (type) { 
+        case 'google': 
+          return new GoogleSessionAdapter(GoggleAPIoptions);
+        default:
+          return new MockSessionAdapter({debug: true});
+      }
     }
     
     componentDidMount() {        
@@ -96,7 +107,7 @@ export default class GoogleLogin extends Component {
 */
         
     render() {
-        const user = GoogleSignin.currentUser();
+        const user = this.sessionAdapter.currentUser();
         //console.log('render user: ', user);
 
         if (this.state.user) {           
