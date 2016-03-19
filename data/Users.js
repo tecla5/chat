@@ -15,6 +15,14 @@ export default class Users extends Model {
     
   // use callback?        
   create(user, cb) {    
-    return this.ref.push(user);
+    // return this.ref.push(user);    
+    base.post(`users/${user.id}`, {
+        data: this.state.user,
+        priority: false,
+        then(err){
+            cb(err)            
+        }
+    });
+    
   }
 }

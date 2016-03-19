@@ -12,10 +12,10 @@ import React, {
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 
-import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+// use Users model
+import Users from '../data/Users';
 
-import Rebase from 're-base';
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 export default class GoogleLogin extends Component {
     
@@ -63,18 +63,12 @@ export default class GoogleLogin extends Component {
                             
         })
         .then( () => {
-            base.post(`users/${this.state.user.id}`, {
-                data: this.state.user,
-                priority: false,
-                then(){
-                    console.log('fiebase post user done');
-                    //Actions.contacts();
-                    //Actions.dismiss();
-                    Actions.contacts(); 
-                    
-                }
-            });
-            
+          new Users().create(this.state.user, () => {
+            console.log('firebase user created');
+            //Actions.contacts();
+            //Actions.dismiss();
+            Actions.contacts();             
+          })            
         } ) 
         .catch((err) => {
             console.log('SIGNIN error', err);            

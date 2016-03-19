@@ -8,10 +8,9 @@ export default class FirebaseAdapter extends BaseAdapter {
     
     // TODO: Firebase url should be loaded from a config file or ENV variable
     options.url = options.url || 'https://t5-chat.firebaseio.com';
-    options.array = options.array || true;
         
     this.endpoint = options.endpoint;   
-    this.asArray = options.array;    
+    this.asArray = options.array || options.asArray;    
     this.base = Rebase.createClass(options.url);  
   }
 
