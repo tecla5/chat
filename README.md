@@ -131,6 +131,8 @@ friends
 
 ## Data- and User flow
 
+The data flow implementations (data Models) for Firebase can be found in `/data`
+
 ### User registration
 
 User performs account login/registration via social login (Facebook, Twitter or Google). 

@@ -6,6 +6,7 @@ export default class FirebaseAdapter extends BaseAdapter {
   constructor(options = {}) {
     super();
     
+    // TODO: Firebase url should be loaded from a config file or ENV variable
     options.url = options.url || 'https://t5-chat.firebaseio.com';
     options.array = options.array || true;
         
@@ -99,6 +100,7 @@ export default class FirebaseAdapter extends BaseAdapter {
     * to return a mutated copy of your state)
   */  
   post(data, options = {}) {
+    console.log('post message:', data, ' to:', this.endpoint )
     this.base.post(this.endpoint, {
       data: data,
       context: options.ctx,
@@ -108,7 +110,7 @@ export default class FirebaseAdapter extends BaseAdapter {
   }  
 
   push(data, options = {}) {
-    this.base.push(this.endpoint, {
+    return this.base.push(this.endpoint, {
       data: data,
       // context: options.ctx,
       // on error will be passed an Error object
