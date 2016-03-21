@@ -20,15 +20,43 @@ import fake from '../../fake';
     email: 'kmandrup@gmail.com'
   }
 */
+
+
+import Rebase from 're-base';
+let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+
+
 export default class ContactList extends List {
 
   constructor(props){
     super(props);
 
     this.state = {
-      contacts: this._dataSource().cloneWithRows(this.props.contacts || fake.contacts),
+      contacts: this._dataSource().cloneWithRows([])
     };    
+    
   }
+  
+  componentWillMount(){
+
+    base.fetch('providers', {
+        context: this,
+        asArray: true,
+        then(providers){
+            console.log('willMount',this.props);
+
+            this.setState({
+                contacts:  this._dataSource().cloneWithRows( providers ) // this.props.contacts.concat(
+            });    
+            
+            
+            console.log('base providers', this.state.contacts);
+            
+        }
+    });
+  }
+  
+  
             
   render() {
     return (

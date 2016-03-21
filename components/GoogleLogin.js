@@ -40,12 +40,10 @@ export default class GoogleLogin extends Component {
         // user { email name id photo scopes[plus, userInfo]}
         GoogleSignin.currentUserAsync().then((user) => {
             console.log('Async USER', user, this.state);
-            if(user){
-                if (!this.state.user) {                    
-                    this.setState({user: user});
-                    Actions.contacts(user);        
-                }
-            } 
+            if(user && !this.state.user) {                    
+                this.setState({user: user});
+                Actions.contacts({user: user});
+            }
         }).done();
     }
     componentDidUpdate(prevProps) {
@@ -59,14 +57,18 @@ export default class GoogleLogin extends Component {
         GoogleSignin.signIn()
         .then((user) => {
             console.log('signIn.then', user, this.state);
-            if (!this.state.user) {                    
+            if (user && !this.state.user) {                    
                 this.setState({user: user});
+                Actions.contacts({user: this.state.user}); 
             }
                             
         })
         .then( () =>  {
+            // find           
+            // if exist then update
+            // if not exist post
+            
             console.log('firebase post user',this.state.user);
-
             // ON DEBUG does not call or insert 
             //base.push('users', {
             base.post(`users/${this.state.user.id}`, {
@@ -76,9 +78,6 @@ export default class GoogleLogin extends Component {
                 }
             });
             
-        })
-        .then ( () => {
-            Actions.contacts(); 
         })
         .catch((err) => {
             console.log('SIGNIN error', err);            
