@@ -14,10 +14,10 @@ import React, {
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 
-import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+// use Users model
+import Users from '../data/Users';
 
-import Rebase from 're-base';
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 export default class GoogleLogin extends Component {
     
@@ -63,22 +63,12 @@ export default class GoogleLogin extends Component {
             }
                             
         })
-        .then( () =>  {
-            // find           
-            // if exist then update
-            // if not exist post
-            
-            console.log('firebase post user',this.state.user);
-            // ON DEBUG does not call or insert 
-            //base.push('users', {
-            base.post(`users/${this.state.user.id}`, {
-                data: this.state.user,
-                then(){
-                    console.log('done??');
-                }
-            });
-            
-        })
+        .then( () => {
+          new Users().create(this.state.user, () => {
+            console.log('firebase user created');
+            Actions.contacts();             
+          })            
+        } ) 
         .catch((err) => {
             console.log('SIGNIN error', err);            
         })

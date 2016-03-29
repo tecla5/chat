@@ -37,7 +37,7 @@ export default class FirebaseContainer extends Component {
     if (!this.endpoint) {
       throw "Container missing an endpoint. Please set create a `get endpoint()` that returns a firebase path";  
     }    
-    this.adapter = new FirebaseAdapter({endpoint: this.endpoint});
+    this.adapter = new FirebaseAdapter({endpoint: this.endpoint, array: true});
     
     // call fetch or sync depending on type of data binding (one- or two-way, ie. read only or read/write)
     this[this.type]();    
