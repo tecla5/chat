@@ -9,6 +9,8 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 
+//import Icon from 'react-native-vector-icons/FontAwesome';
+
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 
@@ -38,12 +40,10 @@ export default class GoogleLogin extends Component {
         // user { email name id photo scopes[plus, userInfo]}
         GoogleSignin.currentUserAsync().then((user) => {
             console.log('Async USER', user, this.state);
-            if(user){
-                if (!this.state.user) {                    
-                    this.setState({user: user});
-                    Actions.contacts(user);        
-                }
-            } 
+            if(user && !this.state.user) {                    
+                this.setState({user: user});
+                Actions.contacts({user: user});
+            }
         }).done();
     }
     componentDidUpdate(prevProps) {
@@ -57,16 +57,15 @@ export default class GoogleLogin extends Component {
         GoogleSignin.signIn()
         .then((user) => {
             console.log('signIn.then', user, this.state);
-            if (!this.state.user) {                    
+            if (user && !this.state.user) {                    
                 this.setState({user: user});
+                Actions.contacts({user: this.state.user}); 
             }
                             
         })
         .then( () => {
           new Users().create(this.state.user, () => {
             console.log('firebase user created');
-            //Actions.contacts();
-            //Actions.dismiss();
             Actions.contacts();             
           })            
         } ) 
@@ -76,21 +75,6 @@ export default class GoogleLogin extends Component {
         .done();        
     }
     
-    _signOut() {
-        GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-            this.setState({user: null});        
-            // Actions.login(); 
-        })
-        .done();
-    }
-
-/*
-    <TouchableOpacity onPress={() => {this._signOut(); }}>
-        <View style={{marginTop: 50}}>
-        <Text>Log out</Text>
-        </View>
-    </TouchableOpacity>                    
-*/
     
     
     render() {

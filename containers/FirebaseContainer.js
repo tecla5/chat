@@ -28,6 +28,7 @@ export default class FirebaseContainer extends Component {
 
   // find last part of endpoint
   _defaultState() {
+      console.log('def ', this.endpoint.match(/\/?(\w+)$/)[1]);
     return this.endpoint.match(/\/?(\w+)$/)[1];  
   }
           
