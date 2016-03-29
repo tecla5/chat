@@ -97,7 +97,12 @@ export default class AppRouter extends Component {
         <Route name="rooms"       component={RoomsScreen}        title="Rooms" schema='screen' />
         <Route name="room"        component={ChatRoomScreen}     title="Chat Room" schema='footless-screen'/>
        
-        <Route name='drawer' hideNavBar={true} type='reset'>
+       
+
+      </Router>
+    );
+
+/*        <Route name='drawer' hideNavBar={true} type='reset'>
           <SideDrawer>
             <Router
               sceneStyle={styles.routerScene}
@@ -111,9 +116,8 @@ export default class AppRouter extends Component {
             </Router>
           </SideDrawer>
         </Route>
-
-      </Router>
-    );
+*/    
+    
   }
 }
 

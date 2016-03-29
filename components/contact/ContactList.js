@@ -30,44 +30,51 @@ export default class ContactList extends List {
 
   constructor(props){
     super(props);
+    console.log('ContactList props:', props);
 
     this.state = {
-      contacts: this._dataSource().cloneWithRows([])
+      user: this.props.user,
+      providers: [],
+      contacts: [],
     };    
-    
   }
   
-  componentWillMount(){
+  
+  componentDidMount(){
 
     base.fetch('providers', {
         context: this,
         asArray: true,
-        then(providers){
-            console.log('willMount',this.props);
-
+        then(providers) {
+            console.log('willMount ',providers);
             this.setState({
-                contacts:  this._dataSource().cloneWithRows( providers ) // this.props.contacts.concat(
+                providers:  providers,  // this.props.contacts.concat(
+                contacts:  providers // this.props.contacts.concat(
             });    
-            
-            
-            console.log('base providers', this.state.contacts);
+
             
         }
     });
+    
+    
   }
   
   
             
   render() {
+    
+    var contacts =  this._dataSource().cloneWithRows( this.state.providers ) // this.props.contacts.concat(
+      
     return (
       <View style={styles.list}>
-        <ListView dataSource={ this.state.contacts } renderRow={this._renderContact}/>
+        <ListView dataSource={ contacts } renderRow={this._renderContact.bind(this)}/>
       </View>      
     );
   }
   
   _renderContact(contact) {
-    return <Contact {...contact}/>;
+      var x = {contact: contact, user: this.state.user};
+    return <Contact {...x} />; // : contact, user: this.state.user
   }  
 }
 

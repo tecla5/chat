@@ -26,34 +26,9 @@ export default class ContactsContainer extends FirebaseContainer {
 
   // Sync with firebase: user-1/contacts            
   get endpoint() {
-      console.log('endpoint');
     return [this.props.user.id || 'user-1', 'contacts'].join('/')    
   }
                     
-  componentWillMount(){
-    super.componentWillMount();      
-    
-
-    /*        
-    var fakes = [{
-        id: 1,
-        name: 'Javier Cabrera',
-        email: 'cabrera.javier@gmail.com'
-    }, {
-        id: 2,
-        name: 'Kristian Mandrup',
-        email: 'kmandrup@gmail.com'
-    }];
-    base.post('providers/1', {  data: fakes[0]  });    
-    base.post('providers/2', {  data: fakes[1]  });    
-    */    
-    
-    
-
-  } 
-  
-  componentDidMount(){    
-  }
       
   render() {
     return (

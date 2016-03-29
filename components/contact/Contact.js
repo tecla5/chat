@@ -33,6 +33,11 @@ export default class Contact extends Component {
   constructor(props){
     super(props);
     console.log('contact', props);
+    this.state = {
+        user: props.user,
+        contact: props.contact
+    }
+    
   }
   
   // TODO: subdivide into smaller components  
@@ -47,7 +52,7 @@ export default class Contact extends Component {
         </TouchableWithoutFeedback>
               
         <TouchableWithoutFeedback onPress={this._toRoom.bind(this)}>              
-          <Text>{ this.props.name }</Text>
+          <Text>{ this.state.contact.name }</Text>
         </TouchableWithoutFeedback>
       </View>
             
@@ -55,7 +60,7 @@ export default class Contact extends Component {
   }
   
   _toRoom(){
-    Actions.room(this.props.id);
+    Actions.room({ title: 'Hello', user: this.state.user, contact: this.state.contact });
   }  
 
   // do we send just Id or entire contact over?
