@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 export function merge(...styles) {
-  console.log(...styles);
+//  console.log(...styles);
   let styling = Object.assign({}, ...styles);
-  console.log('styling', styling);
+//  console.log('styling', styling);
   return StyleSheet.create(styling);
 } 
 

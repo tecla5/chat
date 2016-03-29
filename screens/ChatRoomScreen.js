@@ -9,9 +9,18 @@ import ChatRoomContainer from '../containers/ChatRoomContainer';
 import Screen from './Screen';
 
 export default class ChatRoomScreen extends Screen {
+    
+  constructor(props) {
+    super(props);
+    this.state = {
+        user: props.user,
+        contact: props.contact,        
+    };
+  }
+    
   render(){ 
     return (
-      <ChatRoomContainer/>
+      <ChatRoomContainer  {...this.state} />
     );
   }
 }
