@@ -42,7 +42,7 @@ export default class GoogleLogin extends Component {
             console.log('Async USER', user, this.state);
             if(user && !this.state.user) {                    
                 this.setState({user: user});
-                Actions.contacts({user: user});
+                Actions.tabbar({user: user});
             }
         }).done();
     }
@@ -59,14 +59,14 @@ export default class GoogleLogin extends Component {
             console.log('signIn.then', user, this.state);
             if (user && !this.state.user) {                    
                 this.setState({user: user});
-                Actions.contacts({user: this.state.user}); 
+                Actions.tabbar({user: this.state.user}); 
             }
                             
         })
         .then( () => {
           new Users().create(this.state.user, () => {
             console.log('firebase user created');
-            Actions.contacts();             
+            //Actions.contacts();             
           })            
         } ) 
         .catch((err) => {

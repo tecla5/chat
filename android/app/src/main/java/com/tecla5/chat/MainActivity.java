@@ -25,7 +25,7 @@ public class MainActivity extends ReactActivity {
     // bundle location from on each app start
     @Override
     protected String getJSBundleFile() {
-        return this._codePush.getBundleUrl("index.android.bundle");
+        return CodePush.getBundleUrl(); //this._codePush.getBundleUrl("index.android.bundle");
     }
     
 
@@ -64,7 +64,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         // 4. Instantiate an instance of the CodePush runtime, using the right deployment key. If you don't
         // already have it, you can run "code-push deployment ls <appName> -k" to retrieve your key.
-        this._codePush = new CodePush("NJVY8i0yej7TrSoOgAfspqjtPj9EV1iv8a83g", this, BuildConfig.DEBUG);
+        //this._codePush = new CodePush("NJVY8i0yej7TrSoOgAfspqjtPj9EV1iv8a83g", this, BuildConfig.DEBUG);
 
         // 5. Add the CodePush package to the list of existing packages
         return Arrays.<ReactPackage>asList(
@@ -73,7 +73,7 @@ public class MainActivity extends ReactActivity {
             new ReactMaterialKitPackage(),
             //new RNGoogleSigninPackage(), 
             new RNGoogleSigninPackage(this), // <------ add this line to yout MainActivity class            
-            this._codePush.getReactPackage()
+            new CodePush("NJVY8i0yej7TrSoOgAfspqjtPj9EV1iv8a83g", this, BuildConfig.DEBUG) //this._codePush.getReactPackage()
         );                
     }
 }
