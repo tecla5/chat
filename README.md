@@ -17,6 +17,11 @@ matches the IP of your machine.
 node ./node_modules/react-native/local-cli/cli.js start --reset-cache
 
 
+./node_modules/react-native-google-signin/android/src/main/java/co/apptailor/googlesignin/RNGoogleSigninButtonViewManager.java
+-   import com.facebook.react.uimanager.ReactProp;
++   import com.facebook.react.uimanager.annotations.ReactProp;
+
+
 
 ### User Presence
 
