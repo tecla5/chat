@@ -24,8 +24,9 @@ import UserProfileScreen from './screens/UserProfileScreen';
 
 import SideDrawer from './components/navigation/SideDrawer';
 import Header from './components/navigation/Header';
-import TabView from './components/navigation/TabView';  
 import GoogleLogout from './components/GoogleLogout';
+
+//import TabView from './components/navigation/TabView';  
 
 let googleLogout = new GoogleLogout();
 
@@ -96,11 +97,8 @@ export default class AppRouter extends Component {
         <Schema key='screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} footer={TabView} />          
         <Schema key='footless-screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} />
         <Schema key="tab"  type="switch"  />
-        <Schema key='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={isAndroid}  />
-
-           
+        <Schema key='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={isAndroid}  />           
       */
-        
     return (
         <Router createReducer={reducerCreate} sceneStyle={{backgroundColor:'#F7F7F7'}} >
         <Scene key="modal" component={Modal} >
