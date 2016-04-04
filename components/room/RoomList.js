@@ -9,35 +9,29 @@ import React, {
 
 import List from '../base/List';
 import Room from './Room';
-import fake from '../../fake'; 
 
 /*
   Expected data format for each room:
   Will for now use fake.rooms if none provided by props
-  {
-    roomId: 'two',
-    started: {
-      by: 'kmandrup',
-      time: 1458149252615
-    },
-    members: [
-      'kmandrup',
-      'jcabrera'
-    ]
-  }
 */
 export default class RoomList extends List {
   constructor(props){
     super(props);
     this.state = {
-      rooms: this._dataSource().cloneWithRows(this.props.rooms || fake.rooms),
+      rooms: this.props.rooms || []
     };    
   }
             
   render() {
+      
+    var roomDs = [];
+    if (this.props.rooms){
+        roomDs = this._dataSource().cloneWithRows(this.props.rooms);
+    }
+    
     return (
       <View style={styles.list}>
-        <ListView dataSource={ this.state.rooms } renderRow={this._renderRow}/>
+        <ListView dataSource={ roomDs } renderRow={this._renderRow}/>
       </View>      
     );
   }

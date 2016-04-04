@@ -8,20 +8,14 @@ import FirebaseContainer from './FirebaseContainer';
 
 import ContactList from '../components/contact/ContactList';
 
-import Rebase from 're-base';
-let base = Rebase.createClass('https://t5-chat.firebaseio.com');
-
 
 export default class ContactsContainer extends FirebaseContainer {
 
   constructor(props){
     super(props);
-    console.log('props', props);
     this.state = {
         user: this.props.user
-    };
-    
-        
+    };        
   }
 
   // Sync with firebase: user-1/contacts            

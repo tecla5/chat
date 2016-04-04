@@ -28,6 +28,11 @@ import RNRF, {
     email: 'kmandrup@gmail.com'
   }
 */
+
+import Rebase from 're-base';
+let base = Rebase.createClass('https://t5-chat.firebaseio.com');
+
+
 export default class Contact extends Component {
   // expect to get an Id or a User?
   constructor(props){
@@ -47,7 +52,7 @@ export default class Contact extends Component {
         <TouchableWithoutFeedback onPress={this._toProfile.bind(this)}>
           <Image
               style={styles.icon}
-              source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}   
+              source={{uri: this.state.contact.photo || 'http://facebook.github.io/react/img/logo_og.png'}}   
           />
         </TouchableWithoutFeedback>
               
@@ -60,13 +65,63 @@ export default class Contact extends Component {
   }
   
   _toRoom(){
-    Actions.room({ title: 'Hello', user: this.state.user, contact: this.state.contact });
+      // create room
+      var roomName = this.state.contact.name;
+      var roomType = 'private'; 
+      this.createRoom(roomName, roomType, function(){
+          console.log('created room');
+      } );
+      
+    Actions.room({ title: this.state.contact.name, user: this.state.user, contact: this.state.contact });
   }  
 
   // do we send just Id or entire contact over?
   _toProfile(){
     Actions.profile(this.props.id);
+  }
+  
+  
+  createRoom(roomName, roomType, callback) {
+    var self = this;
+    //var newRoomRef = this._roomRef.push();        
+
+    var newRoom = {
+      id: `${this.state.user.id}_${this.state.contact.id}`,
+      title: roomName,
+      type: roomType || 'public',
+      createdByUserId: this.state.user.id,
+      //createdAt: Firebase.ServerValue.TIMESTAMP
+    };
+
+/*    if (roomType === 'private') {
+      newRoom.authorizedUsers = {};
+      newRoom.authorizedUsers[this._userId] = true;
+    }
+*/
+    //base.push('rooms', {
+    base.post(`rooms/${this.state.user.id}_${this.state.contact.id}`, {
+        data: newRoom,
+        then: function(){
+            //Router.transitionTo('dashboard');
+            console.log('room created');
+        }
+    });        
+
+
+    /*
+    newRoomRef.set(newRoom, function(error) {
+      if (!error) {
+        self.enterRoom(newRoomRef.key());
+      }
+      if (callback) {
+        callback(newRoomRef.key());
+      }
+    });
+    */
+    
   }  
+  
+  
 }
 
 // define PropTypes

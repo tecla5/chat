@@ -25,21 +25,34 @@ type MessageType = {
     isOld:boolean;
 }
 
-export default class ChatRoomContainer   extends FirebaseContainer {
+
+export default class ChatRoomContainer extends FirebaseContainer {
 
   constructor(props){
     super(props);
     console.log('props', props);
+    this.state = {
+      user: null,
+      contact: null,
+      messages: [],
+      message: null,
+      show: null, // ??    
+    };       
+    
+  }
+  
+  componentWillMount(){
+      
     this.state = {
       user: this.props.user,
       contact: this.props.contact,
       messages: [],
       message: null,
       show: null, // ??    
-    };
-    
-    
+    };       
   }
+  
+  
   
 // Sync with firebase: user-1/rooms            
   get endpoint() {
