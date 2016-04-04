@@ -9,35 +9,31 @@ import FirebaseContainer from './FirebaseContainer';
 
 import RoomList from '../components/room/RoomList';
 
-const fakeRooms = [{
+/*const fakeRooms = [{
     id: 1,
     title: 'Room #1',
   }, {
       id: 2,
       title: 'Room #2',
   }];
-
+*/
 export default class RoomsContainer extends FirebaseContainer {
+
   constructor(props){
-    super(props);    
+    super(props);
+    console.log('props', props);
+    this.state = {
+        user: this.props.user,
+        rooms: []
+    };
   }
 
   // Sync with firebase: user-1/rooms            
   get endpoint() {
-    return [this.props.userId || 'user-1', 'rooms'].join('/')    
-  }          
-          
-  componentWillMount(){      
-    super.componentWillMount();    
-    // fake rooms
-    this.setState({
-      rooms: this.state.rooms.concat(fakeRooms) 
-    });              
-  }  
+    return 'rooms';
+  }
   
-  componentDidMount(){    
-  }  
-    
+  
   render() {
     return (
       <View style={styles.container}>
