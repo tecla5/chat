@@ -7,17 +7,12 @@ import React, {
   Navigator
 } from 'react-native';
 
-import RNRF, {
-  Route,
-  Schema, 
-  // Animations, 
-  Actions, 
-  TabBar
-} from 'react-native-router-flux';
+
+import {Scene, Router, TabBar, Modal, Schema, Actions, Reducer} from 'react-native-router-flux';
 
 import {connect} from 'react-redux';
 
-const Router = connect()(RNRF.Router);
+//const Router = connect()(RNRF.Router);
 
 //import LaunchScreen from './screens/LaunchScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -29,8 +24,9 @@ import UserProfileScreen from './screens/UserProfileScreen';
 
 import SideDrawer from './components/navigation/SideDrawer';
 import Header from './components/navigation/Header';
-import TabView from './components/navigation/TabView';  
 import GoogleLogout from './components/GoogleLogout';
+
+//import TabView from './components/navigation/TabView';  
 
 let googleLogout = new GoogleLogout();
 
@@ -72,51 +68,60 @@ const paddingTop = isAndroid ? 0 : 8
 
 const isIos = Platform.OS === 'ios'
 // TODO: remove when login is working on ios
-const skipLogin = isIos; 
+
+
+class TabIcon extends React.Component {
+    render(){
+        return (
+            <Text style={{color: this.props.selected ? 'red' :'black'}}>{this.props.title}</Text>
+        );
+    }
+}
+
+const reducerCreate = params=>{
+    const defaultReducer = Reducer(params);
+    return (state, action)=>{
+        console.log("ACTION:", action);
+        return defaultReducer(state, action);
+    }
+};
 
 export default class AppRouter extends Component {
+    
   render() {
+      // Router createReducer sceneStyle name="root"
+      /*
+        <Schema key="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
+        <Schema key="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom} />
+        <Schema key='boot'  sceneConfig={Navigator.SceneConfigs.FadeAndroid}  hideNavBar={true} type='replace' />
+        <Schema key='screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} footer={TabView} />          
+        <Schema key='footless-screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} />
+        <Schema key="tab"  type="switch"  />
+        <Schema key='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={isAndroid}  />           
+      */
     return (
-      <Router hideNavBar={false} name="root" >
-      
-        <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-        <Schema name="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom} />
-        <Schema name='boot'  sceneConfig={Navigator.SceneConfigs.FadeAndroid}  hideNavBar={true} type='replace' />
-        <Schema name='screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} footer={TabView} />          
-        <Schema name='footless-screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} />
-        <Schema name="tab"  type="switch"  />
-        <Schema name='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={isAndroid}  />
+        <Router createReducer={reducerCreate} sceneStyle={{backgroundColor:'#F7F7F7'}} >
+        <Scene key="modal" component={Modal} >
+            <Scene key="root" hideNavBar={true} >       
+                <Scene key="error" type="modal" component={Error}/>
+                
+                <Scene key="login"       component={LoginScreen}        type="replace" title="Login" initial={isAndroid} hideNavBar={true} />
+                <Scene key="loggedIn"    component={ChatRoomScreen}     />
 
-        <Route name="error" type="modal" component={Error}/>
+                
+                <Scene key="tabbar" tabs={true} default="contacts" hideTabBar={false} >
+                    <Scene key="contacts"    component={ContactsScreen}     title='Contacts'  initial={true} renderRightButton={googleLogout.signoutButton} />
+                    <Scene key="profile"     component={UserProfileScreen}  title='User profile'  />
+                    <Scene key="rooms"       component={RoomsScreen}        title="Rooms"  />
+                    <Scene key="room"        component={ChatRoomScreen}     title="Chat Room" schema='footless-screen'/>
+                </Scene>            
+            </Scene>  
+            <Scene key="error" component={Error}/>
+        </Scene>
+        </Router>
         
-        <Route name="login"       component={LoginScreen}        schema='boot' type="replace" title="Login" initial={isAndroid} hideNavBar={true} />
-        <Route name="loggedIn"    component={ChatRoomScreen}     schema='screen' />
-
-        <Route name="contacts"    component={ContactsScreen}     title='Contacts' schema='screen' initial={skipLogin} type="replace" renderRightButton={googleLogout.signoutButton} />
-        <Route name="profile"     component={UserProfileScreen}  title='User profile' schema='screen' />
-        <Route name="rooms"       component={RoomsScreen}        title="Rooms" schema='screen' />
-        <Route name="room"        component={ChatRoomScreen}     title="Chat Room" schema='footless-screen'/>
-       
-       
-
-      </Router>
     );
 
-/*        <Route name='drawer' hideNavBar={true} type='reset'>
-          <SideDrawer>
-            <Router
-              sceneStyle={styles.routerScene}
-              navigationBarStyle={styles.navBar}
-              titleStyle={styles.navTitle}
-            >
-              <Route name="profile" component={UserProfileScreen} schema='main' title='User Profile'/>
-              <Route name='room' component={ChatRoomScreen} schema='main' title='Room' />
-              <Route name='rooms' component={RoomsScreen} schema='main' title='Rooms' />
-              <Route name='contacts' component={ContactsScreen} schema='main' title='Contacts' />
-            </Router>
-          </SideDrawer>
-        </Route>
-*/    
     
   }
 }
@@ -125,6 +130,7 @@ export default class AppRouter extends Component {
 AppRouter.childContextTypes = {
   drawer: React.PropTypes.object,
 };
+
 
 const styles = StyleSheet.create({
 	navBar: {

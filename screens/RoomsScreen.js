@@ -10,11 +10,15 @@ import React, {
 import RoomsContainer from '../containers/RoomsContainer';
 import Screen from './Screen';
 
+import TabView from './../components/navigation/TabView';  
+
+
 export default class RoomsScreen extends Screen {
   render(){
     return (
       <View style={styles.screen}>
         <RoomsContainer />
+        <TabView />
       </View>
     );
   }

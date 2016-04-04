@@ -8,6 +8,8 @@ import React, {
 import ContactsContainer from '../containers/ContactsContainer';
 import Screen from './Screen';
 
+import TabView from './../components/navigation/TabView';  
+
 export default class ContactsScreen extends Screen {
   constructor(props) {
     super(props);
@@ -20,6 +22,7 @@ export default class ContactsScreen extends Screen {
     return (
       <View style={styles.screen}>
         <ContactsContainer {...this.state} />
+        <TabView />
       </View>
     );
   }

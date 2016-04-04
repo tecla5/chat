@@ -10,6 +10,18 @@ matches the IP of your machine.
 ### Android
 
 ??
+# for avoid error of n.navigator null
+./node_modules/babel-preset-react-native/configs/main.js
+-    ['transform-es2015-modules-commonjs', {allowTopLevelThis: true }],
++    ['transform-es2015-modules-commonjs', {"strict": false, allowTopLevelThis: true }],
+node ./node_modules/react-native/local-cli/cli.js start --reset-cache
+
+
+./node_modules/react-native-google-signin/android/src/main/java/co/apptailor/googlesignin/RNGoogleSigninButtonViewManager.java
+-   import com.facebook.react.uimanager.ReactProp;
++   import com.facebook.react.uimanager.annotations.ReactProp;
+
+
 
 ### User Presence
 

@@ -21,10 +21,10 @@ const TabButton = (props, state) => {
 export default class TabView extends Component {
     render(){
         //console.log('route', this.props.name);
+        //      <TabButton action='room'  icon='comment' />
       
         return (
             <View style={styles.container}>
-              <TabButton action='room'  icon='comment' />
               <TabButton action='rooms' icon='comments' />
               <TabButton action='contacts' icon='users' />
               <TabButton action='profile' icon='user-md' />              

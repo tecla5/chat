@@ -9,6 +9,9 @@ import React, {
 import UserProfile from '../components/user/UserProfile';
 import Screen from './Screen';
 
+import TabView from './../components/navigation/TabView';  
+
+
 export default class UserProfileScreen extends Screen {      
   constructor(props){
     super(props);    
@@ -17,7 +20,8 @@ export default class UserProfileScreen extends Screen {
   render(){
     return (
       <View style={styles.screen}>
-        <UserProfile {...this.props} />        
+        <UserProfile {...this.props} />  
+        <TabView />      
       </View>
     );
   }
