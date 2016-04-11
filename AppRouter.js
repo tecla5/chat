@@ -89,35 +89,35 @@ const reducerCreate = params=>{
 export default class AppRouter extends Component {
     
   render() {
-      // Router createReducer sceneStyle name="root"
       /*
-        <Schema key="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
-        <Schema key="modal" sceneConfig={Navigator.SceneConfigs.FloatFromBottom} />
-        <Schema key='boot'  sceneConfig={Navigator.SceneConfigs.FadeAndroid}  hideNavBar={true} type='replace' />
-        <Schema key='screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} footer={TabView} />          
-        <Schema key='footless-screen' sceneConfig={Navigator.SceneConfigs.FloatFromRight} />
-        <Schema key="tab"  type="switch"  />
-        <Schema key='main' sceneConfig={Navigator.SceneConfigs.FadeAndroid} hideNavBar={isAndroid}  />           
+                    <Scene key="register" component={Register} title="Register"/>
+                    hideNavBar={true}     
+                    schema="modal"
       */
+      
     return (
         <Router createReducer={reducerCreate} sceneStyle={{backgroundColor:'#F7F7F7'}} >
-        <Scene key="modal" component={Modal} >
-            <Scene key="root" hideNavBar={true} >       
-                <Scene key="error" type="modal" component={Error}/>
-                
-                <Scene key="login"       component={LoginScreen}        type="replace" title="Login" initial={isAndroid} hideNavBar={true} />
-                <Scene key="loggedIn"    component={ChatRoomScreen}     />
-
-                
-                <Scene key="tabbar" tabs={true} default="contacts" hideTabBar={false} >
-                    <Scene key="contacts"    component={ContactsScreen}     title='Contacts'  initial={true} renderRightButton={googleLogout.signoutButton} />
-                    <Scene key="profile"     component={UserProfileScreen}  title='User profile'  />
-                    <Scene key="rooms"       component={RoomsScreen}        title="Rooms"  />
-                    <Scene key="room"        component={ChatRoomScreen}     title="Chat Room" schema='footless-screen'/>
-                </Scene>            
-            </Scene>  
-            <Scene key="error" component={Error}/>
-        </Scene>
+            <Scene key="modal" component={Modal} >
+                <Scene key="root" hideNavBar={true} >
+                    
+                    <Scene key="login"  component={LoginScreen}   type="replace" title="Login" initial={isAndroid} />
+                    
+                    <Scene key="tabbar" tabs={true} default="contacts" hideNavBar={false} >
+                        <Scene key="contacts" direction="vertical" >
+                            <Scene key="contactsList"    component={ContactsScreen}     title="Contacts"  />
+                            <Scene key="room"    component={ChatRoomScreen}     title="Chat User" />
+                        </Scene>
+                        <Scene key="rooms" direction="vertical" >
+                            <Scene key="roomsList"   component={RoomsScreen}        title="Rooms"  />
+                            <Scene key="room"        component={ChatRoomScreen}     title="Chat Room" />
+                        </Scene>
+                        
+                        <Scene key="profile"     component={UserProfileScreen}  title="User profile"  renderRightButton={googleLogout.signoutButton} />
+                        
+                    </Scene>
+                </Scene>  
+                <Scene key="error" component={Error}/>
+            </Scene>
         </Router>
         
     );
