@@ -103,9 +103,9 @@ export default class AppRouter extends Component {
                     <Scene key="login"  component={LoginScreen}   type="replace" title="Login" initial={isAndroid} />
                     
                     <Scene key="tabbar" tabs={true} default="contacts" hideNavBar={false} >
-                        <Scene key="contacts" direction="vertical" >
-                            <Scene key="contactsList"    component={ContactsScreen}     title="Contacts"  />
-                            <Scene key="room"    component={ChatRoomScreen}     title="Chat User" />
+                        <Scene key="contacts" direction="vertical" default="contactList" >
+                            <Scene key="contactList"    component={ContactsScreen}     title="Contacts"  />
+                            <Scene key="chat"    component={ChatRoomScreen}     title="Chat User" />
                         </Scene>
                         <Scene key="rooms" direction="vertical" >
                             <Scene key="roomsList"   component={RoomsScreen}        title="Rooms"  />
