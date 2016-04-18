@@ -37,7 +37,6 @@ export default class Contact extends Component {
   // expect to get an Id or a User?
   constructor(props){
     super(props);
-    console.log('contact', props);
     this.state = {
         user: props.user,
         contact: props.contact
@@ -72,7 +71,7 @@ export default class Contact extends Component {
           console.log('created room');
       } );
       
-    Actions.room({ title: this.state.contact.name, user: this.state.user, contact: this.state.contact });
+    Actions.chat({ title: this.state.contact.name, user: this.state.user, contact: this.state.contact });
   }  
 
   // do we send just Id or entire contact over?

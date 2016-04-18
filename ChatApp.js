@@ -24,13 +24,13 @@ export default class ChatApp extends Component {
     
     componentDidMount() {
         console.log('componentDidMount ');
-        codePush.sync({
+/*        codePush.sync({
             updateDialog: true,
             //installMode: codePush.InstallMode.INMEDIATE
         }, function (status) {
             console.log('codepush ', status);
         });
-    }    
+*/    }    
                  
     render() {
         return (        

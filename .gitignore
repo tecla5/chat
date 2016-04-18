@@ -37,3 +37,4 @@ node_modules/
 npm-debug.log
 
 nohup.out
+trace.html
